@@ -447,7 +447,7 @@ const KEY="ilac_kartligi_v3";
 let drugs=[];
 const expanded=new Set();
 let activeCat="all",query="",editingId=null;
-const store=(typeof window!=="undefined"&&window.storage)?window.storage:null;
+const store=null; /* storage devre dışı - direkt açılır */
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const uid=()=>"d"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const showEl=id=>document.getElementById(id).hidden=false;
