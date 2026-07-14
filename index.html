@@ -207,10 +207,19 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
       <div id="vucut-panel">
         <div id="vucut-empty-msg" style="text-align:center;padding:30px 10px;color:var(--muted)">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          <p style="margin:10px 0 0;font-size:14px">Bir bölgeye tıkla</p>
+          <p style="margin:10px 0 0;font-size:14px">Bir organa dokun — illüstrasyonu ve ilgili ilaçlar burada belirecek</p>
         </div>
         <div id="vucut-results" hidden>
-          <p id="vucut-region-title" style="font-family:'Fraunces',serif;font-size:17px;font-weight:500;margin:0 0 12px"></p>
+          <p id="vucut-region-title" style="font-family:'Fraunces',serif;font-size:17px;font-weight:500;margin:0 0 10px"></p>
+          <!-- AI organ illüstrasyonu -->
+          <div id="vucut-illus" style="margin:0 0 12px;border-radius:12px;overflow:hidden;background:var(--paper);min-height:140px;display:flex;align-items:center;justify-content:center">
+            <div id="vucut-illus-loading" style="text-align:center;padding:20px;color:var(--muted)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="animation:spin 1s linear infinite"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5"/></svg>
+              <p style="margin:6px 0 0;font-size:12.5px">İllüstrasyon hazırlanıyor…</p>
+            </div>
+            <div id="vucut-illus-content" hidden></div>
+          </div>
+          <!-- İlaç listesi -->
           <div id="vucut-ilac-list"></div>
         </div>
       </div>
@@ -316,80 +325,204 @@ const LABELS=Object.fromEntries(FIELDS.map(f=>[f.k,f.label]));
 
 /* Mekanizma animasyon tipleri */
 const ANIM={
-  cox:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-  <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round"/></marker></defs>
-  <rect x="0" y="0" width="320" height="100" fill="none"/>
-  <g><ellipse cx="160" cy="50" rx="36" ry="22" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
-    <text x="160" y="46" text-anchor="middle" font-size="10" fill="#92400E" font-family="Inter,sans-serif">COX</text>
-    <text x="160" y="58" text-anchor="middle" font-size="9" fill="#92400E" font-family="Inter,sans-serif">enzimi</text>
-    <line x1="124" y1="50" x2="60" y2="50" stroke="#0F766E" stroke-width="2" marker-end="url(#ah)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.5s" repeatCount="indefinite"/></line>
-    <rect x="20" y="35" width="40" height="30" rx="8" fill="#D1FAE5" stroke="#0F766E" stroke-width="1.5"/>
-    <text x="40" y="53" text-anchor="middle" font-size="9" fill="#065F46" font-family="Inter,sans-serif">NSAİİ</text>
-    <path d="M196 50 Q230 20 270 30" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
-    <text x="245" y="26" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">Prostag.</text>
-    <path d="M196 50 Q230 80 270 70" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
-    <text x="248" y="82" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">bloke!</text>
-    <line x1="185" y1="42" x2="185" y2="58" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite"/></line>
-    <line x1="178" y1="50" x2="192" y2="50" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite"/></line>
+  cox:`<svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" style="background:#FAFAFA;border-radius:10px">
+  <text x="180" y="16" text-anchor="middle" font-size="10" font-weight="600" fill="#374151" font-family="Inter,sans-serif">NSAİİ — COX Enzimi Blokajı</text>
+  <!-- Hücre zarı -->
+  <rect x="10" y="55" width="340" height="30" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" opacity="0.5"/>
+  <text x="180" y="66" text-anchor="middle" font-size="8" fill="#92400E" font-family="Inter,sans-serif">HÜCRE ZARI</text>
+  <!-- COX enzimi -->
+  <g id="cox-enz">
+    <ellipse cx="180" cy="70" rx="28" ry="16" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+    <text x="180" y="68" text-anchor="middle" font-size="9" font-weight="600" fill="#92400E" font-family="Inter,sans-serif">COX</text>
+    <text x="180" y="79" text-anchor="middle" font-size="7.5" fill="#92400E" font-family="Inter,sans-serif">enzimi</text>
   </g>
-  <text x="160" y="94" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">NSAİİ → COX enzimini bloke eder → prostaglandin üretimi durur</text>
-</svg>`,
-  ppi:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-  <defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#7C3D8A" stroke-width="2" stroke-linecap="round"/></marker></defs>
-  <ellipse cx="100" cy="46" rx="50" ry="30" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="1.5"/>
-  <text x="100" y="38" text-anchor="middle" font-size="9" fill="#5B21B6" font-family="Inter,sans-serif">Pariyetal</text>
-  <text x="100" y="50" text-anchor="middle" font-size="9" fill="#5B21B6" font-family="Inter,sans-serif">hücre</text>
-  <rect x="70" y="54" width="60" height="16" rx="4" fill="#DDD6FE" stroke="#7C3D8A" stroke-width="1"/>
-  <text x="100" y="65" text-anchor="middle" font-size="8.5" fill="#4C1D95" font-family="Inter,sans-serif">H⁺/K⁺-ATPaz</text>
-  <g><line x1="155" y1="62" x2="195" y2="62" stroke="#7C3D8A" stroke-width="2" marker-end="url(#ah2)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.2s" repeatCount="indefinite"/></line></g>
-  <rect x="195" y="50" width="46" height="24" rx="8" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="1.5"/>
-  <text x="218" y="65" text-anchor="middle" font-size="9" fill="#5B21B6" font-family="Inter,sans-serif">PPI</text>
-  <line x1="195" y1="56" x2="241" y2="56" stroke="#EF4444" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="0;0;1;1;0" dur="2s" repeatCount="indefinite"/></line>
-  <line x1="218" y1="50" x2="218" y2="80" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <text x="218" y="90" text-anchor="middle" font-size="8.5" fill="#6B7280" font-family="Inter,sans-serif">Asit kanalı</text>
-  <line x1="218" y1="74" x2="218" y2="80" stroke="#6B7280" stroke-width="1.5"/>
-  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">PPI → proton pompasını bloke eder → asit üretimi durur</text>
-</svg>`,
-  hucreduvar:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-  <defs><marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#1D5FA5" stroke-width="2" stroke-linecap="round"/></marker></defs>
-  <ellipse cx="90" cy="50" rx="44" ry="30" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="2"/>
-  <ellipse cx="90" cy="50" rx="30" ry="18" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
-  <text x="90" y="46" text-anchor="middle" font-size="9" fill="#1E40AF" font-family="Inter,sans-serif">Bakteri</text>
-  <text x="90" y="57" text-anchor="middle" font-size="8" fill="#3B82F6" font-family="Inter,sans-serif">hücre duvarı</text>
-  <line x1="138" y1="50" x2="178" y2="50" stroke="#1D5FA5" stroke-width="2" marker-end="url(#ah3)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.3s" repeatCount="indefinite"/></line>
-  <rect x="178" y="38" width="52" height="24" rx="8" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
-  <text x="204" y="53" text-anchor="middle" font-size="9" fill="#1E40AF" font-family="Inter,sans-serif">Sefalosporin</text>
-  <g opacity="0"><ellipse cx="90" cy="50" rx="44" ry="30" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6,4"/><animate attributeName="opacity" values="0;0;0;1;1;0" dur="2.5s" repeatCount="indefinite"/></g>
-  <path d="M260 30 Q285 50 260 70" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="3,2"><animate attributeName="opacity" values="0;0;1;1;0" dur="2s" repeatCount="indefinite"/></path>
-  <text x="270" y="52" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">çöküş</text>
-  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">Sefalosporin → hücre duvarı sentezini bloke eder → bakteri ölür</text>
-</svg>`,
-  protein:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-  <defs><marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"/></marker></defs>
-  <rect x="50" y="28" width="80" height="44" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  <text x="90" y="46" text-anchor="middle" font-size="9" fill="#92400E" font-family="Inter,sans-serif">50S Ribozom</text>
-  <text x="90" y="58" text-anchor="middle" font-size="8" fill="#92400E" font-family="Inter,sans-serif">(bakteri)</text>
-  <line x1="134" y1="50" x2="174" y2="50" stroke="#B45309" stroke-width="2" marker-end="url(#ah4)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.2s" repeatCount="indefinite"/></line>
-  <rect x="174" y="38" width="52" height="24" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/>
-  <text x="200" y="53" text-anchor="middle" font-size="9" fill="#92400E" font-family="Inter,sans-serif">Azitromisin</text>
-  <g transform="translate(28,44)"><rect width="18" height="8" rx="3" fill="#FDE68A" stroke="#D97706" stroke-width="1"/></g>
-  <g transform="translate(28,54)"><rect width="18" height="8" rx="3" fill="#FDE68A" stroke="#D97706" stroke-width="1"/><animate attributeName="opacity" values="1;0;0;1" dur="2s" repeatCount="indefinite"/></g>
-  <text x="22" y="38" font-size="8" fill="#92400E" font-family="Inter,sans-serif">Prot.</text>
-  <path d="M240 35 Q260 50 240 65" stroke="#EF4444" stroke-width="2" fill="none" stroke-dasharray="4,3"><animate attributeName="opacity" values="0;0;1;1;0" dur="2s" repeatCount="indefinite"/></path>
-  <text x="256" y="52" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">dur!</text>
-  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">Azitromisin → 50S ribozoma bağlanır → protein üretimi durur</text>
-</svg>`,
-  kasgev:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-  <defs><marker id="ah5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#5B4FC7" stroke-width="2" stroke-linecap="round"/></marker></defs>
-  <path d="M50 45 Q90 25 130 45 Q170 65 210 45" stroke="#5B4FC7" stroke-width="4" fill="none" stroke-linecap="round">
-    <animate attributeName="d" values="M50 45 Q90 25 130 45 Q170 65 210 45;M50 50 Q90 48 130 50 Q170 52 210 50;M50 45 Q90 25 130 45 Q170 65 210 45" dur="2s" repeatCount="indefinite"/>
+  <!-- Araşidonik asit → giriş (sol) -->
+  <text x="28" y="44" font-size="8" fill="#6B7280" font-family="Inter,sans-serif">Araşidonik asit</text>
+  <path d="M70 52 L152 62" stroke="#9CA3AF" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+    <animate attributeName="stroke-dashoffset" from="30" to="0" dur="1.8s" repeatCount="indefinite"/>
   </path>
-  <text x="130" y="80" text-anchor="middle" font-size="9" fill="#5B4FC7" font-family="Inter,sans-serif">Kas lifi</text>
-  <line x1="220" y1="50" x2="258" y2="50" stroke="#5B4FC7" stroke-width="2" marker-end="url(#ah5)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.2s" repeatCount="indefinite"/></line>
-  <rect x="258" y="38" width="54" height="24" rx="8" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
-  <text x="285" y="48" text-anchor="middle" font-size="8" fill="#3730A3" font-family="Inter,sans-serif">Tiyo-</text>
-  <text x="285" y="58" text-anchor="middle" font-size="8" fill="#3730A3" font-family="Inter,sans-serif">kolşikosid</text>
-  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">Tiyokolşikosid → GABA-A reseptörü → kas spazmı çözülür</text>
+  <!-- Prostaglandin çıkışı (sağ) — BLOKE -->
+  <text x="248" y="44" font-size="8" fill="#EF4444" font-family="Inter,sans-serif">Prostaglandin</text>
+  <text x="263" y="54" font-size="8" fill="#EF4444" font-family="Inter,sans-serif">(ağrı/iltihap)</text>
+  <path d="M208 62 L245 48" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.35"/>
+  <!-- Bloke işareti üzerinde -->
+  <g>
+    <circle cx="240" cy="60" r="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="2">
+      <animate attributeName="opacity" values="0;0;1;1;1;0" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <line x1="234" y1="54" x2="246" y2="66" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round">
+      <animate attributeName="opacity" values="0;0;1;1;1;0" dur="2.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="246" y1="54" x2="234" y2="66" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round">
+      <animate attributeName="opacity" values="0;0;1;1;1;0" dur="2.5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+  <!-- NSAİİ molekülü geliyor -->
+  <g>
+    <rect x="60" y="88" width="46" height="22" rx="8" fill="#D1FAE5" stroke="#0F766E" stroke-width="2"/>
+    <text x="83" y="102" text-anchor="middle" font-size="9.5" font-weight="600" fill="#065F46" font-family="Inter,sans-serif">NSAİİ</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-18;0,-18;0,0" dur="2.5s" repeatCount="indefinite"/>
+  </g>
+  <!-- Adım açıklamaları -->
+  <text x="180" y="122" text-anchor="middle" font-size="9" fill="#374151" font-family="Inter,sans-serif">① NSAİİ, COX enzimine bağlanır</text>
+  <text x="180" y="134" text-anchor="middle" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">② Prostaglandin üretimi durur → ağrı ve iltihap azalır</text>
+</svg>`,
+
+  ppi:`<svg viewBox="0 0 360 145" xmlns="http://www.w3.org/2000/svg" style="background:#FAFAFA;border-radius:10px">
+  <text x="180" y="16" text-anchor="middle" font-size="10" font-weight="600" fill="#374151" font-family="Inter,sans-serif">PPI — Proton Pompası Blokajı</text>
+  <!-- Pariyetal hücre -->
+  <ellipse cx="130" cy="75" rx="70" ry="45" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="2"/>
+  <text x="130" y="62" text-anchor="middle" font-size="9" font-weight="600" fill="#5B21B6" font-family="Inter,sans-serif">Pariyetal Hücre</text>
+  <!-- Proton pompası H+/K+ ATPaz -->
+  <rect x="90" y="88" width="80" height="22" rx="6" fill="#DDD6FE" stroke="#7C3D8A" stroke-width="1.5"/>
+  <text x="130" y="102" text-anchor="middle" font-size="8.5" font-weight="600" fill="#4C1D95" font-family="Inter,sans-serif">H⁺/K⁺-ATPaz</text>
+  <!-- H+ iyonları pompalanıyor (before block) -->
+  <g>
+    <circle cx="130" cy="118" r="5" fill="#7C3D8A" opacity="0.7">
+      <animate attributeName="cy" values="100;118;118" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.7;0" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="140" y="122" font-size="8" fill="#7C3D8A" font-family="Inter,sans-serif">H⁺</text>
+  </g>
+  <!-- PPI geliyor -->
+  <g>
+    <rect x="230" y="60" width="44" height="22" rx="8" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="2"/>
+    <text x="252" y="74" text-anchor="middle" font-size="10" font-weight="600" fill="#5B21B6" font-family="Inter,sans-serif">PPI</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;-80,20;-80,20;0,0" dur="3s" repeatCount="indefinite"/>
+  </g>
+  <!-- Ok -->
+  <path d="M228 72 L180 92" stroke="#7C3D8A" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+    <animate attributeName="stroke-dashoffset" from="40" to="0" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <!-- Kilit ikonu (bloke) -->
+  <g>
+    <rect x="116" y="84" width="28" height="20" rx="4" fill="#EF4444" stroke="#DC2626" stroke-width="1.5">
+      <animate attributeName="opacity" values="0;0;0;1;1;0" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <text x="130" y="97" text-anchor="middle" font-size="11" fill="white" font-family="Inter,sans-serif">
+      <animate attributeName="opacity" values="0;0;0;1;1;0" dur="3s" repeatCount="indefinite"/>🔒</text>
+  </g>
+  <!-- Mide boşluğu -->
+  <text x="130" y="136" text-anchor="middle" font-size="8" fill="#6B7280" font-family="Inter,sans-serif">↓ Mide boşluğu (asit azalır)</text>
+  <text x="180" y="125" text-anchor="middle" font-size="9" fill="#374151" font-family="Inter,sans-serif">① PPI, pompaya kovalent bağlanır → pompayı kalıcı bloke eder</text>
+  <text x="180" y="136" text-anchor="middle" font-size="9" fill="#7C3D8A" font-family="Inter,sans-serif">② H⁺ iyonu pompalanmaz → mide asidi güçlü azalır</text>
+</svg>`,
+
+  hucreduvar:`<svg viewBox="0 0 360 145" xmlns="http://www.w3.org/2000/svg" style="background:#FAFAFA;border-radius:10px">
+  <text x="180" y="16" text-anchor="middle" font-size="10" font-weight="600" fill="#374151" font-family="Inter,sans-serif">Sefalosporin — Hücre Duvarı Yıkımı</text>
+  <!-- Bakteri (sağlam hali) -->
+  <g id="bak-normal">
+    <ellipse cx="120" cy="75" rx="55" ry="42" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="2.5"/>
+    <ellipse cx="120" cy="75" rx="38" ry="28" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.5"/>
+    <text x="120" y="70" text-anchor="middle" font-size="9.5" font-weight="600" fill="#1E40AF" font-family="Inter,sans-serif">BAKTERİ</text>
+    <text x="120" y="83" text-anchor="middle" font-size="8" fill="#3B82F6" font-family="Inter,sans-serif">Hücre duvarı</text>
+    <!-- Çatlaklar animasyonu -->
+    <path d="M145 38 L152 50 L145 58" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round">
+      <animate attributeName="opacity" values="0;0;0;0;1;1" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M90 38 L82 48 L88 60" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round">
+      <animate attributeName="opacity" values="0;0;0;0;1;1" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <!-- Dış duvar çatlama -->
+    <ellipse cx="120" cy="75" rx="55" ry="42" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="8,4">
+      <animate attributeName="opacity" values="0;0;0;1;1;1" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="rx" values="55;55;55;58;62;68" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="ry" values="42;42;42;44;46;50" dur="3s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+  <!-- Sefalosporin molekülü -->
+  <g>
+    <rect x="240" y="52" width="80" height="24" rx="9" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="2"/>
+    <text x="280" y="68" text-anchor="middle" font-size="9" font-weight="600" fill="#1E40AF" font-family="Inter,sans-serif">Sefalosporin</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;-100,0;-100,0;0,0" dur="3s" repeatCount="indefinite"/>
+  </g>
+  <!-- Ok -->
+  <path d="M238 65 L182 68" stroke="#1D5FA5" stroke-width="1.5" fill="none" stroke-dasharray="4,3">
+    <animate attributeName="stroke-dashoffset" from="50" to="0" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <!-- PBP açıklaması -->
+  <rect x="240" y="86" width="100" height="30" rx="6" fill="#F0FDF4" stroke="#16A34A" stroke-width="1"/>
+  <text x="290" y="99" text-anchor="middle" font-size="8" fill="#15803D" font-family="Inter,sans-serif">PBP (penisilin</text>
+  <text x="290" y="110" text-anchor="middle" font-size="8" fill="#15803D" font-family="Inter,sans-serif">bağlayan protein)</text>
+  <text x="290" y="119" text-anchor="middle" font-size="7.5" fill="#EF4444" font-family="Inter,sans-serif">bloke edilir</text>
+  <text x="180" y="128" text-anchor="middle" font-size="9" fill="#374151" font-family="Inter,sans-serif">① PBP proteinine bağlanır → peptidoglikan sentezi durur</text>
+  <text x="180" y="139" text-anchor="middle" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">② Hücre duvarı zayıflar, şişer ve parçalanır → bakteri ölür</text>
+</svg>`,
+
+  protein:`<svg viewBox="0 0 360 145" xmlns="http://www.w3.org/2000/svg" style="background:#FAFAFA;border-radius:10px">
+  <text x="180" y="16" text-anchor="middle" font-size="10" font-weight="600" fill="#374151" font-family="Inter,sans-serif">Azitromisin — 50S Ribozom Blokajı</text>
+  <!-- Bakteri hücresi -->
+  <ellipse cx="100" cy="75" rx="75" ry="50" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" opacity="0.6"/>
+  <text x="100" y="34" text-anchor="middle" font-size="8.5" fill="#92400E" font-family="Inter,sans-serif">BAKTERİ</text>
+  <!-- 50S alt birim -->
+  <ellipse cx="100" cy="68" rx="30" ry="18" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+  <text x="100" y="65" text-anchor="middle" font-size="8.5" font-weight="600" fill="#92400E" font-family="Inter,sans-serif">50S</text>
+  <text x="100" y="76" text-anchor="middle" font-size="7.5" fill="#92400E" font-family="Inter,sans-serif">alt birim</text>
+  <!-- 30S alt birim -->
+  <ellipse cx="100" cy="92" rx="24" ry="13" fill="#FEF08A" stroke="#CA8A04" stroke-width="1.5"/>
+  <text x="100" y="95" text-anchor="middle" font-size="7.5" fill="#92400E" font-family="Inter,sans-serif">30S alt birim</text>
+  <!-- Protein zinciri (çıkıyor iken) -->
+  <path d="M130 80 Q150 75 165 80 Q175 85 185 78" stroke="#10B981" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <animate attributeName="opacity" values="1;1;0;0;0;1" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="d" values="M130 80 Q140 75 150 80;M130 80 Q150 75 165 80 Q175 85 185 78;M130 80 Q150 75 165 80 Q175 85 185 78" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <text x="165" y="73" font-size="8" fill="#10B981" font-family="Inter,sans-serif">protein</text>
+  <!-- Azitromisin geliyor -->
+  <g>
+    <rect x="250" y="48" width="85" height="24" rx="9" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+    <text x="292" y="64" text-anchor="middle" font-size="9" font-weight="600" fill="#92400E" font-family="Inter,sans-serif">Azitromisin</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;-145,12;-145,12;0,0" dur="3s" repeatCount="indefinite"/>
+  </g>
+  <!-- Bloke işareti -->
+  <g>
+    <circle cx="112" cy="60" r="11" fill="#FEE2E2" stroke="#EF4444" stroke-width="2">
+      <animate attributeName="opacity" values="0;0;1;1;1;0" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <line x1="105" y1="53" x2="119" y2="67" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round">
+      <animate attributeName="opacity" values="0;0;1;1;1;0" dur="3s" repeatCount="indefinite"/>
+    </line>
+    <line x1="119" y1="53" x2="105" y2="67" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round">
+      <animate attributeName="opacity" values="0;0;1;1;1;0" dur="3s" repeatCount="indefinite"/>
+    </line>
+  </g>
+  <!-- Protein durdu -->
+  <text x="165" y="90" font-size="8.5" fill="#EF4444" font-family="Inter,sans-serif">protein durdu!</text>
+  <g><animate attributeName="opacity" values="0;0;1;1;1;0" dur="3s" repeatCount="indefinite"/></g>
+  <text x="180" y="122" text-anchor="middle" font-size="9" fill="#374151" font-family="Inter,sans-serif">① 50S alt birimine bağlanır → translokasyon durur</text>
+  <text x="180" y="134" text-anchor="middle" font-size="9" fill="#B45309" font-family="Inter,sans-serif">② Protein sentezi durur → bakteri çoğalamaz (bakteriyostatik)</text>
+</svg>`,
+
+  kasgev:`<svg viewBox="0 0 360 145" xmlns="http://www.w3.org/2000/svg" style="background:#FAFAFA;border-radius:10px">
+  <text x="180" y="16" text-anchor="middle" font-size="10" font-weight="600" fill="#374151" font-family="Inter,sans-serif">Tiyokolşikosid — Kas Spazmı Çözümü</text>
+  <!-- Omurilik -->
+  <rect x="155" y="28" width="50" height="90" rx="8" fill="#EDE9FE" stroke="#5B4FC7" stroke-width="2"/>
+  <text x="180" y="48" text-anchor="middle" font-size="8" font-weight="600" fill="#3730A3" font-family="Inter,sans-serif">OMURİLİK</text>
+  <!-- GABA-A reseptörü -->
+  <rect x="163" y="58" width="34" height="18" rx="5" fill="#C4B5FD" stroke="#5B4FC7" stroke-width="1.5"/>
+  <text x="180" y="67" text-anchor="middle" font-size="7" fill="#3730A3" font-family="Inter,sans-serif">GABA-A R.</text>
+  <text x="180" y="76" text-anchor="middle" font-size="6.5" fill="#3730A3" font-family="Inter,sans-serif">reseptörü</text>
+  <!-- Sinir sinyali → spazm (sol) -->
+  <path d="M50 72 Q90 55 155 68" stroke="#EF4444" stroke-width="2" fill="none" stroke-dasharray="5,3">
+    <animate attributeName="stroke-dashoffset" values="50;0;0;50" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <text x="55" y="52" font-size="8" fill="#EF4444" font-family="Inter,sans-serif">Aşırı sinir</text>
+  <text x="55" y="63" font-size="8" fill="#EF4444" font-family="Inter,sans-serif">sinyali (spazm)</text>
+  <!-- Tiyokolşikosid geliyor yukardan -->
+  <g>
+    <rect x="230" y="30" width="100" height="22" rx="8" fill="#EDE9FE" stroke="#5B4FC7" stroke-width="2"/>
+    <text x="280" y="44" text-anchor="middle" font-size="8.5" font-weight="600" fill="#3730A3" font-family="Inter,sans-serif">Tiyokolşikosid</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;-90,30;-90,30;0,0" dur="3s" repeatCount="indefinite"/>
+  </g>
+  <!-- Kas (spazm hali → gevşeme) -->
+  <path stroke="#5B4FC7" stroke-width="4" fill="none" stroke-linecap="round">
+    <animate attributeName="d" values="M30 100 Q60 80 90 100 Q120 120 150 100;M30 100 Q60 80 90 100 Q120 120 150 100;M30 100 Q60 98 90 100 Q120 102 150 100;M30 100 Q60 98 90 100 Q120 102 150 100" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="stroke" values="#EF4444;#EF4444;#5B4FC7;#5B4FC7" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <text x="90" y="118" text-anchor="middle" font-size="8.5" font-family="Inter,sans-serif">
+    <animate attributeName="fill" values="#EF4444;#EF4444;#5B4FC7;#5B4FC7" dur="3s" repeatCount="indefinite"/>
+    KAS LİFİ</text>
+  <text x="180" y="128" text-anchor="middle" font-size="9" fill="#374151" font-family="Inter,sans-serif">① GABA-A reseptörüne bağlanır → inhibisyonu artırır</text>
+  <text x="180" y="139" text-anchor="middle" font-size="9" fill="#5B4FC7" font-family="Inter,sans-serif">② Motor nöron aktivitesi azalır → kas spazmı çözülür</text>
 </svg>`
 };
 
@@ -425,23 +558,6 @@ const GASTRO=[
 const SEED_ALL=[...ANALJ,...ANTIB,...GASTRO];
 
 /* Organ haritası */
-const ORGAN_MAP={
-  mide:{label:"Mide",color:"#B45309",ids:["esom","lansoprol","pulcet"]},
-  yemekborusu:{label:"Yemek Borusu",color:"#7C3D8A",ids:["esom","lansoprol","pulcet"]},
-  eklem:{label:"Eklem",color:"#0F766E",ids:["etol","melox","maprofen","tiyokas","etolax"]},
-  omurga:{label:"Omurga / Bel",color:"#0F766E",ids:["etol","etolax","tiyokas","melox"]},
-  kas:{label:"Kas",color:"#5B4FC7",ids:["etolax","tiyokas"]},
-  akciger:{label:"Akciğer / Solunum",color:"#1D5FA5",ids:["aksef","azaks","sefabel","sefpotec"]},
-  bogazburun:{label:"Boğaz / Burun / KBB",color:"#1D5FA5",ids:["aksef","azaks","sefpotec"]},
-  kulak:{label:"Kulak",color:"#1D5FA5",ids:["aksef","sefpotec"]},
-  idrar:{label:"İdrar Yolu",color:"#1D5FA5",ids:["aksef","sefabel","sefpotec"]},
-  cilt:{label:"Cilt / Yumuşak Doku",color:"#1D5FA5",ids:["aksef","azaks","sefabel","sefpotec"]},
-  beyin:{label:"Beyin / Menenjit",color:"#1D5FA5",ids:["sefabel"]},
-  kan:{label:"Kan / Sepsis",color:"#B02A2A",ids:["sefabel"]},
-  karin:{label:"Karın İçi",color:"#B45309",ids:["sefabel"]},
-  kemik:{label:"Kemik / Eklem Enfeksiyonu",color:"#1D5FA5",ids:["aksef","sefabel"]},
-  genital:{label:"Genital / Cinsel Yolla Bulaşan",color:"#5B4FC7",ids:["azaks","sefabel","sefpotec"]}
-};
 
 const KEY="ilac_kartligi_v3";
 let drugs=[];
@@ -566,70 +682,644 @@ document.getElementById("resetBtn").onclick=async()=>{
 
 /* ===== VÜCUT HARİTASI ===== */
 function buildVucutSVG(){
-  const svg=`<svg viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tıklanabilir vücut haritası">
-  <!-- Kafa -->
-  <ellipse class="vb-region" data-organ="beyin" cx="100" cy="38" rx="32" ry="36" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
-  <text x="100" y="42" text-anchor="middle" font-size="9" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Beyin</text>
+  const container=document.getElementById('vucut-svg-container');
+  if(container.querySelector('svg'))return;
+  // Gerçekçi anatomik vücut: insan silüeti + gerçek organ şekilleri
+  // viewBox: 0 0 340 580
+  container.innerHTML=`<svg viewBox="0 0 340 600" xmlns="http://www.w3.org/2000/svg"
+    style="width:100%;max-width:260px;display:block;margin:0 auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.10))"
+    role="img" aria-label="Anatomik vücut haritası — organlar">
+  <defs>
+    <linearGradient id="skin1" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#F5CBA7"/>
+      <stop offset="60%" stop-color="#E59866"/>
+      <stop offset="100%" stop-color="#D4845A"/>
+    </linearGradient>
+    <linearGradient id="skin2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0B27A"/>
+      <stop offset="100%" stop-color="#CA8A60"/>
+    </linearGradient>
+    <!-- Organ gradyanları -->
+    <radialGradient id="lung-g" cx="40%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#93C5FD"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </radialGradient>
+    <radialGradient id="heart-g" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FCA5A5"/>
+      <stop offset="100%" stop-color="#DC2626"/>
+    </radialGradient>
+    <radialGradient id="liver-g" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#92400E"/>
+      <stop offset="100%" stop-color="#78350F"/>
+    </radialGradient>
+    <radialGradient id="stomach-g" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </radialGradient>
+    <radialGradient id="kidney-g" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#7DD3FC"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </radialGradient>
+    <radialGradient id="intestine-g" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="100%" stop-color="#CA8A04"/>
+    </radialGradient>
+    <radialGradient id="brain-g" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#F9A8D4"/>
+      <stop offset="100%" stop-color="#DB2777"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ========== VÜCUT SİLÜETİ ========== -->
+  <!-- Baş -->
+  <ellipse cx="170" cy="50" rx="42" ry="46" fill="url(#skin1)" stroke="#C8874A" stroke-width="1.5"/>
+  <!-- Saç -->
+  <ellipse cx="170" cy="22" rx="42" ry="20" fill="#8B4513" opacity="0.7"/>
+  <ellipse cx="140" cy="30" rx="20" ry="18" fill="#8B4513" opacity="0.6"/>
+  <ellipse cx="200" cy="30" rx="20" ry="18" fill="#8B4513" opacity="0.6"/>
+  <!-- Yüz detayları -->
+  <ellipse cx="156" cy="50" rx="5" ry="6" fill="white" opacity="0.8"/>
+  <ellipse cx="184" cy="50" rx="5" ry="6" fill="white" opacity="0.8"/>
+  <ellipse cx="156" cy="51" rx="3" ry="3.5" fill="#555"/>
+  <ellipse cx="184" cy="51" rx="3" ry="3.5" fill="#555"/>
+  <path d="M158 65 Q170 70 182 65" fill="none" stroke="#C8874A" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M163 42 Q170 39 177 42" fill="none" stroke="#C8874A" stroke-width="1" stroke-linecap="round"/>
+  <!-- Burun -->
+  <path d="M168 53 Q165 60 168 63 Q172 65 175 63 Q178 60 172 53" fill="none" stroke="#C8874A" stroke-width="0.8"/>
+  <!-- Kulaklar -->
+  <path d="M128 45 Q122 48 122 55 Q122 62 128 65 Q126 58 126 55 Q126 50 128 45Z" fill="url(#skin2)" stroke="#C8874A" stroke-width="1"/>
+  <path d="M212 45 Q218 48 218 55 Q218 62 212 65 Q214 58 214 55 Q214 50 212 45Z" fill="url(#skin2)" stroke="#C8874A" stroke-width="1"/>
   <!-- Boyun -->
-  <rect x="88" y="72" width="24" height="18" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1"/>
-  <!-- Boğaz/Burun bölgesi işareti -->
-  <ellipse class="vb-region" data-organ="bogazburun" cx="100" cy="76" rx="18" ry="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  <text x="100" y="79" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">KBB</text>
-  <!-- Kulak sol -->
-  <ellipse class="vb-region" data-organ="kulak" cx="66" cy="44" rx="10" ry="13" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  <text x="66" y="48" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Kulak</text>
-  <!-- Gövde -->
-  <rect x="60" y="90" width="80" height="120" rx="16" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
-  <!-- Akciğer sol -->
-  <ellipse class="vb-region" data-organ="akciger" cx="82" cy="128" rx="18" ry="26" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
-  <text x="82" y="126" text-anchor="middle" font-size="7.5" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Akciğer</text>
-  <!-- Akciğer sağ -->
-  <ellipse class="vb-region" data-organ="akciger" cx="118" cy="128" rx="18" ry="26" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
-  <!-- Yemek borusu -->
-  <rect class="vb-region" data-organ="yemekborusu" x="92" y="90" width="16" height="40" rx="6" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="1.5"/>
-  <text x="100" y="106" text-anchor="middle" font-size="6.5" fill="#5B21B6" font-family="Inter,sans-serif" pointer-events="none">Y.Borusu</text>
-  <!-- Kalp -->
-  <path class="vb-region" data-organ="kan" d="M97 122 Q94 114 88 114 Q80 114 80 122 Q80 130 97 140 Q114 130 114 122 Q114 114 106 114 Q100 114 97 122Z" fill="#FEE2E2" stroke="#B02A2A" stroke-width="1.5"/>
-  <text x="97" y="129" text-anchor="middle" font-size="7" fill="#991B1B" font-family="Inter,sans-serif" pointer-events="none">Kalp/Kan</text>
-  <!-- Mide -->
-  <ellipse class="vb-region" data-organ="mide" cx="92" cy="178" rx="22" ry="18" fill="#F6ECDD" stroke="#B45309" stroke-width="1.5"/>
-  <text x="92" y="181" text-anchor="middle" font-size="8" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Mide</text>
-  <!-- Karın -->
-  <ellipse class="vb-region" data-organ="karin" cx="114" cy="182" rx="18" ry="16" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  <text x="114" y="185" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Karın</text>
+  <path d="M156 90 Q152 94 152 102 L188 102 Q188 94 184 90Z" fill="url(#skin1)" stroke="#C8874A" stroke-width="1"/>
+
+  <!-- Gövde (torso) -->
+  <path d="M100 104 Q88 110 82 126 L76 200 Q74 230 80 250 Q100 270 170 272 Q240 270 260 250 Q266 230 264 200 L258 126 Q252 110 240 104 Q210 98 170 96 Q130 98 100 104Z"
+    fill="url(#skin1)" stroke="#C8874A" stroke-width="1.5"/>
+
+  <!-- Göğüs kemikleri (sternum) — dekoratif -->
+  <path d="M170 106 L170 250" stroke="#C8874A" stroke-width="0.5" stroke-dasharray="2,4" opacity="0.3"/>
+  <!-- Kaburga hatları -->
+  <path d="M170 120 Q148 118 132 126" stroke="#C8874A" stroke-width="0.7" fill="none" opacity="0.25"/>
+  <path d="M170 132 Q148 130 130 140" stroke="#C8874A" stroke-width="0.7" fill="none" opacity="0.25"/>
+  <path d="M170 144 Q148 142 130 154" stroke="#C8874A" stroke-width="0.7" fill="none" opacity="0.25"/>
+  <path d="M170 120 Q192 118 208 126" stroke="#C8874A" stroke-width="0.7" fill="none" opacity="0.25"/>
+  <path d="M170 132 Q192 130 210 140" stroke="#C8874A" stroke-width="0.7" fill="none" opacity="0.25"/>
+  <path d="M170 144 Q192 142 210 154" stroke="#C8874A" stroke-width="0.7" fill="none" opacity="0.25"/>
+
   <!-- Kollar -->
-  <rect x="28" y="92" width="28" height="90" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <rect x="144" y="92" width="28" height="90" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <!-- Eklem (dirsek) -->
-  <ellipse class="vb-region" data-organ="eklem" cx="30" cy="158" rx="16" ry="14" fill="#D1FAE5" stroke="#0F766E" stroke-width="1.5"/>
-  <text x="30" y="161" text-anchor="middle" font-size="6.5" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
-  <!-- Omurga -->
-  <rect class="vb-region" data-organ="omurga" x="93" y="212" width="14" height="60" rx="5" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
-  <text x="100" y="248" text-anchor="middle" font-size="6.5" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Omurga</text>
+  <path d="M82 118 Q68 124 58 150 L44 228 Q42 244 50 252 Q58 258 66 248 L80 188 L96 132Z"
+    fill="url(#skin1)" stroke="#C8874A" stroke-width="1.2"/>
+  <path d="M258 118 Q272 124 282 150 L296 228 Q298 244 290 252 Q282 258 274 248 L260 188 L244 132Z"
+    fill="url(#skin1)" stroke="#C8874A" stroke-width="1.2"/>
+  <!-- Eller -->
+  <ellipse cx="52" cy="260" rx="14" ry="18" fill="url(#skin2)" stroke="#C8874A" stroke-width="1"/>
+  <ellipse cx="288" cy="260" rx="14" ry="18" fill="url(#skin2)" stroke="#C8874A" stroke-width="1"/>
+  <!-- Parmaklar sol -->
+  <ellipse cx="43" cy="274" rx="4" ry="7" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7" transform="rotate(-10,43,274)"/>
+  <ellipse cx="52" cy="277" rx="4" ry="7" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="61" cy="275" rx="4" ry="7" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7" transform="rotate(10,61,275)"/>
+  <!-- Parmaklar sağ -->
+  <ellipse cx="279" cy="274" rx="4" ry="7" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7" transform="rotate(10,279,274)"/>
+  <ellipse cx="288" cy="277" rx="4" ry="7" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="297" cy="275" rx="4" ry="7" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7" transform="rotate(-10,297,275)"/>
+
+  <!-- Pelvis + kalça -->
+  <path d="M86 260 Q80 270 82 290 Q90 310 120 320 Q145 326 170 326 Q195 326 220 320 Q250 310 258 290 Q260 270 254 260 Q230 270 170 272 Q110 270 86 260Z"
+    fill="url(#skin1)" stroke="#C8874A" stroke-width="1.2"/>
+
   <!-- Bacaklar -->
-  <rect x="65" y="210" width="30" height="130" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <rect x="105" y="210" width="30" height="130" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <!-- Kas (uyluk) -->
-  <ellipse class="vb-region" data-organ="kas" cx="80" cy="250" rx="16" ry="22" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
-  <text x="80" y="253" text-anchor="middle" font-size="7" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Kas</text>
-  <!-- İdrar yolu -->
-  <ellipse class="vb-region" data-organ="idrar" cx="120" cy="250" rx="16" ry="18" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
-  <text x="120" y="253" text-anchor="middle" font-size="6.5" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">İdrar Yolu</text>
-  <!-- Genital -->
-  <ellipse class="vb-region" data-organ="genital" cx="100" cy="296" rx="18" ry="12" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
-  <text x="100" y="299" text-anchor="middle" font-size="7" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Genital</text>
-  <!-- Cilt (sol kol) -->
-  <ellipse class="vb-region" data-organ="cilt" cx="162" cy="148" rx="14" ry="18" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  <text x="162" y="151" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Cilt</text>
-  <!-- Kemik (alt bacak) -->
-  <ellipse class="vb-region" data-organ="kemik" cx="80" cy="320" rx="14" ry="18" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5"/>
-  <text x="80" y="323" text-anchor="middle" font-size="7" fill="#374151" font-family="Inter,sans-serif" pointer-events="none">Kemik</text>
+  <path d="M96 318 Q84 328 82 360 L78 440 Q76 460 80 476 Q86 490 100 492 Q114 492 118 476 L122 400 L126 326 Q108 322 96 318Z"
+    fill="url(#skin1)" stroke="#C8874A" stroke-width="1.2"/>
+  <path d="M244 318 Q256 328 258 360 L262 440 Q264 460 260 476 Q254 490 240 492 Q226 492 222 476 L218 400 L214 326 Q232 322 244 318Z"
+    fill="url(#skin1)" stroke="#C8874A" stroke-width="1.2"/>
+  <!-- Ayaklar -->
+  <ellipse cx="100" cy="498" rx="24" ry="12" fill="url(#skin2)" stroke="#C8874A" stroke-width="1"/>
+  <ellipse cx="240" cy="498" rx="24" ry="12" fill="url(#skin2)" stroke="#C8874A" stroke-width="1"/>
+  <!-- Ayak parmakları -->
+  <ellipse cx="82" cy="507" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="92" cy="510" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="102" cy="511" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="112" cy="510" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="122" cy="507" rx="4" ry="3.5" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="222" cy="507" rx="4" ry="3.5" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="232" cy="510" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="242" cy="511" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="252" cy="510" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+  <ellipse cx="260" cy="507" rx="5" ry="4" fill="url(#skin2)" stroke="#C8874A" stroke-width="0.7"/>
+
+  <!-- ========== ORGANLAR (tıklanabilir) ========== -->
+
+  <!-- BEYİN -->
+  <g class="vb-r" data-organ="beyin" style="cursor:pointer">
+    <ellipse cx="170" cy="38" rx="28" ry="24" fill="url(#brain-g)" stroke="#9D174D" stroke-width="2" opacity="0.85"/>
+    <!-- Beyin kıvrımları -->
+    <path d="M152 30 Q158 24 165 28 Q172 24 178 30 Q184 36 178 44 Q172 50 165 48 Q158 50 152 44 Q146 36 152 30Z" fill="none" stroke="#9D174D" stroke-width="0.8" opacity="0.5"/>
+    <path d="M155 36 Q165 32 175 36" fill="none" stroke="#9D174D" stroke-width="0.7" opacity="0.4"/>
+    <path d="M153 42 Q165 38 177 42" fill="none" stroke="#9D174D" stroke-width="0.7" opacity="0.4"/>
+    <text x="170" y="36" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="Inter,sans-serif" pointer-events="none">Beyin</text>
+    <text x="170" y="46" text-anchor="middle" font-size="6.5" fill="white" font-family="Inter,sans-serif" pointer-events="none">Menenjit</text>
+  </g>
+
+  <!-- KULAK SOL -->
+  <g class="vb-r" data-organ="kulak" style="cursor:pointer">
+    <path d="M126 47 Q120 50 119 57 Q119 64 126 67 Q124 60 124 57 Q124 52 126 47Z" fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.9"/>
+    <text x="114" y="57" text-anchor="middle" font-size="5.5" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">K</text>
+  </g>
+  <!-- KULAK SAĞ -->
+  <g class="vb-r" data-organ="kulak" style="cursor:pointer">
+    <path d="M214 47 Q220 50 221 57 Q221 64 214 67 Q216 60 216 57 Q216 52 214 47Z" fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.9"/>
+  </g>
+
+  <!-- KBB / BOĞAZ / BURUN -->
+  <g class="vb-r" data-organ="bogazburun" style="cursor:pointer">
+    <rect x="152" y="92" width="36" height="18" rx="7" fill="#FEF08A" stroke="#D97706" stroke-width="1.8" opacity="0.92"/>
+    <text x="170" y="104" text-anchor="middle" font-size="7" font-weight="600" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">KBB/Boğaz</text>
+  </g>
+
+  <!-- YEMEK BORUSU -->
+  <g class="vb-r" data-organ="yemekborusu" style="cursor:pointer">
+    <rect x="163" y="104" width="14" height="60" rx="6" fill="#DDD6FE" stroke="#7C3D8A" stroke-width="1.8" opacity="0.88"/>
+    <text x="170" y="128" text-anchor="middle" font-size="6" fill="#4C1D95" font-family="Inter,sans-serif" pointer-events="none" transform="rotate(-90,170,128)" dy="-2">Yemek Borusu</text>
+  </g>
+
+  <!-- AKCİĞER SOL -->
+  <g class="vb-r" data-organ="akciger" style="cursor:pointer">
+    <path d="M108 116 Q96 124 90 142 Q84 162 86 184 Q88 198 96 208 Q104 214 116 210 Q126 206 130 192 Q134 176 132 154 Q130 130 124 116 Q118 110 112 112Z"
+      fill="url(#lung-g)" stroke="#1D5FA5" stroke-width="2" opacity="0.88"/>
+    <!-- Bronş detayı -->
+    <path d="M116 116 Q118 128 120 145" stroke="white" stroke-width="1.2" fill="none" opacity="0.5"/>
+    <path d="M118 135 Q110 142 106 155" stroke="white" stroke-width="0.9" fill="none" opacity="0.4"/>
+    <path d="M118 135 Q124 144 126 158" stroke="white" stroke-width="0.9" fill="none" opacity="0.4"/>
+    <text x="108" y="168" text-anchor="middle" font-size="7.5" font-weight="600" fill="white" font-family="Inter,sans-serif" pointer-events="none">Akc.</text>
+    <text x="108" y="178" text-anchor="middle" font-size="6.5" fill="white" font-family="Inter,sans-serif" pointer-events="none">Sol</text>
+  </g>
+
+  <!-- AKCİĞER SAĞ -->
+  <g class="vb-r" data-organ="akciger" style="cursor:pointer">
+    <path d="M232 116 Q244 124 250 142 Q256 162 254 184 Q252 198 244 208 Q236 214 224 210 Q214 206 210 192 Q206 176 208 154 Q210 130 216 116 Q222 110 228 112Z"
+      fill="url(#lung-g)" stroke="#1D5FA5" stroke-width="2" opacity="0.88"/>
+    <path d="M224 116 Q222 128 220 145" stroke="white" stroke-width="1.2" fill="none" opacity="0.5"/>
+    <path d="M222 135 Q230 142 234 155" stroke="white" stroke-width="0.9" fill="none" opacity="0.4"/>
+    <path d="M222 135 Q216 144 214 158" stroke="white" stroke-width="0.9" fill="none" opacity="0.4"/>
+    <text x="232" y="168" text-anchor="middle" font-size="7.5" font-weight="600" fill="white" font-family="Inter,sans-serif" pointer-events="none">Akc.</text>
+    <text x="232" y="178" text-anchor="middle" font-size="6.5" fill="white" font-family="Inter,sans-serif" pointer-events="none">Sağ</text>
+  </g>
+
+  <!-- KALP -->
+  <g class="vb-r" data-organ="kan" style="cursor:pointer">
+    <path d="M162 128 Q156 118 146 118 Q134 118 134 132 Q134 146 162 164 Q190 146 190 132 Q190 118 178 118 Q168 118 162 128Z"
+      fill="url(#heart-g)" stroke="#7F1D1D" stroke-width="2" opacity="0.92"/>
+    <!-- Aort -->
+    <path d="M162 120 Q162 110 168 106 Q174 102 178 106" fill="none" stroke="#7F1D1D" stroke-width="1.5"/>
+    <text x="162" y="142" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="Inter,sans-serif" pointer-events="none">Kalp</text>
+    <!-- Kalp atış animasyonu -->
+    <animate attributeName="opacity" values="0.92;0.75;0.92" dur="0.8s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- KARACİĞER -->
+  <g class="vb-r" data-organ="karin" style="cursor:pointer">
+    <path d="M120 200 Q108 194 104 210 Q102 228 108 240 Q118 252 144 256 Q168 258 180 250 Q192 242 190 228 Q188 214 180 206 Q166 198 148 198 Q134 198 120 200Z"
+      fill="url(#liver-g)" stroke="#78350F" stroke-width="1.8" opacity="0.85"/>
+    <text x="148" y="228" text-anchor="middle" font-size="8" font-weight="600" fill="#FDE68A" font-family="Inter,sans-serif" pointer-events="none">Karaciğer</text>
+    <text x="148" y="239" text-anchor="middle" font-size="6.5" fill="#FDE68A" font-family="Inter,sans-serif" pointer-events="none">Karın</text>
+  </g>
+
+  <!-- MİDE -->
+  <g class="vb-r" data-organ="mide" style="cursor:pointer">
+    <path d="M186 188 Q178 178 172 182 Q164 178 160 190 Q156 206 162 220 Q170 232 184 228 Q198 224 202 210 Q206 196 198 186 Q194 182 186 188Z"
+      fill="url(#stomach-g)" stroke="#B45309" stroke-width="2" opacity="0.9"/>
+    <!-- Mide kıvrımları -->
+    <path d="M168 196 Q178 192 190 198" fill="none" stroke="#B45309" stroke-width="0.8" opacity="0.5"/>
+    <path d="M166 206 Q178 202 194 208" fill="none" stroke="#B45309" stroke-width="0.8" opacity="0.5"/>
+    <text x="182" y="208" text-anchor="middle" font-size="8" font-weight="700" fill="#78350F" font-family="Inter,sans-serif" pointer-events="none">Mide</text>
+  </g>
+
+  <!-- BÖBREK SOL -->
+  <g class="vb-r" data-organ="idrar" style="cursor:pointer">
+    <path d="M102 222 Q92 218 88 230 Q86 242 90 254 Q96 264 106 262 Q116 260 118 248 Q120 236 114 224 Q110 216 102 222Z"
+      fill="url(#kidney-g)" stroke="#0284C7" stroke-width="1.8" opacity="0.9"/>
+    <!-- Böbrek iç detayı -->
+    <path d="M102 228 Q98 236 100 248" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+    <text x="103" y="243" text-anchor="middle" font-size="7" font-weight="600" fill="white" font-family="Inter,sans-serif" pointer-events="none">Böbrek</text>
+  </g>
+
+  <!-- BÖBREK SAĞ -->
+  <g class="vb-r" data-organ="idrar" style="cursor:pointer">
+    <path d="M238 222 Q248 218 252 230 Q254 242 250 254 Q244 264 234 262 Q224 260 222 248 Q220 236 226 224 Q230 216 238 222Z"
+      fill="url(#kidney-g)" stroke="#0284C7" stroke-width="1.8" opacity="0.9"/>
+    <path d="M238 228 Q242 236 240 248" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+    <text x="237" y="243" text-anchor="middle" font-size="7" font-weight="600" fill="white" font-family="Inter,sans-serif" pointer-events="none">Böbrek</text>
+  </g>
+
+  <!-- BAĞIRSAKLAR -->
+  <g class="vb-r" data-organ="karin" style="cursor:pointer">
+    <path d="M118 258 Q108 262 108 278 Q108 294 118 306 Q130 316 150 318 Q170 320 190 316 Q210 308 214 294 Q218 278 212 264 Q204 256 190 256 Q176 254 162 256 Q146 256 130 256Z"
+      fill="url(#intestine-g)" stroke="#CA8A04" stroke-width="1.5" opacity="0.82"/>
+    <!-- Bağırsak kıvrımları -->
+    <path d="M126 268 Q140 260 154 268 Q168 276 182 268 Q196 260 208 268" fill="none" stroke="#CA8A04" stroke-width="1.2" opacity="0.6"/>
+    <path d="M120 280 Q136 272 152 280 Q168 288 184 280 Q200 272 212 278" fill="none" stroke="#CA8A04" stroke-width="1.2" opacity="0.6"/>
+    <path d="M122 292 Q138 284 154 292 Q170 300 186 292 Q202 284 210 290" fill="none" stroke="#CA8A04" stroke-width="1.2" opacity="0.6"/>
+    <text x="165" y="285" text-anchor="middle" font-size="8" font-weight="600" fill="#78350F" font-family="Inter,sans-serif" pointer-events="none">Bağırsaklar</text>
+  </g>
+
+  <!-- GENITAL -->
+  <g class="vb-r" data-organ="genital" style="cursor:pointer">
+    <ellipse cx="170" cy="328" rx="24" ry="12" fill="#E9D5FF" stroke="#7C3D8A" stroke-width="1.5" opacity="0.85"/>
+    <text x="170" y="332" text-anchor="middle" font-size="7" font-weight="500" fill="#5B21B6" font-family="Inter,sans-serif" pointer-events="none">Genital</text>
+  </g>
+
+  <!-- OMURGA -->
+  <g class="vb-r" data-organ="omurga" style="cursor:pointer">
+    <rect x="163" y="108" width="14" height="186" rx="5" fill="#C4B5FD" fill-opacity="0.35" stroke="#5B4FC7" stroke-width="1.2" stroke-dasharray="5,3"/>
+    <!-- Omur diskleri -->
+    <rect x="163" y="120" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="134" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="148" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="162" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="176" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="190" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="204" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="218" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="232" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="246" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="260" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <rect x="163" y="274" width="14" height="5" rx="2" fill="#A78BFA" opacity="0.5"/>
+    <text x="170" y="304" text-anchor="middle" font-size="6.5" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none" transform="rotate(90,170,280)">OMURGA</text>
+  </g>
+
+  <!-- EKLEM - Dirsek sol -->
+  <g class="vb-r" data-organ="eklem" style="cursor:pointer">
+    <ellipse cx="56" cy="206" rx="16" ry="16" fill="#6EE7B7" stroke="#0F766E" stroke-width="2" opacity="0.88"/>
+    <path d="M46 200 Q56 196 66 200 M46 212 Q56 208 66 212" stroke="#0F766E" stroke-width="1" fill="none" opacity="0.5"/>
+    <text x="56" y="204" text-anchor="middle" font-size="6.5" font-weight="600" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
+    <text x="56" y="213" text-anchor="middle" font-size="5.5" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">dirsek</text>
+  </g>
+
+  <!-- EKLEM - Dirsek sağ -->
+  <g class="vb-r" data-organ="eklem" style="cursor:pointer">
+    <ellipse cx="284" cy="206" rx="16" ry="16" fill="#6EE7B7" stroke="#0F766E" stroke-width="2" opacity="0.88"/>
+    <path d="M274 200 Q284 196 294 200 M274 212 Q284 208 294 212" stroke="#0F766E" stroke-width="1" fill="none" opacity="0.5"/>
+    <text x="284" y="204" text-anchor="middle" font-size="6.5" font-weight="600" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
+  </g>
+
+  <!-- EKLEM - Diz sol -->
+  <g class="vb-r" data-organ="eklem" style="cursor:pointer">
+    <ellipse cx="96" cy="430" rx="18" ry="18" fill="#6EE7B7" stroke="#0F766E" stroke-width="2" opacity="0.85"/>
+    <text x="96" y="428" text-anchor="middle" font-size="6.5" font-weight="600" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
+    <text x="96" y="438" text-anchor="middle" font-size="5.5" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">diz</text>
+  </g>
+  <!-- EKLEM - Diz sağ -->
+  <g class="vb-r" data-organ="eklem" style="cursor:pointer">
+    <ellipse cx="244" cy="430" rx="18" ry="18" fill="#6EE7B7" stroke="#0F766E" stroke-width="2" opacity="0.85"/>
+    <text x="244" y="428" text-anchor="middle" font-size="6.5" font-weight="600" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
+    <text x="244" y="438" text-anchor="middle" font-size="5.5" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">diz</text>
+  </g>
+
+  <!-- KAS - Uyluk sol -->
+  <g class="vb-r" data-organ="kas" style="cursor:pointer">
+    <rect x="82" y="340" width="30" height="76" rx="12" fill="#C4B5FD" stroke="#5B4FC7" stroke-width="1.8" opacity="0.82"/>
+    <path d="M88 352 Q82 370 84 388" stroke="#5B4FC7" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M100 350 Q106 368 104 386" stroke="#5B4FC7" stroke-width="1" fill="none" opacity="0.5"/>
+    <text x="97" y="382" text-anchor="middle" font-size="7.5" font-weight="600" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Kas</text>
+  </g>
+  <!-- KAS - Uyluk sağ -->
+  <g class="vb-r" data-organ="kas" style="cursor:pointer">
+    <rect x="228" y="340" width="30" height="76" rx="12" fill="#C4B5FD" stroke="#5B4FC7" stroke-width="1.8" opacity="0.82"/>
+    <path d="M234 352 Q228 370 230 388" stroke="#5B4FC7" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M246 350 Q252 368 250 386" stroke="#5B4FC7" stroke-width="1" fill="none" opacity="0.5"/>
+    <text x="243" y="382" text-anchor="middle" font-size="7.5" font-weight="600" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Kas</text>
+  </g>
+
+  <!-- CİLT - Kol sol -->
+  <g class="vb-r" data-organ="cilt" style="cursor:pointer">
+    <rect x="44" y="138" width="20" height="54" rx="10" fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.78"/>
+    <text x="54" y="166" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Cilt</text>
+  </g>
+  <!-- CİLT - Kol sağ -->
+  <g class="vb-r" data-organ="cilt" style="cursor:pointer">
+    <rect x="276" y="138" width="20" height="54" rx="10" fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.78"/>
+    <text x="286" y="166" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Cilt</text>
+  </g>
+
+  <!-- KEMİK - Alt bacak sol -->
+  <g class="vb-r" data-organ="kemik" style="cursor:pointer">
+    <rect x="84" y="452" width="22" height="38" rx="7" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5" opacity="0.88"/>
+    <line x1="95" y1="456" x2="95" y2="488" stroke="#9CA3AF" stroke-width="1.5" opacity="0.6"/>
+    <text x="95" y="476" text-anchor="middle" font-size="6.5" fill="#374151" font-family="Inter,sans-serif" pointer-events="none">Kemik</text>
+  </g>
+  <!-- KEMİK - Alt bacak sağ -->
+  <g class="vb-r" data-organ="kemik" style="cursor:pointer">
+    <rect x="234" y="452" width="22" height="38" rx="7" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5" opacity="0.88"/>
+    <line x1="245" y1="456" x2="245" y2="488" stroke="#9CA3AF" stroke-width="1.5" opacity="0.6"/>
+    <text x="245" y="476" text-anchor="middle" font-size="6.5" fill="#374151" font-family="Inter,sans-serif" pointer-events="none">Kemik</text>
+  </g>
+
+  <!-- Alt etiket -->
+  <text x="170" y="555" text-anchor="middle" font-size="8.5" fill="#9CA3AF" font-family="Inter,sans-serif">Bir organa dokun</text>
 </svg>`;
-  document.getElementById("vucut-svg-container").innerHTML=svg;
-  document.querySelectorAll(".vb-region").forEach(el=>{
-    el.addEventListener("click",function(){
-      document.querySelectorAll(".vb-region.active").forEach(x=>x.classList.remove("active"));
-      this.classList.add("active");
+
+  document.querySelectorAll('.vb-r').forEach(el=>{
+    el.addEventListener('mouseenter',function(){
+      if(!this.classList.contains('vb-active'))
+        this.querySelectorAll('ellipse,path,rect').forEach(e=>e.style.filter='brightness(1.2)');
+    });
+    el.addEventListener('mouseleave',function(){
+      if(!this.classList.contains('vb-active'))
+        this.querySelectorAll('ellipse,path,rect').forEach(e=>e.style.filter='');
+    });
+    el.addEventListener('click',function(){
+      document.querySelectorAll('.vb-r.vb-active').forEach(x=>{
+        x.classList.remove('vb-active');
+        x.querySelectorAll('ellipse,path,rect').forEach(e=>{e.style.filter='';e.style.strokeWidth='';});
+      });
+      const organ=this.dataset.organ;
+      document.querySelectorAll('.vb-r[data-organ="'+organ+'"]').forEach(x=>{
+        x.classList.add('vb-active');
+        x.querySelectorAll('ellipse,path,rect').forEach(e=>{
+          e.style.filter='drop-shadow(0 0 5px rgba(0,0,0,0.5)) brightness(1.25)';
+        });
+      });
+      showVucutOrgan(organ);
+    });
+  });
+}
+
+const ORGAN_MAP={
+  mide:{label:"Mide",color:"#B45309",ids:["esom","lansoprol","pulcet"]},
+  yemekborusu:{label:"Yemek Borusu",color:"#7C3D8A",ids:["esom","lansoprol","pulcet"]},
+  eklem:{label:"Eklem",color:"#0F766E",ids:["etol","melox","maprofen","tiyokas","etolax"]},
+  omurga:{label:"Omurga / Bel",color:"#0F766E",ids:["etol","etolax","tiyokas","melox"]},
+  kas:{label:"Kas",color:"#5B4FC7",ids:["etolax","tiyokas"]},
+  akciger:{label:"Akciğer / Solunum",color:"#1D5FA5",ids:["aksef","azaks","sefabel","sefpotec"]},
+  bogazburun:{label:"Boğaz / Burun / KBB",color:"#1D5FA5",ids:["aksef","azaks","sefpotec"]},
+  kulak:{label:"Kulak",color:"#1D5FA5",ids:["aksef","sefpotec"]},
+  idrar:{label:"İdrar Yolu",color:"#1D5FA5",ids:["aksef","sefabel","sefpotec"]},
+  cilt:{label:"Cilt / Yumuşak Doku",color:"#1D5FA5",ids:["aksef","azaks","sefabel","sefpotec"]},
+  beyin:{label:"Beyin / Menenjit",color:"#1D5FA5",ids:["sefabel"]},
+  kan:{label:"Kan / Sepsis",color:"#B02A2A",ids:["sefabel"]},
+  karin:{label:"Karın İçi",color:"#B45309",ids:["sefabel"]},
+  kemik:{label:"Kemik / Eklem Enfeksiyonu",color:"#1D5FA5",ids:["aksef","sefabel"]},
+  genital:{label:"Genital / Cinsel Yolla Bulaşan",color:"#5B4FC7",ids:["azaks","sefabel","sefpotec"]}
+};
+
+async function load(){
+  drugs=SEED_ALL.slice();
+  if(store){
+    try{
+      const tout=new Promise((_,r)=>setTimeout(()=>r("to"),2500));
+      const res=await Promise.race([store.get(KEY),tout]);
+      if(res&&res.value){
+        const p=JSON.parse(res.value);
+        const saved=Array.isArray(p)?p:(p.drugs||[]);
+        if(saved.length){
+          drugs=saved;
+          SEED_ALL.forEach(d=>{if(!drugs.find(x=>x.id===d.id))drugs.push(d);});
+        }
+      }
+    }catch(e){drugs=SEED_ALL.slice();}
+    try{await store.set(KEY,JSON.stringify(drugs));}catch(e){}
+  }
+  render();
+}
+async function save(){if(store){try{await store.set(KEY,JSON.stringify(drugs));}catch(e){console.error(e);}}}
+function counts(){const c={all:drugs.length};for(const k in CATS)c[k]=drugs.filter(d=>d.kategori===k).length;return c;}
+function renderTabs(){
+  const c=counts();
+  const tabs=[["all","Tümü"]].concat(Object.keys(CATS).map(k=>[k,CATS[k].label]));
+  document.getElementById("tabs").innerHTML=tabs.map(([k,lb])=>
+    `<button class="tab ${k===activeCat?"on":""}" data-cat="${k}">${lb}<span class="n">${c[k]||0}</span></button>`
+  ).join("");
+}
+function render(){
+  renderTabs();
+  let items=drugs.filter(d=>activeCat==="all"||d.kategori===activeCat);
+  if(query){const q=query.toLowerCase();items=items.filter(d=>(d.ad||"").toLowerCase().includes(q)||(d.etken||"").toLowerCase().includes(q));}
+  const list=document.getElementById("list");
+  if(!items.length){
+    list.innerHTML=`<div class="empty"><div class="big">${query?"Sonuç yok":"Kart yok"}</div><div>${query?"Farklı kelime dene.":"İlk kartını ekle."}</div></div>`;
+  }else{
+    items.sort((a,b)=>(a.ad||"").localeCompare(b.ad||"","tr"));
+    list.innerHTML=items.map(d=>{
+      const cat=CATS[d.kategori]||CATS.analjezik;
+      const open=expanded.has(d.id);
+      const anim=getAnim(d);
+      const rows=DISPLAY.filter(k=>d[k]&&d[k].trim()).map(k=>
+        `<div class="field ${k==="kontrendikasyon"?"kontra":""}"><div class="lb">${LABELS[k]}</div><div class="vl">${esc(d[k])}</div></div>`
+      ).join("");
+      return `<div class="card ${open?"open":""}" style="--spine:${cat.color}" data-id="${d.id}">
+        <button class="chead" aria-expanded="${open}">
+          <div class="cname"><p class="nm">${esc(d.ad)}</p><p class="ea">${esc(d.etken)||"&nbsp;"}</p></div>
+          <span class="chip" style="color:${cat.color};background:${cat.bg}">${cat.label}</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cbody">
+          ${anim?`<div class="mek-anim">${anim}</div>`:""}
+          ${rows||'<div class="field"><div class="vl" style="color:var(--muted)">Detay girilmemiş.</div></div>'}
+          <div class="cact">
+            <button class="mini edit" data-edit="${d.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Düzenle</button>
+            <button class="mini del" data-del="${d.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Sil</button>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  const c=counts();
+  document.getElementById("stat").textContent=`${drugs.length} kart · ${c.analjezik} analjezik · ${c.antibiyotik} antibiyotik · ${c.gastro} gastro`;
+}
+
+function openModal(id){
+  editingId=id||null;
+  const d=id?drugs.find(x=>x.id===id):{kategori:activeCat!=="all"?activeCat:"analjezik"};
+  document.getElementById("mtitle").textContent=id?"İlacı düzenle":"Yeni ilaç";
+  document.getElementById("mbody").innerHTML=FIELDS.map(f=>{
+    const v=esc(d[f.k]||"");let ctrl;
+    if(f.t==="select"){ctrl=`<select id="f_${f.k}">`+Object.keys(CATS).map(k=>`<option value="${k}" ${d[f.k]===k?"selected":""}>${CATS[k].label}</option>`).join("")+`</select>`;}
+    else if(f.t==="area"){ctrl=`<textarea id="f_${f.k}">${v}</textarea>`;}
+    else{ctrl=`<input id="f_${f.k}" type="text" value="${v}" ${f.req?"required":""}>`;}
+    return `<div class="frow"><label for="f_${f.k}">${f.label}${f.req?' <span style="color:var(--danger)">*</span>':""}</label>${ctrl}</div>`;
+  }).join("");
+  document.getElementById("overlay").classList.add("on");
+  document.getElementById("saveBtn").onclick=saveModal;
+  setTimeout(()=>{const el=document.getElementById("f_ad");if(el)el.focus();},50);
+}
+function closeModal(){document.getElementById("overlay").classList.remove("on");editingId=null;}
+async function saveModal(){
+  const ad=document.getElementById("f_ad").value.trim();
+  if(!ad){document.getElementById("f_ad").style.borderColor="var(--danger)";return;}
+  const obj={};FIELDS.forEach(f=>obj[f.k]=document.getElementById("f_"+f.k).value.trim());
+  if(editingId){const i=drugs.findIndex(x=>x.id===editingId);obj.id=editingId;drugs[i]=obj;}
+  else{obj.id=uid();drugs.push(obj);expanded.add(obj.id);}
+  await save();closeModal();render();
+}
+
+document.getElementById("addBtn").onclick=()=>openModal();
+document.getElementById("closeBtn").onclick=closeModal;
+document.getElementById("cancelBtn").onclick=closeModal;
+document.getElementById("overlay").onclick=e=>{if(e.target.id==="overlay")closeModal();};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&document.getElementById("overlay").classList.contains("on"))closeModal();});
+document.getElementById("tabs").onclick=e=>{const t=e.target.closest(".tab");if(t){activeCat=t.dataset.cat;render();}};
+document.getElementById("search").oninput=e=>{query=e.target.value;render();};
+document.getElementById("list").onclick=e=>{
+  if(e.target.closest("[data-add]")){openModal();return;}
+  const ed=e.target.closest("[data-edit]");if(ed){openModal(ed.dataset.edit);return;}
+  const dl=e.target.closest("[data-del]");if(dl){
+    const d=drugs.find(x=>x.id===dl.dataset.del);
+    if(confirm(`"${d?d.ad:"Bu kart"}" silinsin mi?`)){drugs=drugs.filter(x=>x.id!==dl.dataset.del);expanded.delete(dl.dataset.del);save();render();}
+    return;
+  }
+  const h=e.target.closest(".chead");if(h){const id=h.closest(".card").dataset.id;if(expanded.has(id))expanded.delete(id);else expanded.add(id);render();}
+};
+document.getElementById("resetBtn").onclick=async()=>{
+  if(confirm("Tüm kartlar örnek verilerle değiştirilecek. Emin misin?")){drugs=SEED_ALL.slice();expanded.clear();await save();render();}
+};
+
+/* ===== VÜCUT HARİTASI ===== */
+function buildVucutSVG(){
+  const container = document.getElementById('vucut-svg-container');
+  if(container.querySelector('svg')) return; // already built
+  container.innerHTML = `<svg viewBox="0 0 220 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px;display:block;margin:0 auto;cursor:pointer" role="img" aria-label="Anatomik vücut haritası">
+  <defs>
+    <radialGradient id="skin-g" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FDDCB5"/>
+      <stop offset="100%" stop-color="#F0A96E"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- ARKA PLAN (gövde gölgesi) -->
+  <!-- Baş -->
+  <ellipse cx="110" cy="44" rx="34" ry="40" fill="url(#skin-g)" stroke="#D4845A" stroke-width="1"/>
+  <!-- Boyun -->
+  <rect x="97" y="80" width="26" height="22" rx="4" fill="#FDDCB5" stroke="#D4845A" stroke-width="0.8"/>
+  <!-- Gövde -->
+  <path d="M62 102 Q55 140 58 200 Q60 230 70 248 Q90 260 110 260 Q130 260 150 248 Q160 230 162 200 Q165 140 158 102 Q140 96 110 94 Q80 96 62 102Z" fill="#FDDCB5" stroke="#D4845A" stroke-width="1"/>
+  <!-- Sol kol -->
+  <path d="M62 102 Q40 110 32 140 Q26 165 28 195 Q29 210 36 215 Q43 218 46 210 Q50 195 52 170 Q55 145 62 130Z" fill="#FDDCB5" stroke="#D4845A" stroke-width="1"/>
+  <!-- Sağ kol -->
+  <path d="M158 102 Q180 110 188 140 Q194 165 192 195 Q191 210 184 215 Q177 218 174 210 Q170 195 168 170 Q165 145 158 130Z" fill="#FDDCB5" stroke="#D4845A" stroke-width="1"/>
+  <!-- Sol el -->
+  <ellipse cx="37" cy="222" rx="11" ry="14" fill="#FDDCB5" stroke="#D4845A" stroke-width="0.8"/>
+  <!-- Sağ el -->
+  <ellipse cx="183" cy="222" rx="11" ry="14" fill="#FDDCB5" stroke="#D4845A" stroke-width="0.8"/>
+  <!-- Sol bacak -->
+  <path d="M70 248 Q62 280 60 320 Q58 355 62 385 Q64 400 75 405 Q84 408 88 400 Q92 385 92 350 Q92 310 95 280 Q100 265 110 262Z" fill="#FDDCB5" stroke="#D4845A" stroke-width="1"/>
+  <!-- Sağ bacak -->
+  <path d="M150 248 Q158 280 160 320 Q162 355 158 385 Q156 400 145 405 Q136 408 132 400 Q128 385 128 350 Q128 310 125 280 Q120 265 110 262Z" fill="#FDDCB5" stroke="#D4845A" stroke-width="1"/>
+  <!-- Sol ayak -->
+  <ellipse cx="74" cy="412" rx="16" ry="10" fill="#FDDCB5" stroke="#D4845A" stroke-width="0.8"/>
+  <!-- Sağ ayak -->
+  <ellipse cx="146" cy="412" rx="16" ry="10" fill="#FDDCB5" stroke="#D4845A" stroke-width="0.8"/>
+
+  <!-- === TIKLANAB&#304;L&#304;R ORGAN BÖLGELER&#304; === -->
+
+  <!-- Beyin (baş içi) -->
+  <ellipse class="vb-region" data-organ="beyin" cx="110" cy="38" rx="24" ry="26"
+    fill="#BFDBFE" stroke="#1D5FA5" stroke-width="2" opacity="0.75"/>
+  <text x="110" y="34" text-anchor="middle" font-size="8" font-weight="600" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Beyin</text>
+  <text x="110" y="44" text-anchor="middle" font-size="7" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Menenjit</text>
+
+  <!-- KBB (Kulak-Burun-Boğaz) -->
+  <ellipse class="vb-region" data-organ="bogazburun" cx="110" cy="78" rx="20" ry="10"
+    fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.85"/>
+  <text x="110" y="82" text-anchor="middle" font-size="7.5" font-weight="600" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">KBB / Boğaz</text>
+
+  <!-- Kulaklar -->
+  <ellipse class="vb-region" data-organ="kulak" cx="76" cy="44" rx="8" ry="10"
+    fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.85"/>
+  <text x="76" y="47" text-anchor="middle" font-size="6" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Kulak</text>
+  <ellipse class="vb-region" data-organ="kulak" cx="144" cy="44" rx="8" ry="10"
+    fill="#FDE68A" stroke="#D97706" stroke-width="1.5" opacity="0.85"/>
+
+  <!-- Akciğerler -->
+  <ellipse class="vb-region" data-organ="akciger" cx="88" cy="138" rx="22" ry="32"
+    fill="#BFDBFE" stroke="#1D5FA5" stroke-width="2" opacity="0.8"/>
+  <text x="88" y="134" text-anchor="middle" font-size="7.5" font-weight="600" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Akciğer</text>
+  <ellipse class="vb-region" data-organ="akciger" cx="132" cy="138" rx="22" ry="32"
+    fill="#BFDBFE" stroke="#1D5FA5" stroke-width="2" opacity="0.8"/>
+
+  <!-- Kalp / Kan -->
+  <path class="vb-region" data-organ="kan"
+    d="M104 118 Q100 110 94 110 Q86 110 86 118 Q86 126 104 138 Q122 126 122 118 Q122 110 114 110 Q108 110 104 118Z"
+    fill="#FCA5A5" stroke="#B02A2A" stroke-width="1.5" opacity="0.9"/>
+  <text x="104" y="122" text-anchor="middle" font-size="7" font-weight="600" fill="#7F1D1D" font-family="Inter,sans-serif" pointer-events="none">Kalp</text>
+
+  <!-- Yemek borusu -->
+  <rect class="vb-region" data-organ="yemekborusu" x="104" y="94" width="12" height="42" rx="5"
+    fill="#E9D5FF" stroke="#7C3D8A" stroke-width="1.5" opacity="0.9"/>
+  <text x="110" y="108" text-anchor="middle" font-size="6" fill="#5B21B6" font-family="Inter,sans-serif" pointer-events="none">Y.Bor.</text>
+
+  <!-- Mide -->
+  <path class="vb-region" data-organ="mide"
+    d="M88 172 Q82 162 84 178 Q86 196 96 200 Q110 204 118 198 Q128 192 126 178 Q124 162 118 168 Q112 158 104 162 Q94 162 88 172Z"
+    fill="#FED7AA" stroke="#B45309" stroke-width="2" opacity="0.85"/>
+  <text x="105" y="185" text-anchor="middle" font-size="8" font-weight="600" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Mide</text>
+
+  <!-- Karın / Bağırsak -->
+  <ellipse class="vb-region" data-organ="karin" cx="110" cy="220" rx="36" ry="24"
+    fill="#FEF08A" stroke="#CA8A04" stroke-width="1.5" opacity="0.7"/>
+  <text x="110" y="218" text-anchor="middle" font-size="7.5" font-weight="600" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Karın</text>
+  <text x="110" y="228" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Bağırsak</text>
+
+  <!-- Böbrek / İdrar -->
+  <ellipse class="vb-region" data-organ="idrar" cx="84" cy="212" rx="12" ry="16"
+    fill="#BAE6FD" stroke="#0284C7" stroke-width="1.5" opacity="0.85"/>
+  <text x="84" y="210" text-anchor="middle" font-size="6.5" fill="#0C4A6E" font-family="Inter,sans-serif" pointer-events="none">Böbrek</text>
+  <ellipse class="vb-region" data-organ="idrar" cx="136" cy="212" rx="12" ry="16"
+    fill="#BAE6FD" stroke="#0284C7" stroke-width="1.5" opacity="0.85"/>
+
+  <!-- Omurga -->
+  <rect class="vb-region" data-organ="omurga" x="103" y="102" width="14" height="138" rx="5"
+    fill="#C4B5FD" stroke="#5B4FC7" stroke-width="1.5" opacity="0.5"/>
+  <text x="110" y="200" text-anchor="middle" font-size="6.5" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Omurga</text>
+
+  <!-- Eklem (dirsek bölgesi) -->
+  <circle class="vb-region" data-organ="eklem" cx="30" cy="185" r="16"
+    fill="#A7F3D0" stroke="#0F766E" stroke-width="2" opacity="0.85"/>
+  <text x="30" y="183" text-anchor="middle" font-size="7" font-weight="600" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
+  <text x="30" y="192" text-anchor="middle" font-size="6.5" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">(dirsek)</text>
+  <circle class="vb-region" data-organ="eklem" cx="190" cy="185" r="16"
+    fill="#A7F3D0" stroke="#0F766E" stroke-width="2" opacity="0.85"/>
+
+  <!-- Kas (uyluk) -->
+  <ellipse class="vb-region" data-organ="kas" cx="78" cy="300" rx="18" ry="30"
+    fill="#DDD6FE" stroke="#5B4FC7" stroke-width="1.5" opacity="0.8"/>
+  <text x="78" y="298" text-anchor="middle" font-size="7.5" font-weight="600" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Kas</text>
+  <ellipse class="vb-region" data-organ="kas" cx="142" cy="300" rx="18" ry="30"
+    fill="#DDD6FE" stroke="#5B4FC7" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- Cilt (kol) -->
+  <ellipse class="vb-region" data-organ="cilt" cx="30" cy="140" rx="14" ry="22"
+    fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" opacity="0.8"/>
+  <text x="30" y="138" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Cilt</text>
+  <ellipse class="vb-region" data-organ="cilt" cx="190" cy="140" rx="14" ry="22"
+    fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- Genital -->
+  <ellipse class="vb-region" data-organ="genital" cx="110" cy="250" rx="22" ry="10"
+    fill="#E9D5FF" stroke="#7C3D8A" stroke-width="1.5" opacity="0.8"/>
+  <text x="110" y="253" text-anchor="middle" font-size="7.5" fill="#5B21B6" font-family="Inter,sans-serif" pointer-events="none">Genital</text>
+
+  <!-- Kemik (diz) -->
+  <circle class="vb-region" data-organ="kemik" cx="78" cy="355" r="14"
+    fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5" opacity="0.85"/>
+  <text x="78" y="353" text-anchor="middle" font-size="7" fill="#374151" font-family="Inter,sans-serif" pointer-events="none">Kemik</text>
+  <text x="78" y="362" text-anchor="middle" font-size="6.5" fill="#374151" font-family="Inter,sans-serif" pointer-events="none">(diz)</text>
+  <circle class="vb-region" data-organ="kemik" cx="142" cy="355" r="14"
+    fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5" opacity="0.85"/>
+</svg>`;
+
+  document.querySelectorAll('.vb-region').forEach(el=>{
+    el.style.cursor='pointer';
+    el.addEventListener('mouseenter',function(){this.style.filter='brightness(1.15)';});
+    el.addEventListener('mouseleave',function(){if(!this.classList.contains('active'))this.style.filter='';});
+    el.addEventListener('click',function(){
+      document.querySelectorAll('.vb-region.active').forEach(x=>{x.classList.remove('active');x.style.filter='';});
+      this.classList.add('active');
+      this.style.filter='brightness(1.2) drop-shadow(0 0 4px rgba(0,0,0,0.4))';
+      // also highlight sibling same-organ regions
+      document.querySelectorAll('.vb-region[data-organ="'+this.dataset.organ+'"]').forEach(x=>{
+        x.classList.add('active');x.style.filter='brightness(1.2) drop-shadow(0 0 4px rgba(0,0,0,0.3))';
+      });
       showVucutOrgan(this.dataset.organ);
     });
   });
@@ -637,12 +1327,13 @@ function buildVucutSVG(){
 function showVucutOrgan(organKey){
   const organ=ORGAN_MAP[organKey];
   if(!organ)return;
-  hideEl("vucut-empty-msg");showEl("vucut-results");
+  document.getElementById("vucut-empty-msg").hidden=true;
+  document.getElementById("vucut-results").hidden=false;
   document.getElementById("vucut-region-title").textContent=organ.label;
   const ilaclar=organ.ids.map(id=>drugs.find(d=>d.id===id)).filter(Boolean);
   document.getElementById("vucut-ilac-list").innerHTML=ilaclar.map(d=>{
     const cat=CATS[d.kategori]||CATS.analjezik;
-    return `<div class="vb-ilac-card" style="--vc:${cat.color}" onclick="goToCard('${d.id}')">
+    return `<div class="vb-ilac-card" style="--vc:${cat.color};cursor:pointer" onclick="goToCard('${d.id}')">
       <div class="vn">${esc(d.ad)}</div>
       <div class="ve">${esc(d.etken)} · <span style="color:${cat.color}">${cat.label}</span></div>
     </div>`;
@@ -735,22 +1426,166 @@ const FAM={
 const NOTES={
   analj:"Beşinde de ortak: aktif ülser/GİS kanama öyküsü, ağır KC-böbrek-kalp yetmezliği, geç gebelik. Antikoagülan, aspirin ve kortikosteroidle birlikte kanama riski artar.",
   antib:"Antibiyotiklerde ortak: ilgili gruba aşırı duyarlılık; sefalosporinlerde beta-laktam çapraz alerjisi. Seçim olası etken ve direnç durumuna göre yapılır.",
-  gastro:"Üçünde de ortak: uzun süreli kullanımda B12/magnezyum düşüklüğü, osteoporoz ve kırık riski. En düşük etkili dozda, gerektiği kadar kullanılmalı. Atazanavir gibi bazı HIV ilaçları hepsinde kontrendike."
+  gastro:"Üçünde de ortak: uzun süreli kullanımda B12/magnezyum düşüklüğü, osteoporoz ve kırık riski. En düşük etkili dozda, gerektiği kadar kullanılmalı."
 };
 const TREE={
-  start:{h:"Karar ağacı · başlangıç",q:"Hangi ilaç grubuyla ilerleyelim?",a:[
-    {t:"💊 Analjezik (ağrı kesici)",to:"root_analj"},
-    {t:"🦠 Antibiyotik",to:"root_antib"},
-    {t:"🫀 Gastro (PPI / mide koruyucu)",to:"root_gastro"}]},
-  root_analj:{h:"Analjezik · kök soru",q:"Ağrıya kas spazmı eşlik ediyor mu?",a:[
-    {t:"Hayır — sadece ağrı ve iltihap",to:"saf"},
-    {t:"Evet — kas spazmı da var",to:"combo"}]},
-  saf:{h:"Saf NSAİİ · kilit soru",q:"Klinik öncelik hangisi?",a:[
-    {t:"Romatoid artrit / romatizmal iltihap baskın",to:"maprofen"},
+  start:{h:"Karar ağacı başlangıç",q:"Hangi ilaç grubuyla ilerleyelim?",a:[
+    {t:"Analjezik (ağrı kesici)",to:"root_analj"},
+    {t:"Antibiyotik",to:"root_antib"},
+    {t:"Gastro (PPI / mide koruyucu)",to:"root_gastro"}]},
+  root_analj:{h:"Analjezik kök soru",q:"Ağrıya kas spazmı eşlik ediyor mu?",a:[
+    {t:"Hayır, sadece ağrı ve iltihap",to:"saf"},
+    {t:"Evet, kas spazmı da var",to:"combo"}]},
+  saf:{h:"Saf NSAİİ kilit soru",q:"Klinik öncelik hangisi?",a:[
+    {t:"Romatoid artrit veya romatizmal iltihap baskın",to:"maprofen"},
     {t:"Mide-GİS güvenliği önemli (yaşlı, gastrit öyküsü)",to:"melox"},
     {t:"Uzun süreli düzenli kullanım, doz esnekliği",to:"etol"}]},
-  combo:{h:"Kombinasyon · kilit soru",q:"Tablo akut mu, kronik mi?",a:[
-    {t:"Akut / ani / şiddetli (travma, bel tutulması)",to:"tiyokas"},
-    {t:"Kronik / süregelen kas-iskelet ağrısı",to:"etolax"}]},
-  root_antib:{h:"Antibiyotik · kök soru",q:"Atipik/hücre içi etken veya beta-laktam alerjisi var mı?",a:[
-    {t:"Evet — atipik/klamid
+  combo:{h:"Kombinasyon kilit soru",q:"Tablo akut mu, kronik mi?",a:[
+    {t:"Akut veya ani veya şiddetli (travma, bel tutulması)",to:"tiyokas"},
+    {t:"Kronik veya süregelen kas-iskelet ağrısı",to:"etolax"}]},
+  root_antib:{h:"Antibiyotik kök soru",q:"Atipik etken veya beta-laktam alerjisi var mı?",a:[
+    {t:"Evet, atipik/klamidya ya da beta-laktam alerjisi",to:"azaks"},
+    {t:"Hayır, sefalosporin uygun",to:"ab_sef"}]},
+  ab_sef:{h:"Sefalosporin dalı",q:"Enfeksiyon ağırlığı ve uygulama yolu?",a:[
+    {t:"Ağır veya sistemik, enjeksiyon gerekiyor",to:"sefabel"},
+    {t:"Hafif-orta, ağızdan tedavi uygun",to:"ab_oral"}]},
+  ab_oral:{h:"Oral sefalosporin",q:"2. kuşak yeterli mi?",a:[
+    {t:"Standart KBB/solunum/idrar, 2. kuşak yeterli",to:"aksef"},
+    {t:"Daha geniş gram-negatif kapsam gerekiyor",to:"sefpotec"}]},
+  root_gastro:{h:"Gastro PPI kök soru",q:"Birincil öncelik nedir?",a:[
+    {t:"Maksimum asit baskılama gücü",to:"esom"},
+    {t:"Klopidogrel kullanan hasta, ilaç etkileşimi az olsun",to:"pulcet"},
+    {t:"Standart reflü veya ülser, dengeli seçenek",to:"lansoprol"}]}
+};
+const LEAF={
+  maprofen:{name:"Maprofen",etken:"Flurbiprofen",fam:"saf",grp:"analj",key:"Romatizmal endikasyonda oturmuş, güçlü antiinflamatuar NSAİİ.",ini:"FY",hasta:"Fatma Y. 61 - romatoid artrit, uzun süreli iltihabi eklem hastalığı.",vs:"Etol/Melox'tan farkı: romatizmada öne çıkar ama etkileşim listesi uzun. İlaç listesini mutlaka kontrol et."},
+  melox:{name:"Melox",etken:"Meloksikam",fam:"saf",grp:"analj",key:"COX-2 tercihli, görece mide dostu, günde tek doz, ampul formu var.",ini:"AH",hasta:"Ayşe H. 58 - diz osteoartriti + gastrit öyküsü.",vs:"Etol'dan farkı: mide/GİS riski öndeyse Melox seç. COX-2 tercihi Melox'u ayırır."},
+  etol:{name:"Etol",etken:"Etodolak",fam:"saf",grp:"analj",key:"Uzun etkili SR/dual formlar, kronik düzenli kullanıma uygun.",ini:"AD",hasta:"Ali D. 67 - uzun süreli dejeneratif eklem ağrısı, düzenli kullanım.",vs:"Melox'tan farkı: mide öyküsü yoksa ve doz esnekliği isteniyorsa Etol."},
+  tiyokas:{name:"Tiyokas",etken:"Deksketoprofen + tiyokolşikosid",fam:"combo",grp:"analj",key:"Hızlı ve güçlü; akut atak + spazm için. Kısa süreli.",ini:"ET",hasta:"Emre T. 32 - ağır kaldırma sonrası akut bel tutulması + şiddetli spazm.",vs:"Etolax'tan farkı: AKUT ve hızlı etki gerekiyorsa Tiyokas."},
+  etolax:{name:"Etolax",etken:"Etodolak + tiyokolşikosid",fam:"combo",grp:"analj",key:"Etodolak tabanlı; kronik kas-iskelet ağrısı + spazm. Etol + relax.",ini:"MK",hasta:"Mehmet K. 45 - masa başı işçi, kronik bel ağrısı + kas spazmı.",vs:"Tiyokas'tan farkı: KRONİK ise Etolax. Epilepsi öyküsünde kontrendike."},
+  azaks:{name:"Azaks",etken:"Azitromisin",fam:"makrolid",grp:"antib",key:"Tek makrolid; atipik/hücre içi etkenlerde ve beta-laktam alerjisinde öne çıkar.",ini:"SA",hasta:"Selin A. 27 - Chlamydia trachomatis kaynaklı genital enfeksiyon.",vs:"Sefalosporinlerden farkı: protein sentezini hedef alır. Atipik etken ya da penisilin alerjisinde tercih edilir."},
+  sefabel:{name:"Sefabel",etken:"Seftriakson",fam:"sefalosporin",grp:"antib",key:"3. kuşak, sadece enjeksiyonluk IM/IV. Ağır/sistemik enfeksiyonlar. 24 saatte bir.",ini:"HT",hasta:"Hasan T. 54 - ağır toplum kökenli pnömoni, hastane yatışı.",vs:"Sefpotec'ten farkı: aynı 3. kuşak ama enjeksiyonluk ve ağır tablolar için."},
+  aksef:{name:"Aksef",etken:"Sefuroksim",fam:"sefalosporin",grp:"antib",key:"Oral 2. kuşak sefalosporin; KBB, solunum, idrar, erken Lyme. Günde iki kez.",ini:"MY",hasta:"Merve Y. 34 - bakteriyel sinüzit/bronşit alevlenmesi, ayaktan tedavi.",vs:"Sefpotec'ten farkı: 2. kuşak; standart ayaktan enfeksiyonlarda yeterli."},
+  sefpotec:{name:"Sefpotec",etken:"Sefpodoksim proksetil",fam:"sefalosporin",grp:"antib",key:"3. kuşak etkinliği oral formda; geniş gram-negatif kapsam.",ini:"DB",hasta:"Deniz B. 41 - komplike olmayan idrar yolu + solunum yolu enfeksiyonu.",vs:"Aksef'ten farkı: 3. kuşak, daha geniş gram-negatif. Sefabel'den farkı: oral."},
+  esom:{name:"Esom",etken:"Esomeprazol",fam:"ppi",grp:"gastro",key:"En güçlü asit baskılayıcı PPI. Dirençli reflü ve Zollinger-Ellison'da öne çıkar.",ini:"ZK",hasta:"Zeynep K. 48 - dirençli GÖRH, yoğun asit şikayetleri, maksimum baskılama.",vs:"Lansoprol/Pulcet'ten farkı: asit baskılama gücü en yüksek. Klopidogrel kullananlar dikkat."},
+  lansoprol:{name:"Lansoprol",etken:"Lansoprazol",fam:"ppi",grp:"gastro",key:"Dengeli PPI; standart reflü, ülser ve H. pylori eradikasyon tedavisinde yaygın.",ini:"AY",hasta:"Ahmet Y. 55 - gastroözofajiyal reflü + onikiparmak ülseri, standart tedavi.",vs:"Esom'dan farkı: benzer güç ama klopidogrel etkileşimi açısından daha avantajlı."},
+  pulcet:{name:"Pulcet",etken:"Pantoprazol",fam:"ppi",grp:"gastro",key:"İlaç etkileşimi potansiyeli en düşük PPI. Klopidogrel kullanan hastalarda tercih edilir.",ini:"MO",hasta:"Mustafa O. 62 - miyokard enfarktüsü sonrası klopidogrel + aspirin, mide koruması.",vs:"Esom/Lansoprol'den farkı: CYP2C19 etkileşimi daha az. Klopidogrel kombinasyonunda güvenli."}
+};
+const IC={
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  key:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 21 2M17 5l3 3M15 7l2 2"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  cmp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M7 4v16M17 4v16M3 8h4M17 8h4M3 16h4M17 16h4"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M12 3 2 20h20L12 3zM12 9v5M12 17h.01"/></svg>',
+  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/></svg>',
+  refresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>'
+};
+let tpath=[];
+function treeCrumbs(){
+  const c=document.getElementById("crumbs");
+  if(!tpath.length){c.innerHTML='<span class="crumb">Başla: grup seç</span>';return;}
+  c.innerHTML=tpath.map(p=>'<span class="crumb">'+esc(p)+'</span>').join('<span class="sep">›</span>')+
+    ' <button class="crumb-r" onclick="treeReset()">baştan</button>';
+}
+function treeNode(id){
+  const n=TREE[id];
+  document.getElementById("stage").innerHTML='<div class="qcard"><p class="qh">'+esc(n.h)+'</p><p class="qt">'+esc(n.q)+'</p><div class="opts">'+n.a.map((o,i)=>'<button class="opt" onclick="treePick(\''+id+'\','+i+')">'+esc(o.t)+IC.arrow+'</button>').join("")+'</div></div>';
+  treeCrumbs();
+}
+function treeLeaf(id){
+  const d=LEAF[id],f=FAM[d.fam];
+  const hasCard=!!drugs.find(x=>x.id===id);
+  document.getElementById("stage").innerHTML='<div class="leaf" style="--fam:'+f.c+';--fam-bg:'+f.bg+'"><div class="leaf-top"><p class="leaf-name">'+esc(d.name)+'</p><p class="leaf-etken">'+esc(d.etken)+'</p><span class="fam-chip">'+f.label+'</span></div><div class="sec"><p class="lb">'+IC.key+'Kilit ayırt edici</p><p class="tx">'+esc(d.key)+'</p></div><div class="sec"><p class="lb">'+IC.user+'Örnek hasta</p><div class="hasta"><span class="av">'+esc(d.ini)+'</span><p class="tx">'+esc(d.hasta)+'</p></div></div><div class="sec"><p class="lb">'+IC.cmp+'Neden komşusu değil?</p><p class="tx">'+esc(d.vs)+'</p></div><div class="redflag">'+IC.alert+'<span>'+esc(NOTES[d.grp]||"")+'</span></div><div class="leaf-act">'+(hasCard?'<button class="act pri" onclick="goToCard(\''+id+'\')">'+IC.file+'Tam kartını aç</button>':'')+'<button class="act" onclick="treeReset()">'+IC.refresh+'Baştan başla</button></div></div>';
+  treeCrumbs();
+}
+function treePick(id,i){const o=TREE[id].a[i];tpath.push(o.t);if(TREE[o.to])treeNode(o.to);else treeLeaf(o.to);}
+function treeReset(){tpath=[];treeNode("start");}
+
+/* ===== TERİMLER ===== */
+const TERM_CATS={
+  hastalik:{label:"Hastalik/Sendrom",color:"var(--danger)",bg:"var(--danger-bg)"},
+  mekanizma:{label:"Mekanizma/Enzim",color:"var(--analjezik)",bg:"var(--analjezik-bg)"},
+  ilac:{label:"Ilac/Grup",color:"var(--antibiyotik)",bg:"var(--antibiyotik-bg)"},
+  kisaltma:{label:"Kisaltma",color:"var(--gastro)",bg:"var(--gastro-bg)"},
+  diger:{label:"Diger",color:"var(--faint)",bg:"var(--line-soft)"}
+};
+const TERM_SEED=[
+  {id:"t_gorh",terim:"GORH",kategori:"kisaltma",tanim:"Gastroözofajiyal Reflü Hastalığı. Midenin asit içeriğinin yemek borusuna kaçması. Göğüste yanma, ekşime ve ağza acı su gelmesi en sık belirtileridir.",ornekler:"Esom, Lansoprol, Pulcet"},
+  {id:"t_ze",terim:"Zollinger-Ellison Sendromu",kategori:"hastalik",tanim:"Pankreas veya onikiparmak bağırsağında gastrin salgılayan tümörün bulunduğu nadir hastalık. Aşırı gastrin üretimi çok sayıda dirençli ülsere yol açar.",ornekler:"Esom, Lansoprol, Pulcet"},
+  {id:"t_klopidogrel",terim:"Klopidogrel",kategori:"ilac",tanim:"Trombosit topaklaşmasını önleyen antiplatelet ilaç. Kalp krizi/stent sonrası kullanılır. Bazı PPI'larla (özellikle esomeprazol) birlikte kullanıldığında etkisi azalabilir; bu kombinasyonda Pulcet tercih edilir.",ornekler:"Pulcet, Esom"},
+  {id:"t_cox",terim:"COX (Siklooksijenaz)",kategori:"mekanizma",tanim:"Prostaglandin üretimini sağlayan enzim ailesi. COX-1 mide koruyucu prostaglandinleri üretir; COX-2 iltihap bölgelerinde artar. NSAİİ'ler bu enzimi inhibe ederek ağrı ve iltihabı azaltır.",ornekler:"Etol, Melox, Maprofen"},
+  {id:"t_ppi",terim:"PPI (Proton Pompasi Inhibitoru)",kategori:"ilac",tanim:"Mide pariyetal hücrelerindeki H+/K+-ATPaz'ı bloke ederek asit üretimini kaynağında durduran ilaç grubu. Antiasitlerden farklı olarak yeni asit üretimini önler.",ornekler:"Esom, Lansoprol, Pulcet"},
+  {id:"t_nsaii",terim:"NSAİİ",kategori:"kisaltma",tanim:"Non-Steroidal Anti-İnflamatuar İlaç. COX enzimlerini inhibe ederek prostaglandin üretimini azaltan ağrı kesici ve iltihap giderici ilaç grubu.",ornekler:"Etol, Melox, Maprofen, Etolax, Tiyokas"},
+  {id:"t_hp",terim:"Helicobacter pylori",kategori:"hastalik",tanim:"Mide mukozasında yaşayan ve ülserlerin en sık nedeni olan bakteri. Ülser tedavisinde antibiyotik kombinasyonları ile birlikte PPI kullanılarak eradike edilir.",ornekler:"Esom, Lansoprol, Pulcet, Aksef, Azaks"},
+  {id:"t_sefalosporin",terim:"Sefalosporin",kategori:"ilac",tanim:"Beta-laktam halkası içeren geniş spektrumlu antibiyotik grubu. Bakterilerin hücre duvarı sentezini bozarak öldürürler. 1.-5. kuşak sınıflandırması: kuşak ilerledikçe gram-negatif kapsam genişler.",ornekler:"Aksef (2. kuşak), Sefabel (3. kuşak enj.), Sefpotec (3. kuşak oral)"},
+  {id:"t_makrolid",terim:"Makrolid",kategori:"ilac",tanim:"Bakterilerin 50S ribozomal alt birimine bağlanarak protein sentezini durduran antibiyotik grubu. Genellikle bakteriyostatik. Atipik bakterilere karşı etkili olmaları önemli özelliğidir.",ornekler:"Azaks (azitromisin)"},
+  {id:"t_kabg",terim:"KABG",kategori:"kisaltma",tanim:"Koroner Arter Baypas Greft. Tıkalı koroner arterlerin etrafından yeni kan yolu oluşturmak için yapılan açık kalp ameliyatı. Bu ameliyat öncesi/sonrasında NSAİİ kullanımı kontrendikedir.",ornekler:"Etol, Melox, Maprofen, Etolax, Tiyokas"}
+];
+let terms=[],termCat="all",termQ="";
+const termExpanded=new Set();
+function loadTerms(){terms=TERM_SEED.slice();renderTerms();}
+function termCounts(){const c={all:terms.length};Object.keys(TERM_CATS).forEach(k=>c[k]=terms.filter(t=>t.kategori===k).length);return c;}
+function renderTermTabs(){
+  const c=termCounts();
+  const tabs=[["all","Tumu"]].concat(Object.keys(TERM_CATS).map(k=>[k,TERM_CATS[k].label]));
+  document.getElementById("term-tabs").innerHTML=tabs.map(([k,lb])=>'<button class="tab '+(k===termCat?"on":"")+'" data-tcat="'+k+'">'+lb+'<span class="n">'+(c[k]||0)+'</span></button>').join("");
+}
+function renderTerms(){
+  renderTermTabs();
+  let items=terms.filter(t=>termCat==="all"||t.kategori===termCat);
+  if(termQ){const q=termQ.toLowerCase();items=items.filter(t=>(t.terim||"").toLowerCase().includes(q)||(t.tanim||"").toLowerCase().includes(q));}
+  items.sort((a,b)=>(a.terim||"").localeCompare(b.terim||"","tr"));
+  const list=document.getElementById("term-list");
+  if(!items.length){list.innerHTML='<div class="empty"><div class="big">Terim yok</div></div>';}
+  else{
+    list.innerHTML=items.map(t=>{
+      const cat=TERM_CATS[t.kategori]||TERM_CATS.diger;
+      const open=termExpanded.has(t.id);
+      return '<div class="tcard '+(open?"open":"")+'" style="--tspine:'+cat.color+'" data-tid="'+t.id+'"><button class="thead-btn" aria-expanded="'+(open?"true":"false")+'"><div class="tword"><p class="tw">'+esc(t.terim)+'</p><p class="tcat">'+cat.label+'</p></div><svg class="tchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><div class="tbody"><div class="tanim">'+esc(t.tanim)+'</div>'+(t.ornekler?'<div class="ornekler"><span>Ilgili ilaclar: </span>'+esc(t.ornekler)+'</div>':'')+'</div></div>';
+    }).join("");
+  }
+  document.getElementById("term-stat").textContent=terms.length+" terim";
+}
+document.getElementById("term-tabs").onclick=e=>{const t=e.target.closest("[data-tcat]");if(t){termCat=t.dataset.tcat;renderTerms();}};
+document.getElementById("term-search").oninput=e=>{termQ=e.target.value;renderTerms();};
+document.getElementById("termAddBtn").onclick=()=>{
+  document.getElementById("mtitle").textContent="Yeni terim";
+  document.getElementById("mbody").innerHTML='<div class="frow"><label>Terim</label><input id="ft_terim" type="text"></div><div class="frow"><label>Kategori</label><select id="ft_kat">'+Object.keys(TERM_CATS).map(k=>'<option value="'+k+'">'+TERM_CATS[k].label+'</option>').join("")+'</select></div><div class="frow"><label>Tanım</label><textarea id="ft_tanim"></textarea></div><div class="frow"><label>Ilgili ilaçlar</label><input id="ft_orn" type="text"></div>';
+  document.getElementById("saveBtn").onclick=()=>{
+    const terim=document.getElementById("ft_terim").value.trim();
+    if(!terim)return;
+    terms.push({id:"t_"+uid(),terim,kategori:document.getElementById("ft_kat").value,tanim:document.getElementById("ft_tanim").value.trim(),ornekler:document.getElementById("ft_orn").value.trim()});
+    closeModal();renderTerms();
+  };
+  document.getElementById("overlay").classList.add("on");
+};
+document.getElementById("term-list").onclick=e=>{
+  const h=e.target.closest(".thead-btn");if(h){const id=h.closest(".tcard").dataset.tid;if(termExpanded.has(id))termExpanded.delete(id);else termExpanded.add(id);renderTerms();}
+};
+
+/* ===== YÖNLENDİRME ===== */
+function goToCard(id){
+  switchView("cards");
+  const d=drugs.find(x=>x.id===id);
+  activeCat="all";query="";document.getElementById("search").value="";
+  if(d)expanded.add(id);render();
+  if(d)setTimeout(()=>{const el=document.querySelector('.card[data-id="'+id+'"]');if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1500);}},80);
+}
+function switchView(v){
+  document.querySelectorAll(".seg").forEach(s=>s.classList.toggle("on",s.dataset.view===v));
+  ["cards","tree","vucut","vaka","terimler"].forEach(id=>{
+    const el=document.getElementById("view-"+id);if(el)el.hidden=(id!==v);
+  });
+  document.getElementById("addBtn").style.visibility=(v==="cards")?"visible":"hidden";
+  if(v==="tree")treeReset();
+  if(v==="terimler")renderTerms();
+  if(v==="vucut")buildVucutSVG();
+}
+document.querySelectorAll(".seg").forEach(s=>s.onclick=()=>switchView(s.dataset.view));
+load();
+treeReset();
+loadTerms();
+</script>
+</body>
+</html>
