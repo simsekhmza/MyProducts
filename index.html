@@ -23,42 +23,36 @@
   --shadow:0 1px 2px rgba(24,37,40,.05),0 4px 16px rgba(24,37,40,.05);
   --r:14px;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --paper:#12191A;--card:#1A2325;--ink:#E7ECEC;--muted:#9AA8AB;--faint:#6E7C7F;
-    --line:#2A3739;--line-soft:#222D2F;
-    --analjezik:#3FBFAE;--analjezik-bg:#17302D;
-    --antibiyotik:#5FA0E6;--antibiyotik-bg:#152838;
-    --gastro:#E0913A;--gastro-bg:#33260F;
-    --saf:#3FBFAE;--saf-bg:#17302D;
-    --combo:#9C8FF0;--combo-bg:#241F3A;
-    --makrolid:#E0913A;--makrolid-bg:#33260F;
-    --ppi:#C084D8;--ppi-bg:#2E1A33;
-    --warn:#E0A24A;--warn-bg:#33260F;
-    --danger:#E67C74;--danger-bg:#331A18;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3);
-  }
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
+@media(prefers-color-scheme:dark){:root{
+  --paper:#12191A;--card:#1A2325;--ink:#E7ECEC;--muted:#9AA8AB;--faint:#6E7C7F;
+  --line:#2A3739;--line-soft:#222D2F;
+  --analjezik:#3FBFAE;--analjezik-bg:#17302D;
+  --antibiyotik:#5FA0E6;--antibiyotik-bg:#152838;
+  --gastro:#E0913A;--gastro-bg:#33260F;
+  --saf:#3FBFAE;--saf-bg:#17302D;
+  --combo:#9C8FF0;--combo-bg:#241F3A;
+  --makrolid:#E0913A;--makrolid-bg:#33260F;
+  --ppi:#C084D8;--ppi-bg:#2E1A33;
+  --warn:#E0A24A;--warn-bg:#33260F;
+  --danger:#E67C74;--danger-bg:#331A18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3);
+}}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;}
-.wrap{max-width:760px;margin:0 auto;padding:22px 16px 80px}
+.wrap{max-width:800px;margin:0 auto;padding:22px 16px 80px}
 header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
 .brand h1{font-family:"Fraunces",serif;font-weight:500;font-size:27px;line-height:1.1;margin:0;letter-spacing:-.01em}
 .brand p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
 .add-btn{font-family:inherit;font-size:14px;font-weight:500;color:#fff;background:var(--ink);border:none;border-radius:999px;padding:10px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:transform .12s,opacity .12s}
-.add-btn:hover{opacity:.9}.add-btn:active{transform:scale(.97)}
-.add-btn svg{width:15px;height:15px}
-.vswitch{display:inline-flex;background:var(--line-soft);border-radius:999px;padding:4px;gap:2px;margin-bottom:6px}
-.seg{font-family:inherit;font-size:13.5px;font-weight:450;color:var(--muted);background:transparent;border:none;border-radius:999px;padding:8px 18px;cursor:pointer;transition:.14s}
+.add-btn:hover{opacity:.9}.add-btn:active{transform:scale(.97)}.add-btn svg{width:15px;height:15px}
+.vswitch{display:flex;flex-wrap:wrap;background:var(--line-soft);border-radius:999px;padding:4px;gap:2px;margin-bottom:6px;width:fit-content}
+.seg{font-family:inherit;font-size:13px;font-weight:450;color:var(--muted);background:transparent;border:none;border-radius:999px;padding:7px 14px;cursor:pointer;transition:.14s;white-space:nowrap}
 .seg.on{color:var(--ink);background:var(--card);font-weight:500;box-shadow:var(--shadow)}
 .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0 14px}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;flex:1}
 .tab{font-family:inherit;font-size:13.5px;font-weight:450;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 15px;cursor:pointer;transition:.14s;display:inline-flex;align-items:center;gap:7px}
-.tab:hover{border-color:var(--faint)}
-.tab.on{color:var(--ink);background:var(--card);border-color:var(--ink);font-weight:500}
-.tab .n{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
-.tab.on .n{color:var(--muted)}
+.tab:hover{border-color:var(--faint)}.tab.on{color:var(--ink);background:var(--card);border-color:var(--ink);font-weight:500}
+.tab .n{font-size:12px;color:var(--faint)}.tab.on .n{color:var(--muted)}
 .search{position:relative;min-width:170px}
 .search input{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 14px 9px 34px;outline:none;transition:.14s}
 .search input:focus{border-color:var(--analjezik)}
@@ -70,31 +64,25 @@ header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
 @keyframes flash{0%,100%{box-shadow:var(--shadow)}25%{box-shadow:0 0 0 3px var(--spine)}}
 .chead{display:flex;align-items:center;gap:13px;width:100%;text-align:left;font-family:inherit;background:transparent;border:none;cursor:pointer;padding:15px 16px 15px 20px;color:inherit}
 .chead:hover{background:var(--line-soft)}
-.cname{flex:1;min-width:0}
-.cname .nm{font-family:"Fraunces",serif;font-weight:500;font-size:19px;line-height:1.15;margin:0}
+.cname{flex:1;min-width:0}.cname .nm{font-family:"Fraunces",serif;font-weight:500;font-size:19px;line-height:1.15;margin:0}
 .cname .ea{font-size:13px;color:var(--muted);margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chip{flex:none;font-size:11.5px;font-weight:500;padding:3px 10px;border-radius:999px;letter-spacing:.02em}
-.chev{flex:none;width:18px;height:18px;color:var(--faint);transition:transform .22s}
-.card.open .chev{transform:rotate(180deg)}
-.cbody{padding:2px 20px 18px;display:none}
-.card.open .cbody{display:block;animation:fade .22s ease}
-@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1}}
-.field{padding:11px 0;border-top:1px solid var(--line-soft)}
-.field:first-child{border-top:none}
+.chev{flex:none;width:18px;height:18px;color:var(--faint);transition:transform .22s}.card.open .chev{transform:rotate(180deg)}
+.cbody{padding:2px 20px 18px;display:none}.card.open .cbody{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+/* Mekanizma animasyonu */
+.mek-anim{margin:12px 0 6px;border-radius:10px;overflow:hidden;background:var(--paper)}
+.mek-anim svg{display:block;width:100%}
+.field{padding:11px 0;border-top:1px solid var(--line-soft)}.field:first-child{border-top:none}
 .field .lb{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin-bottom:3px}
 .field .vl{font-size:14.5px;color:var(--ink);white-space:pre-wrap}
 .field.kontra .lb{color:var(--danger)}.field.kontra .vl{color:var(--danger)}
 .cact{display:flex;gap:8px;margin-top:14px}
 .mini{font-family:inherit;font-size:13px;font-weight:450;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:9px;padding:7px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.14s}
-.mini:hover{border-color:var(--faint);color:var(--ink)}
-.mini.del:hover{border-color:var(--danger);color:var(--danger)}
-.mini svg{width:14px;height:14px}
-.empty{text-align:center;padding:48px 20px;color:var(--muted)}
-.empty .big{font-family:"Fraunces",serif;font-size:20px;color:var(--ink);margin-bottom:6px}
-.empty button{margin-top:14px}
+.mini:hover{border-color:var(--faint);color:var(--ink)}.mini.del:hover{border-color:var(--danger);color:var(--danger)}.mini svg{width:14px;height:14px}
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}.empty .big{font-family:"Fraunces",serif;font-size:20px;color:var(--ink);margin-bottom:6px}
 footer{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--faint);flex-wrap:wrap;gap:8px}
-.link{background:none;border:none;font-family:inherit;font-size:12.5px;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:0}
-.link:hover{color:var(--ink)}
+.link{background:none;border:none;font-family:inherit;font-size:12.5px;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:0}.link:hover{color:var(--ink)}
 .overlay{position:fixed;inset:0;background:rgba(24,37,40,.42);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;overflow-y:auto;z-index:50;backdrop-filter:blur(2px)}
 .overlay.on{display:flex}
 .modal{background:var(--card);border-radius:18px;width:100%;max-width:540px;box-shadow:0 20px 60px rgba(0,0,0,.3);margin:auto}
@@ -103,66 +91,71 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
 .x{background:none;border:none;cursor:pointer;color:var(--faint);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .x:hover{background:var(--line-soft);color:var(--ink)}.x svg{width:18px;height:18px}
 .mbody{padding:4px 22px 8px;max-height:62vh;overflow-y:auto}
-.frow{margin-bottom:13px}
-.frow label{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:5px}
+.frow{margin-bottom:13px}.frow label{display:block;font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:5px}
 .frow input,.frow select,.frow textarea{width:100%;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 12px;outline:none;transition:.14s;resize:vertical}
 .frow input:focus,.frow select:focus,.frow textarea:focus{border-color:var(--analjezik);background:var(--card)}
 .frow textarea{min-height:56px;line-height:1.5}
 .mfoot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px}
 .btn-ghost{font-family:inherit;font-size:14px;font-weight:450;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:10px;padding:10px 18px;cursor:pointer}
 .btn-ghost:hover{border-color:var(--faint);color:var(--ink)}
-.btn-solid{font-family:inherit;font-size:14px;font-weight:500;color:#fff;background:var(--ink);border:none;border-radius:10px;padding:10px 20px;cursor:pointer}
-.btn-solid:hover{opacity:.9}
+.btn-solid{font-family:inherit;font-size:14px;font-weight:500;color:#fff;background:var(--ink);border:none;border-radius:10px;padding:10px 20px;cursor:pointer}.btn-solid:hover{opacity:.9}
 /* Tree */
 .tree-intro{color:var(--muted);font-size:13.5px;margin:2px 0 16px}
 .crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 14px;min-height:26px}
 .crumb{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--line-soft);color:var(--muted)}
-.crumb-r{background:none;border:none;cursor:pointer;font-family:inherit;font-size:12px;color:var(--muted);padding:3px 6px}
-.crumb-r:hover{color:var(--ink)}.sep{color:var(--faint)}
+.crumb-r{background:none;border:none;cursor:pointer;font-family:inherit;font-size:12px;color:var(--muted);padding:3px 6px}.crumb-r:hover{color:var(--ink)}.sep{color:var(--faint)}
 .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;box-shadow:var(--shadow)}
 .qh{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
 .qt{font-family:"Fraunces",serif;font-size:20px;font-weight:500;margin:0 0 14px;line-height:1.25}
 .opts{display:flex;flex-direction:column;gap:9px}
 .opt{width:100%;text-align:left;font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:.14s}
-.opt:hover{border-color:var(--analjezik);background:var(--card)}
-.opt svg{width:17px;height:17px;color:var(--faint);flex:none;margin-left:auto}
+.opt:hover{border-color:var(--analjezik);background:var(--card)}.opt svg{width:17px;height:17px;color:var(--faint);flex:none;margin-left:auto}
 .leaf{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
 .leaf-top{padding:16px 18px 14px;border-left:4px solid var(--fam)}
 .leaf-name{font-family:"Fraunces",serif;font-size:23px;font-weight:500;margin:0;line-height:1.1}
 .leaf-etken{font-size:13.5px;color:var(--muted);margin:3px 0 0}
 .fam-chip{display:inline-block;font-size:12px;font-weight:500;padding:3px 11px;border-radius:999px;margin-top:9px;background:var(--fam-bg);color:var(--fam)}
-.sec{padding:13px 18px;border-top:1px solid var(--line-soft)}
-.sec .lb{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin:0 0 4px;display:flex;align-items:center;gap:6px}
-.sec .lb svg{width:14px;height:14px;color:var(--fam)}
-.sec .tx{font-size:14.5px;line-height:1.55;margin:0}
-.hasta{display:flex;gap:11px;align-items:flex-start}
-.hasta .av{width:34px;height:34px;flex:none;border-radius:50%;background:var(--fam-bg);color:var(--fam);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500}
-.redflag{padding:12px 18px;background:var(--warn-bg);color:var(--warn);font-size:13px;line-height:1.5;display:flex;gap:8px}
-.redflag svg{width:15px;height:15px;flex:none;margin-top:2px}
+.sec{padding:13px 18px;border-top:1px solid var(--line-soft)}.sec .lb{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin:0 0 4px;display:flex;align-items:center;gap:6px}
+.sec .lb svg{width:14px;height:14px;color:var(--fam)}.sec .tx{font-size:14.5px;line-height:1.55;margin:0}
+.hasta{display:flex;gap:11px;align-items:flex-start}.hasta .av{width:34px;height:34px;flex:none;border-radius:50%;background:var(--fam-bg);color:var(--fam);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500}
+.redflag{padding:12px 18px;background:var(--warn-bg);color:var(--warn);font-size:13px;line-height:1.5;display:flex;gap:8px}.redflag svg{width:15px;height:15px;flex:none;margin-top:2px}
 .leaf-act{display:flex;gap:9px;padding:14px 18px;border-top:1px solid var(--line-soft);flex-wrap:wrap}
 .act{font-family:inherit;font-size:13px;font-weight:450;border-radius:9px;padding:9px 15px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink);display:inline-flex;align-items:center;gap:6px;transition:.14s}
-.act:hover{border-color:var(--faint)}
-.act.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
-.act svg{width:15px;height:15px}
+.act:hover{border-color:var(--faint)}.act.pri{background:var(--ink);color:#fff;border-color:var(--ink)}.act svg{width:15px;height:15px}
 /* Terimler */
 .tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);position:relative}
 .tcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tspine,var(--analjezik))}
 .thead-btn{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font-family:inherit;background:transparent;border:none;cursor:pointer;padding:13px 15px 13px 18px;color:inherit}
-.thead-btn:hover{background:var(--line-soft)}
-.tword{flex:1;min-width:0}
+.thead-btn:hover{background:var(--line-soft)}.tword{flex:1;min-width:0}
 .tword .tw{font-family:"Fraunces",serif;font-weight:500;font-size:17px;margin:0;line-height:1.2}
 .tword .tcat{font-size:12px;color:var(--muted);margin:2px 0 0}
-.tchev{flex:none;width:17px;height:17px;color:var(--faint);transition:transform .2s}
-.tcard.open .tchev{transform:rotate(180deg)}
-.tbody{padding:3px 18px 14px;display:none;font-size:14.5px;line-height:1.6}
-.tcard.open .tbody{display:block;animation:fade .2s ease}
+.tchev{flex:none;width:17px;height:17px;color:var(--faint);transition:transform .2s}.tcard.open .tchev{transform:rotate(180deg)}
+.tbody{padding:3px 18px 14px;display:none;font-size:14.5px;line-height:1.6}.tcard.open .tbody{display:block;animation:fade .2s ease}
 .tbody .tanim{white-space:pre-wrap;margin:6px 0 10px}
 .tbody .ornekler{font-size:13px;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:8px;margin-top:4px}
-.tbody .ornekler span{font-weight:500;color:var(--faint)}
-.tact{display:flex;gap:7px;margin-top:10px}
+.tbody .ornekler span{font-weight:500;color:var(--faint)}.tact{display:flex;gap:7px;margin-top:10px}
+/* Vücut haritası */
+#vucut-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:560px){#vucut-wrap{grid-template-columns:1fr}}
+#vucut-svg-container svg{width:100%;max-width:300px;display:block;margin:0 auto;cursor:pointer}
+.vb-region{transition:opacity .2s;cursor:pointer}.vb-region:hover{opacity:.8}
+.vb-region.active{filter:drop-shadow(0 0 6px rgba(0,0,0,.35))}
+#vucut-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-height:200px;box-shadow:var(--shadow)}
+#vucut-region-title{font-family:"Fraunces",serif;font-size:18px;font-weight:500;margin:0 0 12px}
+.vb-ilac-card{padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.14s;border-left:3px solid var(--vc)}
+.vb-ilac-card:hover{background:var(--line-soft)}.vb-ilac-card .vn{font-weight:500;font-size:14px}.vb-ilac-card .ve{font-size:12.5px;color:var(--muted)}
+/* Vaka çözücü */
+#vaka-container{max-width:640px;margin:0 auto}
+.vaka-choice{width:100%;text-align:left;font-family:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer;transition:.14s;display:flex;align-items:center;gap:10px}
+.vaka-choice:hover{border-color:var(--analjezik);background:var(--card)}
+.vaka-choice.correct{background:var(--analjezik-bg);border-color:var(--analjezik);color:var(--analjezik)}
+.vaka-choice.wrong{background:var(--danger-bg);border-color:var(--danger);color:var(--danger)}
+.vaka-choice.reveal{background:var(--analjezik-bg);border-color:var(--analjezik);color:var(--analjezik)}
+.vaka-choice:disabled{cursor:not-allowed}
+@keyframes spin{to{transform:rotate(360deg)}}
 [hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media(max-width:520px){.brand h1{font-size:23px}.cname .nm{font-size:17px}}
+@media(max-width:520px){.brand h1{font-size:22px}.cname .nm{font-size:17px}.seg{font-size:12px;padding:6px 10px}}
 </style>
 </head>
 <body>
@@ -170,7 +163,7 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
   <header>
     <div class="brand">
       <h1>İlaç Kartlığım</h1>
-      <p>Analjezik · Antibiyotik · Gastro · kartlar ve karar ağacı</p>
+      <p>Analjezik · Antibiyotik · Gastro · öğrenme platformu</p>
     </div>
     <button class="add-btn" id="addBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -179,11 +172,14 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
   </header>
 
   <div class="vswitch" role="tablist">
-    <button class="seg on" data-view="cards" role="tab">Kartlar</button>
-    <button class="seg" data-view="tree" role="tab">Karar ağacı</button>
-    <button class="seg" data-view="terimler" role="tab">Terimler</button>
+    <button class="seg on" data-view="cards" role="tab">📋 Kartlar</button>
+    <button class="seg" data-view="tree" role="tab">🌿 Karar ağacı</button>
+    <button class="seg" data-view="vucut" role="tab">🫀 Vücut haritası</button>
+    <button class="seg" data-view="vaka" role="tab">🩺 Vaka çözücü</button>
+    <button class="seg" data-view="terimler" role="tab">📖 Terimler</button>
   </div>
 
+  <!-- KARTLAR -->
   <div id="view-cards">
     <div class="tools">
       <div class="tabs" id="tabs"></div>
@@ -193,18 +189,79 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
       </div>
     </div>
     <div class="list" id="list"></div>
-    <footer>
-      <span id="stat">Yükleniyor…</span>
-      <button class="link" id="resetBtn">Örnek verilere sıfırla</button>
-    </footer>
+    <footer><span id="stat">Yükleniyor…</span><button class="link" id="resetBtn">Örnek verilere sıfırla</button></footer>
   </div>
 
+  <!-- KARAR AĞACI -->
   <div id="view-tree" hidden>
     <p class="tree-intro">Önce grubu seç, sonra her adımda bir kilit soruyu yanıtla, dalın ucundaki ilaca in.</p>
     <div class="crumbs" id="crumbs"></div>
     <div id="stage"></div>
   </div>
 
+  <!-- VÜCUT HARİTASI -->
+  <div id="view-vucut" hidden>
+    <p class="tree-intro">Bir bölgeye tıkla — o bölgeyle ilişkili ilaçlar sağda belirir.</p>
+    <div id="vucut-wrap">
+      <div id="vucut-svg-container"></div>
+      <div id="vucut-panel">
+        <div id="vucut-empty-msg" style="text-align:center;padding:30px 10px;color:var(--muted)">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <p style="margin:10px 0 0;font-size:14px">Bir bölgeye tıkla</p>
+        </div>
+        <div id="vucut-results" hidden>
+          <p id="vucut-region-title" style="font-family:'Fraunces',serif;font-size:17px;font-weight:500;margin:0 0 12px"></p>
+          <div id="vucut-ilac-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VAKA ÇÖZÜCÜ -->
+  <div id="view-vaka" hidden>
+    <p class="tree-intro">Claude her seferinde yeni bir hasta vakası üretir. Doğru ilacı seç!</p>
+    <div id="vaka-container">
+      <div id="vaka-start-screen">
+        <div class="qcard" style="text-align:center;padding:28px 20px">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--analjezik)" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:10px"><path d="M9 12h6m-3-3v6"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M7 4V2M17 4V2"/></svg>
+          <h2 style="font-family:'Fraunces',serif;font-weight:500;margin:0 0 6px;font-size:21px">Vaka Çözücü</h2>
+          <p style="color:var(--muted);margin:0 0 20px;font-size:14px">Her vaka Claude tarafından üretilir — sonsuz senaryo, hiç tekrar etmez.</p>
+          <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap">
+            <button class="act pri" onclick="startVaka('analjezik')">💊 Analjezik</button>
+            <button class="act" style="border-color:var(--antibiyotik);color:var(--antibiyotik)" onclick="startVaka('antibiyotik')">🦠 Antibiyotik</button>
+            <button class="act" style="border-color:var(--gastro);color:var(--gastro)" onclick="startVaka('gastro')">🫀 Gastro</button>
+            <button class="act" style="border-color:var(--combo);color:var(--combo)" onclick="startVaka('karisik')">🎲 Karışık</button>
+          </div>
+        </div>
+      </div>
+      <div id="vaka-game" hidden>
+        <div class="qcard" style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <span class="qh" id="vaka-label">Vaka hazırlanıyor…</span>
+            <span id="vaka-score" style="font-size:13px;color:var(--muted);font-weight:500"></span>
+          </div>
+          <div id="vaka-loading" style="text-align:center;padding:20px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--analjezik)" stroke-width="2.2" stroke-linecap="round" style="animation:spin 1s linear infinite"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5"/></svg>
+            <p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)">Claude yeni bir hasta hazırlıyor…</p>
+          </div>
+          <div id="vaka-content" hidden>
+            <p id="vaka-text" style="font-size:15px;line-height:1.65;margin:0 0 14px;white-space:pre-wrap"></p>
+            <div id="vaka-choices" style="display:flex;flex-direction:column;gap:8px"></div>
+            <div id="vaka-feedback" hidden style="margin-top:12px;padding:13px 15px;border-radius:10px;font-size:14px;line-height:1.55"></div>
+            <div id="vaka-next-row" hidden style="display:flex;gap:9px;margin-top:12px;flex-wrap:wrap">
+              <button class="act pri" id="vaka-next-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5"/></svg>
+                Yeni vaka
+              </button>
+              <button class="act" onclick="document.getElementById('vaka-game').hidden=true;document.getElementById('vaka-start-screen').hidden=false;currentVakaGroup=null;vakaScore={d:0,t:0}">Grup seç</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERİMLER -->
   <div id="view-terimler" hidden>
     <div class="tools">
       <div class="tabs" id="term-tabs"></div>
@@ -224,10 +281,10 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
   </div>
 </div>
 
+<!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
-    <div class="mhead">
-      <h2 id="mtitle">Yeni ilaç</h2>
+    <div class="mhead"><h2 id="mtitle">Yeni ilaç</h2>
       <button class="x" id="closeBtn" aria-label="Kapat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="mbody" id="mbody"></div>
@@ -239,78 +296,180 @@ footer{display:flex;justify-content:space-between;align-items:center;margin-top:
 </div>
 
 <script>
+/* ===== VERİ ===== */
 const CATS={
   analjezik:{label:"Analjezik",color:"var(--analjezik)",bg:"var(--analjezik-bg)"},
   antibiyotik:{label:"Antibiyotik",color:"var(--antibiyotik)",bg:"var(--antibiyotik-bg)"},
   gastro:{label:"Gastro",color:"var(--gastro)",bg:"var(--gastro-bg)"}
 };
 const FIELDS=[
-  {k:"ad",label:"İlaç adı",t:"input",req:true},
-  {k:"etken",label:"Etken madde",t:"input"},
-  {k:"kategori",label:"Kategori",t:"select"},
-  {k:"ozellik",label:"Özellik",t:"area"},
-  {k:"mekanizma",label:"Etki mekanizması",t:"area"},
-  {k:"etki",label:"Etki",t:"area"},
-  {k:"endikasyon",label:"Endikasyonlar",t:"area"},
-  {k:"neicin",label:"Ne için kullanılır",t:"area"},
-  {k:"fayda",label:"Fayda",t:"area"},
-  {k:"kontrendikasyon",label:"Kontrendikasyonlar",t:"area"},
-  {k:"etkilesim",label:"İlaç etkileşimleri",t:"area"},
-  {k:"formlar",label:"Formlar",t:"input"},
+  {k:"ad",label:"İlaç adı",t:"input",req:true},{k:"etken",label:"Etken madde",t:"input"},
+  {k:"kategori",label:"Kategori",t:"select"},{k:"ozellik",label:"Özellik",t:"area"},
+  {k:"mekanizma",label:"Etki mekanizması",t:"area"},{k:"etki",label:"Etki",t:"area"},
+  {k:"endikasyon",label:"Endikasyonlar",t:"area"},{k:"neicin",label:"Ne için kullanılır",t:"area"},
+  {k:"fayda",label:"Fayda",t:"area"},{k:"kontrendikasyon",label:"Kontrendikasyonlar",t:"area"},
+  {k:"etkilesim",label:"İlaç etkileşimleri",t:"area"},{k:"formlar",label:"Formlar",t:"input"},
   {k:"ayirt",label:"Ayırt edici özellik",t:"area"}
 ];
 const DISPLAY=["ozellik","mekanizma","etki","endikasyon","neicin","fayda","kontrendikasyon","etkilesim","formlar","ayirt"];
 const LABELS=Object.fromEntries(FIELDS.map(f=>[f.k,f.label]));
 
+/* Mekanizma animasyon tipleri */
+const ANIM={
+  cox:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round"/></marker></defs>
+  <rect x="0" y="0" width="320" height="100" fill="none"/>
+  <g><ellipse cx="160" cy="50" rx="36" ry="22" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+    <text x="160" y="46" text-anchor="middle" font-size="10" fill="#92400E" font-family="Inter,sans-serif">COX</text>
+    <text x="160" y="58" text-anchor="middle" font-size="9" fill="#92400E" font-family="Inter,sans-serif">enzimi</text>
+    <line x1="124" y1="50" x2="60" y2="50" stroke="#0F766E" stroke-width="2" marker-end="url(#ah)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="60" to="0" dur="1.5s" repeatCount="indefinite"/></line>
+    <rect x="20" y="35" width="40" height="30" rx="8" fill="#D1FAE5" stroke="#0F766E" stroke-width="1.5"/>
+    <text x="40" y="53" text-anchor="middle" font-size="9" fill="#065F46" font-family="Inter,sans-serif">NSAİİ</text>
+    <path d="M196 50 Q230 20 270 30" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
+    <text x="245" y="26" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">Prostag.</text>
+    <path d="M196 50 Q230 80 270 70" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
+    <text x="248" y="82" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">bloke!</text>
+    <line x1="185" y1="42" x2="185" y2="58" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite"/></line>
+    <line x1="178" y1="50" x2="192" y2="50" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="0;1;1;0" dur="1.5s" repeatCount="indefinite"/></line>
+  </g>
+  <text x="160" y="94" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">NSAİİ → COX enzimini bloke eder → prostaglandin üretimi durur</text>
+</svg>`,
+  ppi:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#7C3D8A" stroke-width="2" stroke-linecap="round"/></marker></defs>
+  <ellipse cx="100" cy="46" rx="50" ry="30" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="1.5"/>
+  <text x="100" y="38" text-anchor="middle" font-size="9" fill="#5B21B6" font-family="Inter,sans-serif">Pariyetal</text>
+  <text x="100" y="50" text-anchor="middle" font-size="9" fill="#5B21B6" font-family="Inter,sans-serif">hücre</text>
+  <rect x="70" y="54" width="60" height="16" rx="4" fill="#DDD6FE" stroke="#7C3D8A" stroke-width="1"/>
+  <text x="100" y="65" text-anchor="middle" font-size="8.5" fill="#4C1D95" font-family="Inter,sans-serif">H⁺/K⁺-ATPaz</text>
+  <g><line x1="155" y1="62" x2="195" y2="62" stroke="#7C3D8A" stroke-width="2" marker-end="url(#ah2)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.2s" repeatCount="indefinite"/></line></g>
+  <rect x="195" y="50" width="46" height="24" rx="8" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="1.5"/>
+  <text x="218" y="65" text-anchor="middle" font-size="9" fill="#5B21B6" font-family="Inter,sans-serif">PPI</text>
+  <line x1="195" y1="56" x2="241" y2="56" stroke="#EF4444" stroke-width="2" stroke-linecap="round"><animate attributeName="opacity" values="0;0;1;1;0" dur="2s" repeatCount="indefinite"/></line>
+  <line x1="218" y1="50" x2="218" y2="80" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="218" y="90" text-anchor="middle" font-size="8.5" fill="#6B7280" font-family="Inter,sans-serif">Asit kanalı</text>
+  <line x1="218" y1="74" x2="218" y2="80" stroke="#6B7280" stroke-width="1.5"/>
+  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">PPI → proton pompasını bloke eder → asit üretimi durur</text>
+</svg>`,
+  hucreduvar:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#1D5FA5" stroke-width="2" stroke-linecap="round"/></marker></defs>
+  <ellipse cx="90" cy="50" rx="44" ry="30" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="2"/>
+  <ellipse cx="90" cy="50" rx="30" ry="18" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
+  <text x="90" y="46" text-anchor="middle" font-size="9" fill="#1E40AF" font-family="Inter,sans-serif">Bakteri</text>
+  <text x="90" y="57" text-anchor="middle" font-size="8" fill="#3B82F6" font-family="Inter,sans-serif">hücre duvarı</text>
+  <line x1="138" y1="50" x2="178" y2="50" stroke="#1D5FA5" stroke-width="2" marker-end="url(#ah3)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.3s" repeatCount="indefinite"/></line>
+  <rect x="178" y="38" width="52" height="24" rx="8" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
+  <text x="204" y="53" text-anchor="middle" font-size="9" fill="#1E40AF" font-family="Inter,sans-serif">Sefalosporin</text>
+  <g opacity="0"><ellipse cx="90" cy="50" rx="44" ry="30" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6,4"/><animate attributeName="opacity" values="0;0;0;1;1;0" dur="2.5s" repeatCount="indefinite"/></g>
+  <path d="M260 30 Q285 50 260 70" stroke="#EF4444" stroke-width="1.5" fill="none" stroke-dasharray="3,2"><animate attributeName="opacity" values="0;0;1;1;0" dur="2s" repeatCount="indefinite"/></path>
+  <text x="270" y="52" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">çöküş</text>
+  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">Sefalosporin → hücre duvarı sentezini bloke eder → bakteri ölür</text>
+</svg>`,
+  protein:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round"/></marker></defs>
+  <rect x="50" y="28" width="80" height="44" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="90" y="46" text-anchor="middle" font-size="9" fill="#92400E" font-family="Inter,sans-serif">50S Ribozom</text>
+  <text x="90" y="58" text-anchor="middle" font-size="8" fill="#92400E" font-family="Inter,sans-serif">(bakteri)</text>
+  <line x1="134" y1="50" x2="174" y2="50" stroke="#B45309" stroke-width="2" marker-end="url(#ah4)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.2s" repeatCount="indefinite"/></line>
+  <rect x="174" y="38" width="52" height="24" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/>
+  <text x="200" y="53" text-anchor="middle" font-size="9" fill="#92400E" font-family="Inter,sans-serif">Azitromisin</text>
+  <g transform="translate(28,44)"><rect width="18" height="8" rx="3" fill="#FDE68A" stroke="#D97706" stroke-width="1"/></g>
+  <g transform="translate(28,54)"><rect width="18" height="8" rx="3" fill="#FDE68A" stroke="#D97706" stroke-width="1"/><animate attributeName="opacity" values="1;0;0;1" dur="2s" repeatCount="indefinite"/></g>
+  <text x="22" y="38" font-size="8" fill="#92400E" font-family="Inter,sans-serif">Prot.</text>
+  <path d="M240 35 Q260 50 240 65" stroke="#EF4444" stroke-width="2" fill="none" stroke-dasharray="4,3"><animate attributeName="opacity" values="0;0;1;1;0" dur="2s" repeatCount="indefinite"/></path>
+  <text x="256" y="52" font-size="9" fill="#EF4444" font-family="Inter,sans-serif">dur!</text>
+  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">Azitromisin → 50S ribozoma bağlanır → protein üretimi durur</text>
+</svg>`,
+  kasgev:`<svg viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1l7 4-7 4" fill="none" stroke="#5B4FC7" stroke-width="2" stroke-linecap="round"/></marker></defs>
+  <path d="M50 45 Q90 25 130 45 Q170 65 210 45" stroke="#5B4FC7" stroke-width="4" fill="none" stroke-linecap="round">
+    <animate attributeName="d" values="M50 45 Q90 25 130 45 Q170 65 210 45;M50 50 Q90 48 130 50 Q170 52 210 50;M50 45 Q90 25 130 45 Q170 65 210 45" dur="2s" repeatCount="indefinite"/>
+  </path>
+  <text x="130" y="80" text-anchor="middle" font-size="9" fill="#5B4FC7" font-family="Inter,sans-serif">Kas lifi</text>
+  <line x1="220" y1="50" x2="258" y2="50" stroke="#5B4FC7" stroke-width="2" marker-end="url(#ah5)" stroke-dasharray="5,3"><animate attributeName="stroke-dashoffset" from="50" to="0" dur="1.2s" repeatCount="indefinite"/></line>
+  <rect x="258" y="38" width="54" height="24" rx="8" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
+  <text x="285" y="48" text-anchor="middle" font-size="8" fill="#3730A3" font-family="Inter,sans-serif">Tiyo-</text>
+  <text x="285" y="58" text-anchor="middle" font-size="8" fill="#3730A3" font-family="Inter,sans-serif">kolşikosid</text>
+  <text x="160" y="96" text-anchor="middle" font-size="9" fill="#6B7280" font-family="Inter,sans-serif">Tiyokolşikosid → GABA-A reseptörü → kas spazmı çözülür</text>
+</svg>`
+};
+
+function getAnim(drug){
+  const id=drug.id||"";
+  const kat=drug.kategori||"";
+  if(id==="esom"||id==="lansoprol"||id==="pulcet") return ANIM.ppi;
+  if(id==="azaks") return ANIM.protein;
+  if(id==="aksef"||id==="sefabel"||id==="sefpotec") return ANIM.hucreduvar;
+  if(id==="etolax"||id==="tiyokas") return ANIM.kasgev;
+  if(kat==="analjezik") return ANIM.cox;
+  return null;
+}
+
 const ANALJ=[
-  {id:"etol",ad:"Etol",etken:"Etodolak",kategori:"analjezik",ozellik:"NSAİİ (non-steroid antiinflamatuar)",mekanizma:"Prostaglandin üretimini sağlayan siklooksijenaz (COX) enzimlerini inhibe eder.",etki:"Antiinflamatuar, analjezik ve antipiretik etki gösterir.",endikasyon:"Osteoartrit, romatoid artrit, ankilozan spondilit, akut gut artriti, kas-iskelet ağrıları, ameliyat sonrası ağrı/inflamasyon, dismenore.",neicin:"",fayda:"",kontrendikasyon:"NSAİİ'ye bağlı GİS kanama öyküsü, ciddi karaciğer/böbrek/kalp yetmezliği, geç gebelik, aktif peptik ülser, 18 yaş altı.",etkilesim:"Antikoagülanlar, diğer NSAİİ'ler, lityum.",formlar:"200 / 400 / 600 (SR) / 800 mg tablet",ayirt:"Kronik hastalarda. Uzun etkili (SR/dual salımlı) formları var."},
-  {id:"etolax",ad:"Etolax",etken:"Etodolak + tiyokolşikosid",kategori:"analjezik",ozellik:"NSAİİ + kas gevşetici",mekanizma:"Etodolak COX'u inhibe eder; tiyokolşikosid spinal GABA-A reseptörleri üzerinden kas tonusunu düzenler.",etki:"Hem ağrı/iltihap giderici hem kas gevşetici etki sağlar.",endikasyon:"Kas-iskelet ağrısı ve iltihap, akut kas spazmı, ameliyat sonrası ağrı.",neicin:"",fayda:"",kontrendikasyon:"Bileşenlere alerji, ciddi KC/böbrek/kalp yetmezliği, aktif ülser, gebelik son 3 ay, emzirme, 18 yaş altı, epilepsi/nöbet.",etkilesim:"Antikoagülanlar, aspirin, diğer NSAİİ'ler, kortikosteroidler.",formlar:"500 mg / 4 mg film tablet",ayirt:"Kronik hasta + kas spazmı. \"Etol + relax\" olarak hatırla."},
-  {id:"melox",ad:"Melox",etken:"Meloksikam",kategori:"analjezik",ozellik:"NSAİİ — COX-2 tercihli",mekanizma:"COX'u inhibe ederek prostaglandin üretimini azaltır; COX-2 tercihliliği ile görece mide dostu.",etki:"Eklem ve kas-iskelet ağrısını azaltır.",endikasyon:"Osteoartrit, romatoid artrit, ankilozan spondilit, akut gut, ameliyat sonrası ağrı, dismenore.",neicin:"",fayda:"",kontrendikasyon:"KABG çevresi, gebelik 3. trimester, GİS kanama/perforasyon öyküsü, ağır KC/böbrek/kalp yetmezliği.",etkilesim:"Diğer NSAİİ, asetilsalisilik asit, kortikosteroidler, antikoagülanlar, alkol, bitkisel ürünler.",formlar:"7,5 / 15 mg tablet · 15 mg/1,5 mL IM ampul",ayirt:"COX-2 tercihli → günde tek doz, görece mide dostu. Kronik kullanım."},
-  {id:"tiyokas",ad:"Tiyokas",etken:"Deksketoprofen + tiyokolşikosid",kategori:"analjezik",ozellik:"NSAİİ + kas gevşetici",mekanizma:"Deksketoprofen COX-1/2'yi inhibe eder; tiyokolşikosid kas gevşetir.",etki:"Akut ağrı + kas spazmında analjezik-antiinflamatuar ve kas gevşetici.",endikasyon:"Vertebral kolon ağrıları, kas spazmı, travma, akut kas-iskelet ağrısı, renal kolik.",neicin:"",fayda:"",kontrendikasyon:"Alerji, aktif ülser/kanama, orta-ağır böbrek/KC yetmezliği, ağır kalp yetmezliği, gebelik/emzirme, 18 yaş altı, kas hipotonisi.",etkilesim:"Antikoagülanlar, aspirin, diğer NSAİİ'ler, kortikosteroidler.",formlar:"Mono · şase · IV/IM",ayirt:"Akut hastalarda. Spazm + şiddetli ağrı; hızlı etkili, kısa süreli."},
-  {id:"maprofen",ad:"Maprofen",etken:"Flurbiprofen",kategori:"analjezik",ozellik:"NSAİİ",mekanizma:"COX-1 ve COX-2'yi inhibe ederek prostaglandin sentezini azaltır.",etki:"Ağrı, inflamasyon ve ateş üzerinde etki gösterir.",endikasyon:"Romatoid artrit, osteoartrit, ankilozan spondilit.",neicin:"",fayda:"",kontrendikasyon:"Flurbiprofene aşırı duyarlılık, NSAİİ ile astım/ürtiker öyküsü, aktif ülser, ağır kalp/böbrek/KC yetmezliği, KABG, geç gebelik.",etkilesim:"ACE inhibitörleri/ARB/beta blokerler, diüretikler, antikoagülanlar, lityum.",formlar:"100 mg tablet",ayirt:"Romatizmal hastalıklarda. Çok sayıda ilaç etkileşimi var — ilaç listesini kontrol et."}
+  {id:"etol",ad:"Etol",etken:"Etodolak",kategori:"analjezik",organ:["eklem","omurga"],ozellik:"NSAİİ (non-steroid antiinflamatuar)",mekanizma:"Prostaglandin üretimini sağlayan siklooksijenaz (COX) enzimlerini inhibe eder.",etki:"Antiinflamatuar, analjezik ve antipiretik etki gösterir.",endikasyon:"Osteoartrit, romatoid artrit, ankilozan spondilit, akut gut artriti, kas-iskelet ağrıları, ameliyat sonrası ağrı/inflamasyon, dismenore.",neicin:"",fayda:"",kontrendikasyon:"NSAİİ'ye bağlı GİS kanama öyküsü, ciddi karaciğer/böbrek/kalp yetmezliği, geç gebelik, aktif peptik ülser, 18 yaş altı.",etkilesim:"Antikoagülanlar, diğer NSAİİ'ler, lityum.",formlar:"200 / 400 / 600 (SR) / 800 mg tablet",ayirt:"Kronik hastalarda. Uzun etkili (SR/dual salımlı) formları var."},
+  {id:"etolax",ad:"Etolax",etken:"Etodolak + tiyokolşikosid",kategori:"analjezik",organ:["omurga","kas"],ozellik:"NSAİİ + kas gevşetici",mekanizma:"Etodolak COX'u inhibe eder; tiyokolşikosid spinal GABA-A reseptörleri üzerinden kas tonusunu düzenler.",etki:"Hem ağrı/iltihap giderici hem kas gevşetici etki sağlar.",endikasyon:"Kas-iskelet ağrısı ve iltihap, akut kas spazmı, ameliyat sonrası ağrı.",neicin:"",fayda:"",kontrendikasyon:"Bileşenlere alerji, ciddi KC/böbrek/kalp yetmezliği, aktif ülser, gebelik son 3 ay, emzirme, 18 yaş altı, epilepsi/nöbet.",etkilesim:"Antikoagülanlar, aspirin, diğer NSAİİ'ler, kortikosteroidler.",formlar:"500 mg / 4 mg film tablet",ayirt:"Kronik hasta + kas spazmı. \"Etol + relax\" olarak hatırla."},
+  {id:"melox",ad:"Melox",etken:"Meloksikam",kategori:"analjezik",organ:["eklem","omurga"],ozellik:"NSAİİ — COX-2 tercihli",mekanizma:"COX'u inhibe ederek prostaglandin üretimini azaltır; COX-2 tercihliliği ile görece mide dostu.",etki:"Eklem ve kas-iskelet ağrısını azaltır.",endikasyon:"Osteoartrit, romatoid artrit, ankilozan spondilit, akut gut, ameliyat sonrası ağrı, dismenore.",neicin:"",fayda:"",kontrendikasyon:"KABG çevresi, gebelik 3. trimester, GİS kanama/perforasyon öyküsü, ağır KC/böbrek/kalp yetmezliği.",etkilesim:"Diğer NSAİİ, asetilsalisilik asit, kortikosteroidler, antikoagülanlar, alkol, bitkisel ürünler.",formlar:"7,5 / 15 mg tablet · 15 mg/1,5 mL IM ampul",ayirt:"COX-2 tercihli → günde tek doz, görece mide dostu. Kronik kullanım."},
+  {id:"tiyokas",ad:"Tiyokas",etken:"Deksketoprofen + tiyokolşikosid",kategori:"analjezik",organ:["omurga","kas"],ozellik:"NSAİİ + kas gevşetici",mekanizma:"Deksketoprofen COX-1/2'yi inhibe eder; tiyokolşikosid kas gevşetir.",etki:"Akut ağrı + kas spazmında analjezik-antiinflamatuar ve kas gevşetici.",endikasyon:"Vertebral kolon ağrıları, kas spazmı, travma, akut kas-iskelet ağrısı, renal kolik.",neicin:"",fayda:"",kontrendikasyon:"Alerji, aktif ülser/kanama, orta-ağır böbrek/KC yetmezliği, ağır kalp yetmezliği, gebelik/emzirme, 18 yaş altı, kas hipotonisi.",etkilesim:"Antikoagülanlar, aspirin, diğer NSAİİ'ler, kortikosteroidler.",formlar:"Mono · şase · IV/IM",ayirt:"Akut hastalarda. Spazm + şiddetli ağrı; hızlı etkili, kısa süreli."},
+  {id:"maprofen",ad:"Maprofen",etken:"Flurbiprofen",kategori:"analjezik",organ:["eklem"],ozellik:"NSAİİ",mekanizma:"COX-1 ve COX-2'yi inhibe ederek prostaglandin sentezini azaltır.",etki:"Ağrı, inflamasyon ve ateş üzerinde etki gösterir.",endikasyon:"Romatoid artrit, osteoartrit, ankilozan spondilit.",neicin:"",fayda:"",kontrendikasyon:"Flurbiprofene aşırı duyarlılık, NSAİİ ile astım/ürtiker öyküsü, aktif ülser, ağır kalp/böbrek/KC yetmezliği, KABG, geç gebelik.",etkilesim:"ACE inhibitörleri/ARB/beta blokerler, diüretikler, antikoagülanlar, lityum.",formlar:"100 mg tablet",ayirt:"Romatizmal hastalıklarda. Çok sayıda ilaç etkileşimi var."}
 ];
 const ANTIB=[
-  {id:"aksef",ad:"Aksef",etken:"Sefuroksim",kategori:"antibiyotik",ozellik:"İkinci kuşak sefalosporin, bakterisidal. Hem gram-pozitif hem gram-negatif bakterilere etkili.",mekanizma:"Sefuroksim, bakterilerin hücre duvarı sentezini inhibe ederek bakterilerin ölmesine neden olur.",etki:"Geniş spektrumlu antibakteriyel; birçok gram-pozitif ve gram-negatif bakteriye karşı etkilidir.",endikasyon:"Solunum yolu (bronşit, pnömoni, sinüzit, tonsillit, farenjit, otitis media), idrar yolu, cilt/yumuşak doku, septisemi, menenjit (IV), gonore, kemik-eklem, cerrahi profilaksi, erken Lyme.",neicin:"Bademcik/boğaz, bakteriyel sinüzit, orta kulak iltihabı, bronşit alevlenmesi, sistit/böbrek, cilt/yumuşak doku, erken Lyme. Enjeksiyon: zatürre, septisemi, menenjit, ciddi enfeksiyonlar, cerrahi profilaksi.",fayda:"Duyarlı bakterileri ortadan kaldırarak ateş, ağrı, iltihap, akıntı, öksürük gibi belirtilerin düzelmesine ve komplikasyon gelişmesinin önlenmesine yardımcı olur.",kontrendikasyon:"Sefuroksim veya sefalosporinlere aşırı duyarlılık; beta-laktamlara (penisilin, monobaktam, karbapeneme) aşırı duyarlılık.",etkilesim:"Antiasitler etkisini azaltabilir. Doğum kontrol haplarının etkinliğini azaltabilir. Aminoglikozitler, güçlü diüretikler, probenesid, oral antikoagülanlarla birlikte dikkatli olunmalı.",formlar:"Aksef 500 mg, 750 mg tablet (enjeksiyon formu da mevcut)",ayirt:"Oral 2. kuşak sefalosporin. Sinüzit, KBB, bronşit, sistit, erken Lyme'da ağızdan seçenek. Yemekten sonra, günde iki kez."},
-  {id:"azaks",ad:"Azaks",etken:"Azitromisin dihidrat",kategori:"antibiyotik",ozellik:"Makrolid/azalid grubu, ağızdan kullanılır. Protein sentezini durdurur (bakteriyostatik; yeterli dozda bakterisidal). Günde tek doz, kısa kür (3–5 gün).",mekanizma:"50S ribozomal alt birimine bağlanarak bakterinin protein üretimini durdurur ve çoğalmasını engeller.",etki:"Gram-pozitif, gram-negatif ve atipik bakterilere karşı etkilidir; özellikle solunum, deri ve cinsel yolla bulaşan enfeksiyonlarda.",endikasyon:"Solunum yolu (bronşit, pnömoni, sinüzit, tonsillit, otitis media), deri/yumuşak doku, Chlamydia trachomatis genital enfeksiyonu, H. ducreyi ülseri, komplike olmayan gonore, penisilin alerjisinde streptokokal farenjit.",neicin:"Hafif solunum yolu, sinüzit, deri/yumuşak doku, Chlamydia kaynaklı genital enfeksiyonlar, H. ducreyi genital ülserleri; penisilin alerjisinde tonsillit/farenjit.",fayda:"Azitromisine duyarlı bakterileri tedavi ederek ateş, boğaz ağrısı, öksürük, balgam, iltihap ve akıntı gibi şikayetlerin düzelmesine yardımcı olur.",kontrendikasyon:"Azitromisin, makrolid veya ketolid grubuna aşırı duyarlılık; ciddi karaciğer yetmezliği; yardımcı maddelere alerji.",etkilesim:"Ergot türevleri (ergotizm riski). Varfarin, digoksin, teofilin, siklosporin, nelfinavir, QT uzatan ilaçlarla aritmi riski. Antasitle alınacaksa en az 2 saat sonra.",formlar:"500 mg",ayirt:"Tek makrolid; atipik/hücre içi etkenler (klamidya) ve beta-laktam alerjisinde öne çıkar. Dokularda uzun kalır, günde tek doz kısa kür."},
-  {id:"sefabel",ad:"Sefabel",etken:"Seftriakson",kategori:"antibiyotik",ozellik:"3. kuşak sefalosporin, bakterisidal. Sadece enjeksiyonluk (IM/IV). Uzun etki süresi — çoğu erişkinde günde tek uygulama.",mekanizma:"Seftriakson, bakterilerin hücre duvarı sentezini inhibe ederek ölmelerine neden olur.",etki:"Çok sayıda gram-pozitif ve gram-negatif bakteriye karşı etkilidir; çoğalma ve yayılmayı engeller.",endikasyon:"Sepsis, menenjit, dissemine Lyme, abdominal (peritonit, safra/GİS), kemik-eklem-yumuşak doku-cilt enfeksiyonları, pnömoni (ağır), gonore, ameliyat öncesi profilaksi, böbrek/idrar yolu.",neicin:"Ciddi solunum yolu, beyin zarı, kan, idrar yolu, karın içi, cilt ve kemik-eklem enfeksiyonlarında enjeksiyonla uygulanan güçlü ve geniş etkili antibiyotik.",fayda:"Ciddi/yayılmış bakteriyel enfeksiyonları tedavi eder; ameliyat öncesi uygulanarak enfeksiyon riskini azaltabilir.",kontrendikasyon:"Seftriakson veya sefalosporinlere aşırı duyarlılık; penisilin alerjisinde çapraz alerji riski; hiperbilirubinemili/prematüre yenidoğan; kalsiyumlu IV ürünlerle birlikte yenidoğanda; lidokain alerjisi (çözücü olarak kullanılıyorsa).",etkilesim:"Kalsiyumlu IV çözeltilerle birlikte kullanılmamalı (çökelti). Kloramfenikol ile antagonistik etki. Aminoglikozitler, vankomisin, flukonazol ile geçimsizlik olabilir. Oral kontraseptiflerin etkinliğini azaltabilir.",formlar:"Enjeksiyonluk (IM/IV) 0,5 g ve 1 g",ayirt:"3. kuşak, sadece enjeksiyonluk. Sepsis, menenjit, ağır pnömoni, ciddi enfeksiyonlarda öne çıkar. 24 saatte bir uygulanabilir."},
-  {id:"sefpotec",ad:"Sefpotec",etken:"Sefpodoksim proksetil",kategori:"antibiyotik",ozellik:"Oral 3. kuşak sefalosporin. Vücutta aktif sefpodoksime dönüşen ön ilaç. Bakterisidal; bazı beta-laktamazlara dayanıklı.",mekanizma:"Sefpodoksim, bakterilerin hücre duvarı sentezini inhibe ederek ölmelerine neden olur.",etki:"Gram-pozitif ve gram-negatif bakterilere karşı etkilidir; çoğalma ve yayılmayı engeller.",endikasyon:"Üst solunum yolu (tonsillit, farenjit, sinüzit, otitis media), alt solunum yolu (bronşit, pnömoni, KOAH alevlenmesi), idrar yolu, gonore, cilt/yumuşak doku.",neicin:"Bademcik/yutak, sinüzit, otitis media (çocuk), bronşit, pnömoni, KOAH alevlenmesi, idrar yolu, cilt/yumuşak doku enfeksiyonları.",fayda:"3. kuşak sefalosporin etkinliğini tablet formunda sunar; solunum, idrar ve cilt enfeksiyonlarında enjeksiyon gerektirmeden ağızdan tedavi sağlar.",kontrendikasyon:"Sefpodoksim veya sefalosporinlere aşırı duyarlılık.",etkilesim:"Antiasitler, ranitidin, simetidin gibi mide ilaçlarıyla dikkatli olunmalı. Diüretikler, aminoglikozidler, probenesid, varfarin, östrojenli kontraseptiflerle etkileşim. Kan/idrar testlerinde yanlış pozitif sonuç olabilir.",formlar:"200 mg",ayirt:"3. kuşak etkinliği oral formda. Aksef'ten daha geniş gram-negatif kapsam; Sefabel'den farkı oral (tablet). Geniş spektrum her zaman üstün değil — seçim etken ve direnç durumuna göre."}
+  {id:"aksef",ad:"Aksef",etken:"Sefuroksim",kategori:"antibiyotik",organ:["akciger","kulak","bogazburun","idrar","cilt"],ozellik:"İkinci kuşak sefalosporin, bakterisidal.",mekanizma:"Sefuroksim, bakterilerin hücre duvarı sentezini inhibe ederek ölmelerine neden olur.",etki:"Geniş spektrumlu antibakteriyel; gram-pozitif ve gram-negatif bakterilere karşı etkilidir.",endikasyon:"Solunum yolu, idrar yolu, cilt/yumuşak doku, septisemi, menenjit, gonore, kemik-eklem, cerrahi profilaksi, erken Lyme.",neicin:"Bademcik/boğaz, sinüzit, orta kulak, bronşit, sistit, cilt enfeksiyonları, erken Lyme.",fayda:"Duyarlı bakterileri ortadan kaldırarak belirtilerin düzelmesine yardımcı olur.",kontrendikasyon:"Sefuroksim veya sefalosporinlere aşırı duyarlılık; beta-laktamlara aşırı duyarlılık.",etkilesim:"Antiasitler, doğum kontrol hapları, aminoglikozitler, güçlü diüretikler, probenesid, oral antikoagülanlar.",formlar:"Aksef 500 mg, 750 mg tablet",ayirt:"Oral 2. kuşak sefalosporin. Yemekten sonra, günde iki kez."},
+  {id:"azaks",ad:"Azaks",etken:"Azitromisin dihidrat",kategori:"antibiyotik",organ:["akciger","bogazburun","cilt","genital"],ozellik:"Makrolid/azalid grubu. Protein sentezini durdurur. Günde tek doz, kısa kür.",mekanizma:"50S ribozomal alt birimine bağlanarak bakterinin protein üretimini durdurur.",etki:"Gram-pozitif, gram-negatif ve atipik bakterilere karşı etkilidir.",endikasyon:"Solunum yolu, deri/yumuşak doku, Chlamydia genital enfeksiyonu, H. ducreyi ülseri, gonore, penisilin alerjisinde streptokokal farenjit.",neicin:"Solunum yolu, deri, Chlamydia kaynaklı genital enfeksiyonlar, penisilin alerjisinde tonsillit.",fayda:"Azitromisine duyarlı bakterileri tedavi eder.",kontrendikasyon:"Makrolid veya ketolid grubuna aşırı duyarlılık; ciddi karaciğer yetmezliği.",etkilesim:"Ergot türevleri, varfarin, digoksin, teofilin, QT uzatan ilaçlar. Antasitten en az 2 saat sonra alınmalı.",formlar:"500 mg",ayirt:"Tek makrolid; atipik/hücre içi (klamidya) etkenlerde öne çıkar. Dokularda uzun kalır."},
+  {id:"sefabel",ad:"Sefabel",etken:"Seftriakson",kategori:"antibiyotik",organ:["akciger","beyin","kan","idrar","karin","kemik","cilt"],ozellik:"3. kuşak sefalosporin, bakterisidal. Sadece enjeksiyonluk (IM/IV).",mekanizma:"Seftriakson, bakterilerin hücre duvarı sentezini inhibe ederek ölmelerine neden olur.",etki:"Çok sayıda gram-pozitif ve gram-negatif bakteriye karşı etkilidir.",endikasyon:"Sepsis, menenjit, dissemine Lyme, abdominal enfeksiyonlar, pnömoni, gonore, ameliyat öncesi profilaksi.",neicin:"Ciddi solunum, beyin zarı, kan, idrar yolu, karın içi, cilt ve kemik-eklem enfeksiyonları.",fayda:"Ciddi/yayılmış bakteriyel enfeksiyonları tedavi eder.",kontrendikasyon:"Seftriakson veya sefalosporinlere aşırı duyarlılık; penisilin alerjisinde çapraz alerji riski; hiperbilirubinemili/prematüre yenidoğan.",etkilesim:"Kalsiyumlu IV çözeltilerle birlikte kullanılmamalı. Kloramfenikol ile antagonistik etki.",formlar:"Enjeksiyonluk (IM/IV) 0,5 g ve 1 g",ayirt:"3. kuşak, sadece enjeksiyonluk. Ağır enfeksiyonlar. 24 saatte bir."},
+  {id:"sefpotec",ad:"Sefpotec",etken:"Sefpodoksim proksetil",kategori:"antibiyotik",organ:["akciger","bogazburun","kulak","idrar","cilt"],ozellik:"Oral 3. kuşak sefalosporin. Bakterisidal; bazı beta-laktamazlara dayanıklı.",mekanizma:"Sefpodoksim, bakterilerin hücre duvarı sentezini inhibe ederek ölmelerine neden olur.",etki:"Gram-pozitif ve gram-negatif bakterilere karşı etkilidir.",endikasyon:"Üst/alt solunum yolu, idrar yolu, gonore, cilt/yumuşak doku.",neicin:"Bademcik/yutak, sinüzit, otitis media, bronşit, pnömoni, KOAH alevlenmesi, idrar yolu, cilt.",fayda:"3. kuşak etkinliğini tablet formunda sunar.",kontrendikasyon:"Sefpodoksim veya sefalosporinlere aşırı duyarlılık.",etkilesim:"Antiasitler, ranitidin, simetidin, diüretikler, aminoglikozidler, probenesid, varfarin.",formlar:"200 mg",ayirt:"3. kuşak etkinliği oral formda. Aksef'ten daha geniş gram-negatif kapsam."}
 ];
 const GASTRO=[
-  {id:"esom",ad:"Esom",etken:"Esomeprazol (magnezyum dihidrat veya sodyum)",kategori:"gastro",ozellik:"Proton pompası inhibitörü (PPI). Mide asit üreten hücrelerdeki proton pompalarını bloke ederek asit üretimini güçlü ve uzun süreli biçimde azaltır. Halk arasında 'mide koruyucu' bilinse de doğrusu asit üretimini azaltandır; antiasitler gibi anında nötralize etmez.",mekanizma:"Mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini (asit pompası) inhibe ederek mide asidi salgısını azaltır.",etki:"Mide asidini güçlü ve uzun süreli baskılar; asit salgısının azalmasıyla mide ve onikiparmak bağırsağında asit kaynaklı hasar ve semptomlar azalır.",endikasyon:"Gastro-özofajiyal reflü hastalığı (GÖRH), eroziv reflü özofajiti (tedavi ve nüks önleme), GÖRH semptomatik tedavisi, Helicobacter pylori eradikasyonu (uygun antibiyotiklerle), H. pylori ülserlerinin tedavisi/nüks önleme, NSAİİ'ye bağlı gastrik ve duodenal ülser tedavisi/önleme, gastrik veya duodenal ülserde kanama sonrası hemostaz sürdürülmesi ve tekrar kanamanın önlenmesi (IV form), Zollinger-Ellison Sendromu.",neicin:"1. Reflü hastalığında. 2. Helicobacter pylori ile mide ve onikiparmak bağırsağı ülserlerinde (H. pylori tek başına öldürmez; uygun antibiyotiklerle kullanılır). 3. Ağrı kesici kullanımına bağlı ülserlerde. 4. Aşırı asit salgılanan hastalıklarda.",fayda:"Aşırı mide asidini azaltarak göğüste yanma, ağza acı su gelmesi ve ekşime gibi reflü belirtilerini hafifletir; yemek borusundaki asit hasarının iyileşmesine yardımcı olur; mide ve onikiparmak bağırsağı ülserlerinin iyileşmesi için uygun ortam oluşturur; bazı ağrı kesicilerin mide ve bağırsakta oluşturabileceği ülser riskini azaltır; ülser kanaması sonrasında tekrar kanama riskinin azaltılmasına yardımcı olabilir.",kontrendikasyon:"Esomeprazol, benzimidazol türevlerine veya formüldeki herhangi bir maddeye karşı aşırı duyarlılık; atazanavir ve nelfinavir gibi bazı HIV ilaçları ile birlikte kullanım.",etkilesim:"Atazanavir, nelfinavir ile birlikte kullanılmamalı. Mide asidini azaltan diğer ilaçlarla dikkatli olunmalı. Digoksin, varfarin, fenitoin, klopidogrel, metotreksat, takrolimus, ketokonazol, itrakonazol, erlotinib, silostazol, diazepam gibi ilaçlarla etkileşim riski. Uzun süreli kullanımda magnezyum düşüklüğü, osteoporoz ve kırık riski artabilir.",formlar:"20 mg, 40 mg",ayirt:"Asit baskılama gücü ön planda. En güçlü PPI olarak bilinir. Klopidogrel kullananlar dikkat: Esom veya omeprazol yerine pantoprazol (Pulcet) daha uygun olabilir."},
-  {id:"lansoprol",ad:"Lansoprol",etken:"Lansoprazol (her kapsülde 15 mg veya 30 mg)",kategori:"gastro",ozellik:"Proton pompası inhibitörü (PPI). Mide asit üreten pariyetal hücrelerdeki H+/K+-ATPaz'ı (proton pompasını) engelleyerek asit üretiminin son aşamasını baskılar. Antibiyotik değildir ve bakterileri doğrudan öldürmez. Etkisi doza bağlıdır; hem açlık sırasındaki bazal asit salgısını hem yemek gibi uyaranlarla artan asit salgısını azaltır.",mekanizma:"Mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini (asit pompası) inhibe ederek mide asidi salgısını azaltır.",etki:"Mide asidini güçlü ve uzun süreli baskılar; asit azalmasıyla mide ve onikiparmak bağırsağında hasar ve semptomlar azalır.",endikasyon:"Duodenal ve mide ülserlerinin tedavisi ve önlenmesi, reflü özofajiti (tedavi ve önleme), H. pylori'ye bağlı ülserler (antibiyotiklerle birlikte), NSAİİ'ye bağlı ülserler, gastroözofajiyal reflü hastalığı (GÖRH), Zollinger-Ellison Sendromu ve diğer patolojik hipersekresyon durumları.",neicin:"Gastroözofajiyal reflü hastalığı, reflüye bağlı yemek borusu iltihabı ve eroziv özofajit, mide ülseri, onikiparmak bağırsağı ülseri, ülser nüks önleme, H. pylori kaynaklı ülserlerde antibiyotiklerle eradikasyon, NSAİİ grubu ağrı kesicilere bağlı ülserlerin tedavisi ve önlenmesi.",fayda:"Mide asidini azaltarak asidin mide, onikiparmak bağırsağı ve yemek borusunda oluşturduğu tahrişin iyileşmesine yardımcı olur.",kontrendikasyon:"Lansoprazol veya kapsülün içeriğindeki herhangi bir maddeye karşı alerji; atazanavir veya rilpivirin içeren HIV ilaçları ile birlikte kullanım.",etkilesim:"Atazanavir, nelfinavir, rilpivirin gibi HIV ilaçları ile birlikte kullanılmamalı. Teofilin, ketokonazol, itrakonazol, mikofenolat mofetil, rifampisin, digoksin, takrolimus, fluvoksamin, St John's wort (sarı kantaron), antasitler, sükralfat, metotreksat, varfarin ile etkileşim riski. Klaritromisin ve amoksisilin ile kombine tedavide dikkatli olunmalı. Uzun süreli kullanımda B12 vitamini emilimi azalabilir, fundik bez polipleri riski artabilir.",formlar:"15 mg, 30 mg",ayirt:"Standart reflü ve ülser tedavisinde dengeli seçenek. Tek dozla uzun süreli asit kontrolü. Antiasitlerden farklı olarak mevcut asidi anında nötralize etmez; yeni asit üretimini azaltır — düzenli kullanımda etkisi daha belirgin olur."},
-  {id:"pulcet",ad:"Pulcet",etken:"Pantoprazol (pantoprazol sodyum seskihidrat; 20 mg veya 40 mg dozlarda)",kategori:"gastro",ozellik:"Proton pompası inhibitörü (PPI). H+/K+-ATPaz'ı bloke ederek asit üretiminin son aşamasını durdurur. Antibiyotik değildir. Diğer bazı PPI'lara kıyasla ilaç etkileşimi potansiyeli görece daha düşük.",mekanizma:"Pantoprazol, mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini (asit pompası) inhibe ederek mide asidi salgısını azaltır.",etki:"Mide asidini güçlü ve uzun süreli baskılar; asit azalmasıyla mide ve onikiparmak bağırsağında hasar ve semptomlar azalır.",endikasyon:"Gastroözofajiyal reflü hastalığı (GÖRH) ve eroziv özofajit, reflü özofajitinin idame tedavisi ve nüks önleme, hafif reflü belirtileri ve semptomlar, sürekli NSAİİ tedavisi gören ve duodenal ülseri olan hastalarda koruma, H. pylori ile ilişkili ülserlerde (antibiyotiklerle eradikasyon), peptik ülser (duodenal ve gastrik), Zollinger-Ellison Sendromu ve diğer patolojik hipersekresyon durumları, akut kanamalı gastrik veya duodenal ülserlerde hemostaz kısa süreli idamesi ve tekrar kanamanın önlenmesi (IV form).",neicin:"Gastroözofajiyal reflü, reflüye bağlı eroziv özofajit, mide ve onikiparmak bağırsağı ülserleri, reflü özofajitinin tekrarının önlenmesi, H. pylori ilişkili ülserlerde eradikasyon tedavisi, uzun süre NSAİİ kullanan riskli hastalarda ülserden korunma, Zollinger-Ellison sendromu ve aşırı mide asidi salgılanan diğer durumlar.",fayda:"Sefpodoksime duyarlı bakterilerin neden olduğu enfeksiyonları ağızdan tedavi eder; bakterileri öldürerek ateş, iltihap, ağrı, balgam gibi belirtilerin iyileşmesine yardımcı olur. Göğüste yanma, ekşime ve ağza acı su gelmesi gibi reflü belirtilerini hafifletir; asidin yemek borusunda oluşturduğu tahrişin iyileşmesine yardımcı olur. Mide ve onikiparmak bağırsağı ülserlerinin iyileşmesi için uygun ortam sağlar. Uzun süre NSAİİ kullanan riskli hastalarda mide-bağırsak hasarına karşı koruma. Aşırı asit salgılanan hastalıklarda asit üretimini kontrol altında tutar.",kontrendikasyon:"Pantoprazol, benzimidazollere veya yardımcı maddelere karşı aşırı duyarlılık; proton pompası inhibitörlerine karşı alerji; atazanavir gibi bazı HIV ilaçları ile birlikte kullanımı önerilmez.",etkilesim:"Ketokonazol, itrakonazol, posakonazol, erlotinib gibi ilaçların emilimini azaltabilir. Varfarin, fenprokumon gibi kan sulandırıcılarla birlikte kullanıldığında pıhtılaşma değerleri izlenmelidir. Metotreksat, fluvoksamin, rifampisin, sarı kantaron, digoksin, takrolimus, doğum kontrol hapları ile etkileşim riski. Antasitlerle birlikte kullanıldığında etkileşim gözlemlenmemiştir.",formlar:"20 mg, 40 mg",ayirt:"İlaç etkileşimi potansiyeli görece daha düşük olan PPI. Özellikle klopidogrel kullanan hastalarda esomeprazol veya omeprazole kıyasla daha uygun bir PPI seçeneği olarak değerlendirilebilir. İlaç seçimi doktora göre yapılmalıdır."}
+  {id:"esom",ad:"Esom",etken:"Esomeprazol",kategori:"gastro",organ:["mide","yemekborusu"],ozellik:"Proton pompası inhibitörü (PPI). Mide asit üretimini güçlü ve uzun süreli azaltır.",mekanizma:"Mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini (asit pompası) inhibe ederek mide asidi salgısını azaltır.",etki:"Mide asidini güçlü ve uzun süreli baskılar.",endikasyon:"GÖRH, eroziv reflü özofajiti, H. pylori eradikasyonu, NSAİİ'ye bağlı ülser, Zollinger-Ellison Sendromu.",neicin:"1. Reflü. 2. H. pylori ile ülser (antibiyotiklerle birlikte). 3. Ağrı kesiciye bağlı ülser. 4. Aşırı asit salgısı.",fayda:"Göğüste yanma, ekşime, reflüyü giderir; ülser iyileşmesine ortam sağlar.",kontrendikasyon:"Benzimidazol türevlerine aşırı duyarlılık; atazanavir ve nelfinavir ile birlikte kullanım.",etkilesim:"Atazanavir, nelfinavir. Digoksin, varfarin, fenitoin, klopidogrel, ketokonazol ile etkileşim. Uzun süreli: magnezyum düşüklüğü, osteoporoz.",formlar:"20 mg, 40 mg",ayirt:"Asit baskılama gücü en yüksek PPI. Klopidogrel kullananlar dikkat."},
+  {id:"lansoprol",ad:"Lansoprol",etken:"Lansoprazol",kategori:"gastro",organ:["mide","yemekborusu"],ozellik:"Proton pompası inhibitörü (PPI). Doza bağlı; açlık ve tokluk asit salgısını azaltır.",mekanizma:"Mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini inhibe ederek mide asidi salgısını azaltır.",etki:"Mide asidini güçlü ve uzun süreli baskılar.",endikasyon:"Duodenal/gastrik ülser, reflü özofajiti, H. pylori (antibiyotiklerle), NSAİİ'ye bağlı ülser, GÖRH, Zollinger-Ellison.",neicin:"GÖRH, reflü özofajit, mide/onikiparmak ülseri, H. pylori eradikasyonu, NSAİİ ülser önleme.",fayda:"Mide asidini azaltarak asidin yol açtığı hasarın iyileşmesine yardımcı olur.",kontrendikasyon:"Lansoprazol içeriğine alerji; atazanavir veya rilpivirin ile birlikte kullanım.",etkilesim:"Atazanavir, teofilin, ketokonazol, digoksin, varfarin, sarı kantaron, antasitler. Uzun süreli: B12 düşüklüğü.",formlar:"15 mg, 30 mg",ayirt:"Standart reflü/ülser tedavisinde dengeli seçenek."},
+  {id:"pulcet",ad:"Pulcet",etken:"Pantoprazol",kategori:"gastro",organ:["mide","yemekborusu"],ozellik:"Proton pompası inhibitörü (PPI). İlaç etkileşimi potansiyeli görece en düşük PPI.",mekanizma:"Pantoprazol, mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini inhibe ederek mide asidi salgısını azaltır.",etki:"Mide asidini güçlü ve uzun süreli baskılar.",endikasyon:"GÖRH, eroziv özofajit, NSAİİ koruması, H. pylori ülseri, Zollinger-Ellison, akut kanamalı ülser (IV).",neicin:"GÖRH, eroziv özofajit, mide/onikiparmak ülseri, H. pylori eradikasyonu, NSAİİ riski, Zollinger-Ellison.",fayda:"Reflü belirtilerini giderir; ülser iyileşmesine ortam sağlar. Klopidogrel ile güvenli.",kontrendikasyon:"Pantoprazol veya benzimidazollere aşırı duyarlılık; PPI alerjisi; atazanavir ile kullanımı önerilmez.",etkilesim:"Ketokonazol, erlotinib, varfarin, metotreksat, digoksin, doğum kontrol hapları.",formlar:"20 mg, 40 mg",ayirt:"İlaç etkileşimi en az olan PPI. Klopidogrel kullanan hastalarda tercih edilir."}
 ];
 const SEED_ALL=[...ANALJ,...ANTIB,...GASTRO];
 
-const KEY="ilac_kartligi_v3";
-async function migrate(){
-  if(!store)return SEED_ALL.slice();
-  try{
-    const r=await store.get(KEY);
-    const p=JSON.parse(r.value);
-    let base=Array.isArray(p)?p:(p.drugs||[]);
-    GASTRO.forEach(d=>{if(!base.find(x=>x.id===d.id))base.push(d);});
-    return base;
-  }catch(e){
-    try{
-      const old=await store.get("ilac_kartligi_v2");
-      const p=JSON.parse(old.value);
-      let base=Array.isArray(p)?p:(p.drugs||[]);
-      GASTRO.forEach(d=>{if(!base.find(x=>x.id===d.id))base.push(d);});
-      return base;
-    }catch(e2){return SEED_ALL.slice();}
-  }
-}
+/* Organ haritası */
+const ORGAN_MAP={
+  mide:{label:"Mide",color:"#B45309",ids:["esom","lansoprol","pulcet"]},
+  yemekborusu:{label:"Yemek Borusu",color:"#7C3D8A",ids:["esom","lansoprol","pulcet"]},
+  eklem:{label:"Eklem",color:"#0F766E",ids:["etol","melox","maprofen","tiyokas","etolax"]},
+  omurga:{label:"Omurga / Bel",color:"#0F766E",ids:["etol","etolax","tiyokas","melox"]},
+  kas:{label:"Kas",color:"#5B4FC7",ids:["etolax","tiyokas"]},
+  akciger:{label:"Akciğer / Solunum",color:"#1D5FA5",ids:["aksef","azaks","sefabel","sefpotec"]},
+  bogazburun:{label:"Boğaz / Burun / KBB",color:"#1D5FA5",ids:["aksef","azaks","sefpotec"]},
+  kulak:{label:"Kulak",color:"#1D5FA5",ids:["aksef","sefpotec"]},
+  idrar:{label:"İdrar Yolu",color:"#1D5FA5",ids:["aksef","sefabel","sefpotec"]},
+  cilt:{label:"Cilt / Yumuşak Doku",color:"#1D5FA5",ids:["aksef","azaks","sefabel","sefpotec"]},
+  beyin:{label:"Beyin / Menenjit",color:"#1D5FA5",ids:["sefabel"]},
+  kan:{label:"Kan / Sepsis",color:"#B02A2A",ids:["sefabel"]},
+  karin:{label:"Karın İçi",color:"#B45309",ids:["sefabel"]},
+  kemik:{label:"Kemik / Eklem Enfeksiyonu",color:"#1D5FA5",ids:["aksef","sefabel"]},
+  genital:{label:"Genital / Cinsel Yolla Bulaşan",color:"#5B4FC7",ids:["azaks","sefabel","sefpotec"]}
+};
 
-let drugs=[], activeCat="all", query="", editingId=null;
+const KEY="ilac_kartligi_v3";
+let drugs=[];
 const expanded=new Set();
+let activeCat="all",query="",editingId=null;
 const store=(typeof window!=="undefined"&&window.storage)?window.storage:null;
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const uid=()=>"d"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const showEl=id=>document.getElementById(id).hidden=false;
+const hideEl=id=>document.getElementById(id).hidden=true;
 
 async function load(){
-  drugs=await migrate();
-  await save();
+  drugs=SEED_ALL.slice();
+  if(store){
+    try{
+      const tout=new Promise((_,r)=>setTimeout(()=>r("to"),2500));
+      const res=await Promise.race([store.get(KEY),tout]);
+      if(res&&res.value){
+        const p=JSON.parse(res.value);
+        const saved=Array.isArray(p)?p:(p.drugs||[]);
+        if(saved.length){
+          drugs=saved;
+          SEED_ALL.forEach(d=>{if(!drugs.find(x=>x.id===d.id))drugs.push(d);});
+        }
+      }
+    }catch(e){drugs=SEED_ALL.slice();}
+    try{await store.set(KEY,JSON.stringify(drugs));}catch(e){}
+  }
   render();
 }
 async function save(){if(store){try{await store.set(KEY,JSON.stringify(drugs));}catch(e){console.error(e);}}}
@@ -328,15 +487,13 @@ function render(){
   if(query){const q=query.toLowerCase();items=items.filter(d=>(d.ad||"").toLowerCase().includes(q)||(d.etken||"").toLowerCase().includes(q));}
   const list=document.getElementById("list");
   if(!items.length){
-    const emptyCat=activeCat!=="all"?CATS[activeCat].label:"";
-    list.innerHTML=`<div class="empty"><div class="big">${query?"Sonuç yok":(emptyCat?emptyCat+" kartın yok":"Kart yok")}</div>
-      <div>${query?"Başka bir ad ya da etken madde dene.":"İlk kartını eklemek için başla."}</div>
-      ${query?"":'<button class="add-btn" data-add="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Yeni ilaç</button>'}</div>`;
+    list.innerHTML=`<div class="empty"><div class="big">${query?"Sonuç yok":"Kart yok"}</div><div>${query?"Farklı kelime dene.":"İlk kartını ekle."}</div></div>`;
   }else{
     items.sort((a,b)=>(a.ad||"").localeCompare(b.ad||"","tr"));
     list.innerHTML=items.map(d=>{
       const cat=CATS[d.kategori]||CATS.analjezik;
       const open=expanded.has(d.id);
+      const anim=getAnim(d);
       const rows=DISPLAY.filter(k=>d[k]&&d[k].trim()).map(k=>
         `<div class="field ${k==="kontrendikasyon"?"kontra":""}"><div class="lb">${LABELS[k]}</div><div class="vl">${esc(d[k])}</div></div>`
       ).join("");
@@ -346,7 +503,9 @@ function render(){
           <span class="chip" style="color:${cat.color};background:${cat.bg}">${cat.label}</span>
           <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <div class="cbody">${rows||'<div class="field"><div class="vl" style="color:var(--muted)">Henüz detay girilmemiş.</div></div>'}
+        <div class="cbody">
+          ${anim?`<div class="mek-anim">${anim}</div>`:""}
+          ${rows||'<div class="field"><div class="vl" style="color:var(--muted)">Detay girilmemiş.</div></div>'}
           <div class="cact">
             <button class="mini edit" data-edit="${d.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Düzenle</button>
             <button class="mini del" data-del="${d.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Sil</button>
@@ -358,34 +517,35 @@ function render(){
   const c=counts();
   document.getElementById("stat").textContent=`${drugs.length} kart · ${c.analjezik} analjezik · ${c.antibiyotik} antibiyotik · ${c.gastro} gastro`;
 }
+
 function openModal(id){
   editingId=id||null;
   const d=id?drugs.find(x=>x.id===id):{kategori:activeCat!=="all"?activeCat:"analjezik"};
   document.getElementById("mtitle").textContent=id?"İlacı düzenle":"Yeni ilaç";
   document.getElementById("mbody").innerHTML=FIELDS.map(f=>{
-    const v=esc(d[f.k]||"");
-    let ctrl;
+    const v=esc(d[f.k]||"");let ctrl;
     if(f.t==="select"){ctrl=`<select id="f_${f.k}">`+Object.keys(CATS).map(k=>`<option value="${k}" ${d[f.k]===k?"selected":""}>${CATS[k].label}</option>`).join("")+`</select>`;}
     else if(f.t==="area"){ctrl=`<textarea id="f_${f.k}">${v}</textarea>`;}
     else{ctrl=`<input id="f_${f.k}" type="text" value="${v}" ${f.req?"required":""}>`;}
     return `<div class="frow"><label for="f_${f.k}">${f.label}${f.req?' <span style="color:var(--danger)">*</span>':""}</label>${ctrl}</div>`;
   }).join("");
   document.getElementById("overlay").classList.add("on");
+  document.getElementById("saveBtn").onclick=saveModal;
   setTimeout(()=>{const el=document.getElementById("f_ad");if(el)el.focus();},50);
 }
 function closeModal(){document.getElementById("overlay").classList.remove("on");editingId=null;}
 async function saveModal(){
   const ad=document.getElementById("f_ad").value.trim();
-  if(!ad){document.getElementById("f_ad").focus();document.getElementById("f_ad").style.borderColor="var(--danger)";return;}
+  if(!ad){document.getElementById("f_ad").style.borderColor="var(--danger)";return;}
   const obj={};FIELDS.forEach(f=>obj[f.k]=document.getElementById("f_"+f.k).value.trim());
   if(editingId){const i=drugs.findIndex(x=>x.id===editingId);obj.id=editingId;drugs[i]=obj;}
   else{obj.id=uid();drugs.push(obj);expanded.add(obj.id);}
   await save();closeModal();render();
 }
+
 document.getElementById("addBtn").onclick=()=>openModal();
 document.getElementById("closeBtn").onclick=closeModal;
 document.getElementById("cancelBtn").onclick=closeModal;
-document.getElementById("saveBtn").onclick=saveModal;
 document.getElementById("overlay").onclick=e=>{if(e.target.id==="overlay")closeModal();};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&document.getElementById("overlay").classList.contains("on"))closeModal();});
 document.getElementById("tabs").onclick=e=>{const t=e.target.closest(".tab");if(t){activeCat=t.dataset.cat;render();}};
@@ -403,14 +563,166 @@ document.getElementById("list").onclick=e=>{
 document.getElementById("resetBtn").onclick=async()=>{
   if(confirm("Tüm kartlar örnek verilerle değiştirilecek. Emin misin?")){drugs=SEED_ALL.slice();expanded.clear();await save();render();}
 };
-function switchView(v){
-  document.querySelectorAll(".seg").forEach(s=>s.classList.toggle("on",s.dataset.view===v));
-  document.getElementById("view-cards").hidden=(v!=="cards");
-  document.getElementById("view-tree").hidden=(v!=="tree");
-  document.getElementById("addBtn").style.visibility=(v==="cards")?"visible":"hidden";
-  if(v==="tree")treeReset();
+
+/* ===== VÜCUT HARİTASI ===== */
+function buildVucutSVG(){
+  const svg=`<svg viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tıklanabilir vücut haritası">
+  <!-- Kafa -->
+  <ellipse class="vb-region" data-organ="beyin" cx="100" cy="38" rx="32" ry="36" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
+  <text x="100" y="42" text-anchor="middle" font-size="9" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Beyin</text>
+  <!-- Boyun -->
+  <rect x="88" y="72" width="24" height="18" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1"/>
+  <!-- Boğaz/Burun bölgesi işareti -->
+  <ellipse class="vb-region" data-organ="bogazburun" cx="100" cy="76" rx="18" ry="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="100" y="79" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">KBB</text>
+  <!-- Kulak sol -->
+  <ellipse class="vb-region" data-organ="kulak" cx="66" cy="44" rx="10" ry="13" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="66" y="48" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Kulak</text>
+  <!-- Gövde -->
+  <rect x="60" y="90" width="80" height="120" rx="16" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+  <!-- Akciğer sol -->
+  <ellipse class="vb-region" data-organ="akciger" cx="82" cy="128" rx="18" ry="26" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
+  <text x="82" y="126" text-anchor="middle" font-size="7.5" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">Akciğer</text>
+  <!-- Akciğer sağ -->
+  <ellipse class="vb-region" data-organ="akciger" cx="118" cy="128" rx="18" ry="26" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
+  <!-- Yemek borusu -->
+  <rect class="vb-region" data-organ="yemekborusu" x="92" y="90" width="16" height="40" rx="6" fill="#F3E8FF" stroke="#7C3D8A" stroke-width="1.5"/>
+  <text x="100" y="106" text-anchor="middle" font-size="6.5" fill="#5B21B6" font-family="Inter,sans-serif" pointer-events="none">Y.Borusu</text>
+  <!-- Kalp -->
+  <path class="vb-region" data-organ="kan" d="M97 122 Q94 114 88 114 Q80 114 80 122 Q80 130 97 140 Q114 130 114 122 Q114 114 106 114 Q100 114 97 122Z" fill="#FEE2E2" stroke="#B02A2A" stroke-width="1.5"/>
+  <text x="97" y="129" text-anchor="middle" font-size="7" fill="#991B1B" font-family="Inter,sans-serif" pointer-events="none">Kalp/Kan</text>
+  <!-- Mide -->
+  <ellipse class="vb-region" data-organ="mide" cx="92" cy="178" rx="22" ry="18" fill="#F6ECDD" stroke="#B45309" stroke-width="1.5"/>
+  <text x="92" y="181" text-anchor="middle" font-size="8" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Mide</text>
+  <!-- Karın -->
+  <ellipse class="vb-region" data-organ="karin" cx="114" cy="182" rx="18" ry="16" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="114" y="185" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Karın</text>
+  <!-- Kollar -->
+  <rect x="28" y="92" width="28" height="90" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <rect x="144" y="92" width="28" height="90" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <!-- Eklem (dirsek) -->
+  <ellipse class="vb-region" data-organ="eklem" cx="30" cy="158" rx="16" ry="14" fill="#D1FAE5" stroke="#0F766E" stroke-width="1.5"/>
+  <text x="30" y="161" text-anchor="middle" font-size="6.5" fill="#065F46" font-family="Inter,sans-serif" pointer-events="none">Eklem</text>
+  <!-- Omurga -->
+  <rect class="vb-region" data-organ="omurga" x="93" y="212" width="14" height="60" rx="5" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
+  <text x="100" y="248" text-anchor="middle" font-size="6.5" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Omurga</text>
+  <!-- Bacaklar -->
+  <rect x="65" y="210" width="30" height="130" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <rect x="105" y="210" width="30" height="130" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <!-- Kas (uyluk) -->
+  <ellipse class="vb-region" data-organ="kas" cx="80" cy="250" rx="16" ry="22" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
+  <text x="80" y="253" text-anchor="middle" font-size="7" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Kas</text>
+  <!-- İdrar yolu -->
+  <ellipse class="vb-region" data-organ="idrar" cx="120" cy="250" rx="16" ry="18" fill="#DBEAFE" stroke="#1D5FA5" stroke-width="1.5"/>
+  <text x="120" y="253" text-anchor="middle" font-size="6.5" fill="#1E40AF" font-family="Inter,sans-serif" pointer-events="none">İdrar Yolu</text>
+  <!-- Genital -->
+  <ellipse class="vb-region" data-organ="genital" cx="100" cy="296" rx="18" ry="12" fill="#ECEAF9" stroke="#5B4FC7" stroke-width="1.5"/>
+  <text x="100" y="299" text-anchor="middle" font-size="7" fill="#3730A3" font-family="Inter,sans-serif" pointer-events="none">Genital</text>
+  <!-- Cilt (sol kol) -->
+  <ellipse class="vb-region" data-organ="cilt" cx="162" cy="148" rx="14" ry="18" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+  <text x="162" y="151" text-anchor="middle" font-size="7" fill="#92400E" font-family="Inter,sans-serif" pointer-events="none">Cilt</text>
+  <!-- Kemik (alt bacak) -->
+  <ellipse class="vb-region" data-organ="kemik" cx="80" cy="320" rx="14" ry="18" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.5"/>
+  <text x="80" y="323" text-anchor="middle" font-size="7" fill="#374151" font-family="Inter,sans-serif" pointer-events="none">Kemik</text>
+</svg>`;
+  document.getElementById("vucut-svg-container").innerHTML=svg;
+  document.querySelectorAll(".vb-region").forEach(el=>{
+    el.addEventListener("click",function(){
+      document.querySelectorAll(".vb-region.active").forEach(x=>x.classList.remove("active"));
+      this.classList.add("active");
+      showVucutOrgan(this.dataset.organ);
+    });
+  });
 }
-document.querySelectorAll(".seg").forEach(s=>s.onclick=()=>switchView(s.dataset.view));
+function showVucutOrgan(organKey){
+  const organ=ORGAN_MAP[organKey];
+  if(!organ)return;
+  hideEl("vucut-empty-msg");showEl("vucut-results");
+  document.getElementById("vucut-region-title").textContent=organ.label;
+  const ilaclar=organ.ids.map(id=>drugs.find(d=>d.id===id)).filter(Boolean);
+  document.getElementById("vucut-ilac-list").innerHTML=ilaclar.map(d=>{
+    const cat=CATS[d.kategori]||CATS.analjezik;
+    return `<div class="vb-ilac-card" style="--vc:${cat.color}" onclick="goToCard('${d.id}')">
+      <div class="vn">${esc(d.ad)}</div>
+      <div class="ve">${esc(d.etken)} · <span style="color:${cat.color}">${cat.label}</span></div>
+    </div>`;
+  }).join("")||`<p style="color:var(--muted);font-size:14px">Bu bölge için kayıtlı ilaç yok.</p>`;
+}
+
+/* ===== VAKA ÇÖZÜCÜ ===== */
+let currentVakaGroup=null;
+let vakaScore={d:0,t:0};
+let vakaAnswered=false;
+
+function startVaka(group){
+  currentVakaGroup=group;
+  vakaAnswered=false;
+  hideEl("vaka-start-screen");showEl("vaka-game");
+  hideEl("vaka-content");showEl("vaka-loading");
+  hideEl("vaka-feedback");hideEl("vaka-next-row");
+  document.getElementById("vaka-score").textContent=vakaScore.t>0?`${vakaScore.d}/${vakaScore.t} doğru`:"";
+  const groupLabel={analjezik:"💊 Analjezik vakası",antibiyotik:"🦠 Antibiyotik vakası",gastro:"🫀 Gastro vakası",karisik:"🎲 Karışık vaka"};
+  document.getElementById("vaka-label").textContent=groupLabel[group]||"Vaka";
+  document.getElementById("vaka-next-btn").onclick=()=>startVaka(currentVakaGroup);
+
+  let groupDrugs;
+  if(group==="karisik") groupDrugs=drugs.filter(d=>d.kategori!=="diger");
+  else groupDrugs=drugs.filter(d=>d.kategori===group);
+  if(!groupDrugs.length){hideEl("vaka-loading");showEl("vaka-content");document.getElementById("vaka-text").textContent="Bu grupta ilaç bulunamadı.";return;}
+
+  const correct=groupDrugs[Math.floor(Math.random()*groupDrugs.length)];
+  const wrong=groupDrugs.filter(d=>d.id!==correct.id).sort(()=>Math.random()-.5).slice(0,3);
+  const choices=[correct,...wrong].sort(()=>Math.random()-.5);
+
+  const drugList=groupDrugs.map(d=>`- ${d.ad} (${d.etken}): ${d.endikasyon||""} | Özellik: ${d.ozellik||""}`).join("\n");
+  const prompt=`Sen bir farmakoloji öğretmenisisin. Aşağıdaki ilaçlar listesinden "${correct.ad} (${correct.etken})" için gerçekçi bir hasta vakası oluştur.
+
+İlaçlar:
+${drugList}
+
+Kural:
+- Türkçe yaz
+- 3-4 cümle uzunluğunda, gerçekçi bir hasta senaryosu
+- Yaş, cinsiyet, şikayet, öykü, varsa muayene bulguları belirt
+- İlaç adını veya etken maddeyi ASLA söyleme
+- Sadece vakayı yaz, başka hiçbir şey ekleme`;
+
+  fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:300,messages:[{role:"user",content:prompt}]})
+  }).then(r=>r.json()).then(data=>{
+    const text=data.content?.map(c=>c.text||"").join("").trim()||"Vaka üretilemedi.";
+    hideEl("vaka-loading");showEl("vaka-content");
+    document.getElementById("vaka-text").textContent=text;
+    document.getElementById("vaka-choices").innerHTML=choices.map(d=>
+      `<button class="vaka-choice" data-id="${d.id}" data-correct="${d.id===correct.id}" onclick="answerVaka(this,'${correct.id}','${esc(correct.ayirt||correct.ozellik||"")}')">
+        ${esc(d.ad)} <span style="font-size:12px;color:var(--muted)">· ${esc(d.etken)}</span>
+      </button>`
+    ).join("");
+  }).catch(()=>{
+    hideEl("vaka-loading");showEl("vaka-content");
+    document.getElementById("vaka-text").textContent="Bağlantı hatası. İnternet bağlantınızı kontrol edin.";
+  });
+}
+
+function answerVaka(btn,correctId,ayirt){
+  if(vakaAnswered)return;
+  vakaAnswered=true;
+  vakaScore.t++;
+  const isCorrect=btn.dataset.correct==="true";
+  if(isCorrect){vakaScore.d++;btn.classList.add("correct");}
+  else{
+    btn.classList.add("wrong");
+    document.querySelectorAll(".vaka-choice").forEach(b=>{if(b.dataset.correct==="true")b.classList.add("reveal");});
+  }
+  document.querySelectorAll(".vaka-choice").forEach(b=>b.disabled=true);
+  const fb=document.getElementById("vaka-feedback");
+  fb.style.background=isCorrect?"var(--analjezik-bg)":"var(--danger-bg)";
+  fb.style.color=isCorrect?"var(--analjezik)":"var(--danger)";
+  fb.innerHTML=`<strong>${isCorrect?"✓ Doğru!":"✗ Yanlış."}</strong> ${ayirt?`<br><span style="font-weight:400;color:var(--ink)">${esc(ayirt)}</span>`:""}`;
+  showEl("vaka-feedback");showEl("vaka-next-row");
+  document.getElementById("vaka-score").textContent=`${vakaScore.d}/${vakaScore.t} doğru`;
+}
 
 /* ===== KARAR AĞACI ===== */
 const FAM={
@@ -423,13 +735,13 @@ const FAM={
 const NOTES={
   analj:"Beşinde de ortak: aktif ülser/GİS kanama öyküsü, ağır KC-böbrek-kalp yetmezliği, geç gebelik. Antikoagülan, aspirin ve kortikosteroidle birlikte kanama riski artar.",
   antib:"Antibiyotiklerde ortak: ilgili gruba aşırı duyarlılık; sefalosporinlerde beta-laktam çapraz alerjisi. Seçim olası etken ve direnç durumuna göre yapılır.",
-  gastro:"Üçünde de ortak: uzun süreli kullanımda B12/magnezyum düşüklüğü, osteoporoz ve kırık riski. En düşük etkili dozda, gerektiği kadar kullanılmalıdır. Atazanavir gibi bazı HIV ilaçları hepsinde kontrendikedir."
+  gastro:"Üçünde de ortak: uzun süreli kullanımda B12/magnezyum düşüklüğü, osteoporoz ve kırık riski. En düşük etkili dozda, gerektiği kadar kullanılmalı. Atazanavir gibi bazı HIV ilaçları hepsinde kontrendike."
 };
 const TREE={
   start:{h:"Karar ağacı · başlangıç",q:"Hangi ilaç grubuyla ilerleyelim?",a:[
-    {t:"Analjezik (ağrı kesici)",to:"root_analj"},
-    {t:"Antibiyotik",to:"root_antib"},
-    {t:"Gastro (mide koruyucu / PPI)",to:"root_gastro"}]},
+    {t:"💊 Analjezik (ağrı kesici)",to:"root_analj"},
+    {t:"🦠 Antibiyotik",to:"root_antib"},
+    {t:"🫀 Gastro (PPI / mide koruyucu)",to:"root_gastro"}]},
   root_analj:{h:"Analjezik · kök soru",q:"Ağrıya kas spazmı eşlik ediyor mu?",a:[
     {t:"Hayır — sadece ağrı ve iltihap",to:"saf"},
     {t:"Evet — kas spazmı da var",to:"combo"}]},
@@ -440,237 +752,5 @@ const TREE={
   combo:{h:"Kombinasyon · kilit soru",q:"Tablo akut mu, kronik mi?",a:[
     {t:"Akut / ani / şiddetli (travma, bel tutulması)",to:"tiyokas"},
     {t:"Kronik / süregelen kas-iskelet ağrısı",to:"etolax"}]},
-  root_antib:{h:"Antibiyotik · kök soru",q:"Atipik/hücre içi etken düşünülüyor mu, ya da beta-laktam (penisilin/sefalosporin) alerjisi var mı?",a:[
-    {t:"Evet — atipik/klamidya ya da beta-laktam alerjisi",to:"azaks"},
-    {t:"Hayır — sefalosporin uygun",to:"ab_sef"}]},
-  ab_sef:{h:"Sefalosporin dalı · kilit soru",q:"Enfeksiyon ağırlığı ve uygulama yolu?",a:[
-    {t:"Ağır/sistemik, enjeksiyon gerekiyor (sepsis, menenjit, ağır pnömoni)",to:"sefabel"},
-    {t:"Hafif-orta, ağızdan tedavi uygun (ayaktan)",to:"ab_oral"}]},
-  ab_oral:{h:"Oral sefalosporin · kilit soru",q:"2. kuşak yeterli mi, yoksa daha geniş 3. kuşak oral mı?",a:[
-    {t:"Standart KBB/solunum/idrar, erken Lyme → 2. kuşak yeterli",to:"aksef"},
-    {t:"Daha geniş gram-negatif / beta-laktamaz üreten etken → 3. kuşak oral",to:"sefpotec"}]},
-  root_gastro:{h:"Gastro (PPI) · kök soru",q:"Birincil öncelik nedir?",a:[
-    {t:"Maksimum asit baskılama gücü önceliğim",to:"esom"},
-    {t:"Klopidogrel veya çok ilaç kullanan hasta — ilaç etkileşimi riski az olsun",to:"pulcet"},
-    {t:"Standart reflü/ülser tedavisi, denge arıyorum",to:"lansoprol"}]}
-};
-const LEAF={
-  maprofen:{name:"Maprofen",etken:"Flurbiprofen",fam:"saf",grp:"analj",key:"Romatizmal endikasyonda oturmuş, güçlü antiinflamatuar NSAİİ.",ini:"FY",hasta:"Fatma Y. · 61 — romatoid artrit, uzun süreli iltihabi eklem hastalığı.",vs:"Etol/Melox'tan farkı: romatizmada öne çıkar ama etkileşim listesi uzun (tansiyon ilacı, diüretik, lityum). İlaç listesini mutlaka kontrol et."},
-  melox:{name:"Melox",etken:"Meloksikam",fam:"saf",grp:"analj",key:"COX-2 tercihli → görece mide dostu, günde tek doz, ampul formu var.",ini:"AH",hasta:"Ayşe H. · 58 — diz osteoartriti + gastrit öyküsü.",vs:"Etol'dan farkı: mide/GİS riski öndeyse Melox seç. İkisi de kronik ama COX-2 tercihi Melox'u ayırır."},
-  etol:{name:"Etol",etken:"Etodolak",fam:"saf",grp:"analj",key:"Uzun etkili (SR/dual) formlar → kronik, düzenli kullanıma uygun.",ini:"AD",hasta:"Ali D. · 67 — uzun süreli dejeneratif eklem ağrısı, düzenli kullanım.",vs:"Melox'tan farkı: mide öyküsü yoksa ve doz esnekliği isteniyorsa Etol. İleri yaşta böbrek/GİS takibi önemli."},
-  tiyokas:{name:"Tiyokas",etken:"Deksketoprofen + tiyokolşikosid",fam:"combo",grp:"analj",key:"Hızlı ve güçlü; akut atak + spazm için. Kısa süreli.",ini:"ET",hasta:"Emre T. · 32 — ağır kaldırma sonrası akut bel tutulması + şiddetli spazm.",vs:"Etolax'tan farkı: AKUT ve hızlı etki gerekiyorsa Tiyokas (şase/IM ile hızlı başlar)."},
-  etolax:{name:"Etolax",etken:"Etodolak + tiyokolşikosid",fam:"combo",grp:"analj",key:"Etodolak tabanlı; kronik kas-iskelet ağrısı + spazm. 'Etol + relax'.",ini:"MK",hasta:"Mehmet K. · 45 — masa başı işçi, kronik bel ağrısı + kas spazmı.",vs:"Tiyokas'tan farkı: KRONİK/süregelen ise Etolax. Epilepsi öyküsünde kontrendike — sorgula."},
-  azaks:{name:"Azaks",etken:"Azitromisin",fam:"makrolid",grp:"antib",key:"Tek makrolid; atipik/hücre içi (klamidya) etkenlerde ve beta-laktam alerjisinde öne çıkar. Günde tek doz kısa kür.",ini:"SA",hasta:"Selin A. · 27 — Chlamydia trachomatis kaynaklı komplike olmayan genital enfeksiyon.",vs:"Sefalosporinlerden farkı: hücre duvarına değil protein sentezine etki eder. Atipik etken ya da penisilin/sefalosporin alerjisinde tercih edilir."},
-  sefabel:{name:"Sefabel",etken:"Seftriakson",fam:"sefalosporin",grp:"antib",key:"3. kuşak, sadece enjeksiyonluk (IM/IV). Ağır/sistemik enfeksiyonlar. 24 saatte bir.",ini:"HT",hasta:"Hasan T. · 54 — ağır toplum kökenli pnömoni / şüpheli menenjit, hastane yatışı.",vs:"Sefpotec'ten farkı: aynı 3. kuşak ama enjeksiyonluk ve ağır tablolar için. Kalsiyumlu IV çözeltiler ve yenidoğanda dikkat."},
-  aksef:{name:"Aksef",etken:"Sefuroksim",fam:"sefalosporin",grp:"antib",key:"Oral 2. kuşak sefalosporin; KBB, solunum, idrar, erken Lyme. Yemekten sonra, günde iki kez.",ini:"MY",hasta:"Merve Y. · 34 — bakteriyel sinüzit/bronşit alevlenmesi, ayaktan tedavi.",vs:"Sefpotec'ten farkı: 2. kuşak; standart ayaktan enfeksiyonlarda yeterli. Antiasitler etkisini azaltır."},
-  sefpotec:{name:"Sefpotec",etken:"Sefpodoksim proksetil",fam:"sefalosporin",grp:"antib",key:"3. kuşak etkinliği oral formda; enjeksiyonsuz geniş gram-negatif kapsam, bazı beta-laktamazlara dayanıklı.",ini:"DB",hasta:"Deniz B. · 41 — komplike olmayan idrar yolu + solunum yolu enfeksiyonu, oral 3. kuşak istenen durum.",vs:"Aksef'ten farkı: 3. kuşak, daha geniş gram-negatif. Sefabel'den farkı: oral. Geniş spektrum her zaman üstün değil — direnç durumuna göre seçilir."},
-  esom:{name:"Esom",etken:"Esomeprazol",fam:"ppi",grp:"gastro",key:"En güçlü asit baskılayıcı PPI. Güçlü/dirençli reflü ve Zollinger-Ellison'da öne çıkar.",ini:"ZK",hasta:"Zeynep K. · 48 — dirençli GÖRH, yoğun asit şikayetleri, maksimum baskılama gerekiyor.",vs:"Lansoprol/Pulcet'ten farkı: asit baskılama gücü en yüksek. Klopidogrel kullananlar dikkat — etkileşim riski nedeniyle yerine Pulcet tercih edilebilir."},
-  lansoprol:{name:"Lansoprol",etken:"Lansoprazol",fam:"ppi",grp:"gastro",key:"Dengeli PPI; standart reflü, ülser ve H. pylori eradikasyon tedavisinde yaygın kullanım.",ini:"AY",hasta:"Ahmet Y. · 55 — gastroözofajiyal reflü + onikiparmak bağırsağı ülseri, standart tedavi.",vs:"Esom'dan farkı: asit baskılama gücü benzer ama klopidogrel etkileşimi açısından daha avantajlı olabilir. Pulcet'ten farkı: ilaç etkileşimi profili benzer, ikisi de dengeli seçenekler."},
-  pulcet:{name:"Pulcet",etken:"Pantoprazol",fam:"ppi",grp:"gastro",key:"İlaç etkileşimi potansiyeli en düşük PPI. Klopidogrel veya çok ilaç kullanan hastalarda tercih edilir.",ini:"MO",hasta:"Mustafa O. · 62 — miyokard enfarktüsü sonrası klopidogrel + aspirin kullanıyor, mide koruması gerekiyor.",vs:"Esom/Lansoprol'den farkı: CYP2C19 üzerinden etkileşim riski daha az. Özellikle klopidogrel kombinasyonunda güvenli tercih. Asit baskılama gücü diğerleriyle benzer."}
-};
-const IC={
-  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
-  key:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 21 2M17 5l3 3M15 7l2 2"/></svg>',
-  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
-  cmp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M17 4v16M3 8h4M17 8h4M3 16h4M17 16h4"/></svg>',
-  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3zM12 9v5M12 17h.01"/></svg>',
-  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4"/></svg>',
-  refresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg>',
-  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>'
-};
-let tpath=[];
-function treeCrumbs(){
-  const c=document.getElementById("crumbs");
-  if(!tpath.length){c.innerHTML=`<span class="crumb">${IC.pin} Başla: grup seç</span>`;return;}
-  c.innerHTML=tpath.map(p=>`<span class="crumb">${esc(p)}</span>`).join('<span class="sep">›</span>')+
-    ` <button class="crumb-r" onclick="treeReset()">${IC.refresh} baştan</button>`;
-}
-function treeNode(id){
-  const n=TREE[id];
-  document.getElementById("stage").innerHTML=`<div class="qcard">
-    <p class="qh">${esc(n.h)}</p><p class="qt">${esc(n.q)}</p>
-    <div class="opts">${n.a.map((o,i)=>`<button class="opt" onclick="treePick('${id}',${i})">${esc(o.t)}${IC.arrow}</button>`).join("")}</div></div>`;
-  treeCrumbs();
-}
-function treeLeaf(id){
-  const d=LEAF[id],f=FAM[d.fam];
-  const hasCard=!!drugs.find(x=>x.id===id);
-  document.getElementById("stage").innerHTML=`<div class="leaf" style="--fam:${f.c};--fam-bg:${f.bg}">
-    <div class="leaf-top"><p class="leaf-name">${esc(d.name)}</p><p class="leaf-etken">${esc(d.etken)}</p>
-      <span class="fam-chip">${f.label}</span></div>
-    <div class="sec"><p class="lb">${IC.key}Kilit ayırt edici</p><p class="tx">${esc(d.key)}</p></div>
-    <div class="sec"><p class="lb">${IC.user}Örnek hasta</p><div class="hasta"><span class="av">${esc(d.ini)}</span><p class="tx">${esc(d.hasta)}</p></div></div>
-    <div class="sec"><p class="lb">${IC.cmp}Neden komşusu değil?</p><p class="tx">${esc(d.vs)}</p></div>
-    <div class="redflag">${IC.alert}<span>${esc(NOTES[d.grp]||"")}</span></div>
-    <div class="leaf-act">
-      ${hasCard?`<button class="act pri" onclick="goToCard('${id}')">${IC.file}Tam kartını aç</button>`:""}
-      <button class="act" onclick="treeReset()">${IC.refresh}Baştan başla</button>
-    </div></div>`;
-  treeCrumbs();
-}
-function treePick(id,i){const o=TREE[id].a[i];tpath.push(o.t);if(TREE[o.to])treeNode(o.to);else treeLeaf(o.to);}
-function treeReset(){tpath=[];treeNode("start");}
-function goToCard(id){
-  switchView("cards");
-  const d=drugs.find(x=>x.id===id);
-  activeCat="all";query="";document.getElementById("search").value="";
-  if(d)expanded.add(id);
-  render();
-  if(d)setTimeout(()=>{const el=document.querySelector('.card[data-id="'+id+'"]');if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1500);}},80);
-}
-load();
-treeReset();
-
-/* ===== TERİMLER ===== */
-const TERM_CATS={
-  hastalik:{label:"Hastalık / Sendrom",color:"var(--danger)",bg:"var(--danger-bg)"},
-  mekanizma:{label:"Mekanizma / Enzim",color:"var(--analjezik)",bg:"var(--analjezik-bg)"},
-  ilac:{label:"İlaç / Grup",color:"var(--antibiyotik)",bg:"var(--antibiyotik-bg)"},
-  kisaltma:{label:"Kısaltma",color:"var(--gastro)",bg:"var(--gastro-bg)"},
-  diger:{label:"Diğer",color:"var(--faint)",bg:"var(--line-soft)"}
-};
-const TERM_SEED=[
-  {id:"t_gorh",terim:"GÖRH",kategori:"kisaltma",tanim:"Gastroözofajiyal Reflü Hastalığı. Midenin asit içeriğinin yemek borusuna kaçması sonucu oluşan hastalık. Göğüste yanma, ekşime ve ağza acı su gelmesi en sık belirtileridir. Uzun süreli reflü yemek borusunda iltihaplanmaya (özofajit) yol açabilir.",ornekler:"Esom, Lansoprol, Pulcet"},
-  {id:"t_ze",terim:"Zollinger-Ellison Sendromu",kategori:"hastalik",tanim:"Pankreas veya onikiparmak bağırsağında gastrin hormonu salgılayan tümörün (gastrinoma) bulunduğu nadir bir hastalık. Bu tümör aşırı miktarda gastrin üretir; gastrin ise mide asit salgısını çok yüksek seviyelere çıkarır. Sonuç olarak çok sayıda ve tedaviye dirençli ülserler oluşur.",ornekler:"Esom, Lansoprol, Pulcet"},
-  {id:"t_klopidogrel",terim:"Klopidogrel",kategori:"ilac",tanim:"Trombosit (kan pıhtısı oluşturan hücre) topaklaşmasını önleyen bir antiplatelet ilaç. Kalp krizi veya inme geçirmiş ya da stent takılmış hastalarda pıhtı oluşumunu engellemek için kullanılır. Bazı PPI'larla (özellikle esomeprazol/omeprazol) birlikte kullanıldığında etkisi azalabilir; bu nedenle bu kombinasyonda Pulcet (pantoprazol) tercih edilir.",ornekler:"Pulcet, Esom"},
-  {id:"t_cox",terim:"COX (Siklooksijenaz)",kategori:"mekanizma",tanim:"Siklooksijenaz; vücutta prostaglandin (ağrı, iltihap ve ateş aracısı) üretimini sağlayan enzim ailesi. COX-1 ve COX-2 olmak üzere iki ana tipi vardır. NSAİİ'ler bu enzimi inhibe ederek ağrı ve iltihabı azaltır. COX-1 mide mukozasını koruyucu prostaglandinleri de ürettiğinden, COX-1'i de baskılayan NSAİİ'ler mideye zarar verebilir.",ornekler:"Etol, Melox, Maprofen, Etolax, Tiyokas"},
-  {id:"t_cox2",terim:"COX-2 Tercihli",kategori:"mekanizma",tanim:"Esas olarak COX-2 enzimini hedef alan, COX-1'i görece daha az baskılayan NSAİİ özelliği. COX-2 özellikle iltihap bölgelerinde artar; COX-1 ise mide korumasında kritiktir. COX-2 tercihli ilaçlar benzer ağrı kesici etki gösterirken mide yan etki riskini azaltır.",ornekler:"Melox (meloksikam)"},
-  {id:"t_ppi",terim:"PPI (Proton Pompası İnhibitörü)",kategori:"ilac",tanim:"Mide pariyetal hücrelerindeki H+/K+-ATPaz enzimini (proton pompası) bloke ederek asit üretimini kaynağında durduran ilaç grubu. Antiasitlerden farklı olarak mevcut asidi nötralize etmez; yeni asit üretimini önler. Düzenli kullanımda etkisi artar. Esom, Lansoprol ve Pulcet bu gruba aittir.",ornekler:"Esom, Lansoprol, Pulcet"},
-  {id:"t_nsaii",terim:"NSAİİ",kategori:"kisaltma",tanim:"Non-Steroidal Anti-İnflamatuar İlaç. Kortizol gibi steroid hormonlardan kimyasal olarak farklı olan ağrı kesici ve iltihap giderici ilaç grubu. COX enzimlerini inhibe ederek prostaglandin üretimini azaltırlar. Ağrı, iltihap ve ateşe karşı etkilidir. Mide, böbrek ve kalp-damar sistemi üzerinde yan etkileri olabilir.",ornekler:"Etol, Melox, Maprofen, Etolax, Tiyokas"},
-  {id:"t_hp",terim:"Helicobacter pylori (H. pylori)",kategori:"hastalik",tanim:"Mide mukozasında yaşayan ve mide ile onikiparmak bağırsağı ülserlerinin en sık nedeni olan bir bakteri. Mide asidine dayanıklı özel bir yapısı vardır. Ülser tedavisinde tek başına yok edilemez; uygun antibiyotik kombinasyonları (genellikle iki antibiyotik) ile birlikte PPI kullanılarak eradike edilir.",ornekler:"Esom, Lansoprol, Pulcet, Aksef, Azaks"},
-  {id:"t_erozif_ozofajit",terim:"Eroziv Özofajit",kategori:"hastalik",tanim:"Mide asidinin yemek borusuna sürekli kaçması sonucu yemek borusu iç yüzeyinde oluşan erozyon (yüzeysel hasar) ve iltihaplanma. GÖRH'ün daha ileri evresi olarak kabul edilir. Göğüste yanma, yutma güçlüğü ve ağrıya yol açabilir.",ornekler:"Esom, Lansoprol, Pulcet"},
-  {id:"t_sefalosporin",terim:"Sefalosporin",kategori:"ilac",tanim:"Beta-laktam halkası içeren geniş spektrumlu antibiyotik grubu. Bakterilerin hücre duvarı sentezini bozarak öldürürler (bakterisidal). 1. kuşaktan 5. kuşağa kadar sınıflandırılır; kuşak ilerledikçe gram-negatif bakteri kapsamı genişler. Penisilin alerjisi olanlarda çapraz reaksiyon riski göz önüne alınmalıdır.",ornekler:"Aksef (2. kuşak), Sefabel (3. kuşak-enjeksiyonluk), Sefpotec (3. kuşak-oral)"},
-  {id:"t_makrolid",terim:"Makrolid",kategori:"ilac",tanim:"Bakterilerin 50S ribozomal alt birimine bağlanarak protein sentezini durduran antibiyotik grubu. Genellikle bakteriyostatiktir (bakteri büyümesini durdurur, öldürmez); yüksek konsantrasyonda bakterisidal etki gösterebilir. Atipik bakterilere karşı etkili olmaları ve dokularda uzun süre kalmaları önemli özellikleridir.",ornekler:"Azaks (azitromisin)"},
-  {id:"t_bakterisidal",terim:"Bakterisidal",kategori:"mekanizma",tanim:"Bakterileri doğrudan öldüren etki türü. Beta-laktam antibiyotikler (sefalosporinler, penisilinler) ve bazı diğer antibiyotikler bu şekilde çalışır. Makrolid grubu ise çoğunlukla bakteriyostatiktir.",ornekler:"Aksef, Sefabel, Sefpotec"},
-  {id:"t_bakteriyostatik",terim:"Bakteriyostatik",kategori:"mekanizma",tanim:"Bakterileri öldürmek yerine çoğalmalarını durduran etki türü. Bağışıklık sistemi devreye girerek bakterileri temizler. Makrolidler genellikle bu şekilde çalışır.",ornekler:"Azaks (azitromisin)"},
-  {id:"t_atipik_bakteri",terim:"Atipik Bakteri",kategori:"hastalik",tanim:"Klasik boyama yöntemleriyle (Gram boyama) sınıflandırılamayan ve hücre duvarı yapısı farklı olan bakteri grubu. Mycoplasma pneumoniae, Chlamydia trachomatis, Legionella pneumophila bunların başında gelir. Hücre içinde yaşamaları nedeniyle hücre duvarını hedef alan beta-laktam antibiyotiklere yanıt vermezler; makrolidler, florokinolonlar ve tetrasiklinlerle tedavi edilirler.",ornekler:"Azaks (azitromisin)"},
-  {id:"t_kabg",terim:"KABG (Koroner Arter Baypas Greft)",kategori:"kisaltma",tanim:"Tıkalı koroner arterlerin etrafından yeni bir kan yolu oluşturmak amacıyla yapılan açık kalp ameliyatı. Bu ameliyat öncesi ve sonrası dönemde NSAİİ kullanımı kardiyovasküler risk artışı nedeniyle kontrendikedir; bu nedenle tüm NSAİİ'lerin kontrendikasyon listesinde yer alır.",ornekler:"Etol, Melox, Maprofen, Etolax, Tiyokas"},
-  {id:"t_ankilozan_spondilit",terim:"Ankilozan Spondilit",kategori:"hastalik",tanim:"Ağırlıklı olarak omurgayı ve sakroiliak eklemleri etkileyen kronik iltihabi romatizmal hastalık. Zamanla omurga eklemlerinde sertleşme ve kaynaşmaya (ankiloz) yol açabilir. Sabah tutukluğu ve bel ağrısı en belirgin belirtilerdir. NSAİİ'ler bu hastalığın temel tedavi seçeneklerinden biridir.",ornekler:"Etol, Melox, Maprofen, Etolax, Tiyokas"},
-  {id:"t_dismenore",terim:"Dismenore",kategori:"hastalik",tanim:"Adet dönemiyle ilişkili kasılma tarzında pelvik ağrı. Prostaglandinlerin rahim kasını kasmasıyla oluşur. NSAİİ'ler prostaglandin üretimini baskılayarak bu ağrıyı etkin biçimde azaltır.",ornekler:"Etol, Melox, Tiyokas"},
-  {id:"t_tiyokolsikosid",terim:"Tiyokolşikosid",kategori:"ilac",tanim:"Santral etkili kas gevşetici ajan. Spinal düzeyde GABA-A reseptörlerine bağlanarak kas tonusunu düşürür ve spazmı giderir. Tek başına ağrı kesmez; NSAİİ'lerle kombinasyonda hem ağrıya hem spazmına etki eder. Epilepsi ve nöbet öyküsünde kontrendikedir.",ornekler:"Etolax, Tiyokas"},
-  {id:"t_gram_pos_neg",terim:"Gram Pozitif / Gram Negatif Bakteri",kategori:"mekanizma",tanim:"Bakterilerin hücre duvarı yapısına göre Gram boyama tekniğiyle ayrılması. Gram pozitif bakteriler kalın peptidoglikan tabakasıyla mor renk alır; gram negatifler ince tabaka ve dış zarla pembe kalır. Bu ayrım antibiyotik seçiminde kritik önem taşır; bazı antibiyotikler yalnızca birine etkilidir.",ornekler:"Aksef, Sefabel, Sefpotec, Azaks"},
-  {id:"t_probenesid",terim:"Probenesid",kategori:"ilac",tanim:"Böbreklerin ürik asit atılımını artırarak gut hastalığını tedavi eden ilaç. Aynı zamanda bazı antibiyotiklerin (özellikle sefalosporinlerin) böbrekten atılımını yavaşlatarak kan düzeylerini yükseltebilir. Bu nedenle antibiyotik dozlarının dikkatli ayarlanması gerekebilir.",ornekler:"Aksef, Sefabel"}
-];
-
-const TERM_KEY="ilac_terimler_v1";
-let terms=[], termCat="all", termQ="";
-const termExpanded=new Set();
-const termStore=store;
-
-async function loadTerms(){
-  if(!termStore){terms=TERM_SEED.slice();renderTerms();return;}
-  try{const r=await termStore.get(TERM_KEY);terms=JSON.parse(r.value);}
-  catch(e){terms=TERM_SEED.slice();await saveTerms();}
-  renderTerms();
-}
-async function saveTerms(){if(termStore){try{await termStore.set(TERM_KEY,JSON.stringify(terms));}catch(e){console.error(e);}}}
-
-function termCounts(){
-  const c={all:terms.length};
-  Object.keys(TERM_CATS).forEach(k=>c[k]=terms.filter(t=>t.kategori===k).length);
-  return c;
-}
-function renderTermTabs(){
-  const c=termCounts();
-  const tabs=[["all","Tümü"]].concat(Object.keys(TERM_CATS).map(k=>[k,TERM_CATS[k].label]));
-  document.getElementById("term-tabs").innerHTML=tabs.map(([k,lb])=>
-    `<button class="tab ${k===termCat?"on":""}" data-tcat="${k}">${lb}<span class="n">${c[k]||0}</span></button>`
-  ).join("");
-}
-function renderTerms(){
-  renderTermTabs();
-  let items=terms.filter(t=>termCat==="all"||t.kategori===termCat);
-  if(termQ){const q=termQ.toLowerCase();items=items.filter(t=>(t.terim||"").toLowerCase().includes(q)||(t.tanim||"").toLowerCase().includes(q));}
-  items.sort((a,b)=>(a.terim||"").localeCompare(b.terim||"","tr"));
-  const list=document.getElementById("term-list");
-  if(!items.length){
-    list.innerHTML=`<div class="empty"><div class="big">${termQ?"Sonuç yok":"Terim yok"}</div>
-      <div>${termQ?"Farklı bir kelime dene.":"İlk terimi ekle."}</div></div>`;
-  }else{
-    list.innerHTML=items.map(t=>{
-      const cat=TERM_CATS[t.kategori]||TERM_CATS.diger;
-      const open=termExpanded.has(t.id);
-      return `<div class="tcard ${open?"open":""}" style="--tspine:${cat.color}" data-tid="${t.id}">
-        <button class="thead-btn" aria-expanded="${open}">
-          <div class="tword"><p class="tw">${esc(t.terim)}</p><p class="tcat">${cat.label}</p></div>
-          <svg class="tchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="tbody">
-          <div class="tanim">${esc(t.tanim)}</div>
-          ${t.ornekler?`<div class="ornekler"><span>İlgili ilaçlar: </span>${esc(t.ornekler)}</div>`:""}
-          <div class="tact">
-            <button class="mini" data-tedit="${t.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Düzenle</button>
-            <button class="mini del" data-tdel="${t.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Sil</button>
-          </div>
-        </div>
-      </div>`;
-    }).join("");
-  }
-  document.getElementById("term-stat").textContent=`${terms.length} terim`;
-}
-
-let termEditingId=null;
-function openTermModal(id){
-  termEditingId=id||null;
-  const t=id?terms.find(x=>x.id===id):{kategori:termCat!=="all"?termCat:"diger"};
-  document.getElementById("mtitle").textContent=id?"Terimi düzenle":"Yeni terim";
-  document.getElementById("mbody").innerHTML=`
-    <div class="frow"><label for="ft_terim">Terim / Kısaltma <span style="color:var(--danger)">*</span></label>
-      <input id="ft_terim" type="text" value="${esc(t.terim||"")}"></div>
-    <div class="frow"><label for="ft_kategori">Kategori</label>
-      <select id="ft_kategori">${Object.keys(TERM_CATS).map(k=>`<option value="${k}" ${t.kategori===k?"selected":""}>${TERM_CATS[k].label}</option>`).join("")}</select></div>
-    <div class="frow"><label for="ft_tanim">Tanım</label>
-      <textarea id="ft_tanim">${esc(t.tanim||"")}</textarea></div>
-    <div class="frow"><label for="ft_ornekler">İlgili ilaçlar (isteğe bağlı)</label>
-      <input id="ft_ornekler" type="text" value="${esc(t.ornekler||"")}"></div>`;
-  document.getElementById("overlay").classList.add("on");
-  document.getElementById("saveBtn").onclick=saveTermModal;
-  setTimeout(()=>{const el=document.getElementById("ft_terim");if(el)el.focus();},50);
-}
-async function saveTermModal(){
-  const terim=document.getElementById("ft_terim").value.trim();
-  if(!terim){document.getElementById("ft_terim").style.borderColor="var(--danger)";return;}
-  const obj={
-    terim,
-    kategori:document.getElementById("ft_kategori").value,
-    tanim:document.getElementById("ft_tanim").value.trim(),
-    ornekler:document.getElementById("ft_ornekler").value.trim()
-  };
-  if(termEditingId){const i=terms.findIndex(x=>x.id===termEditingId);obj.id=termEditingId;terms[i]=obj;}
-  else{obj.id="t_"+uid();terms.push(obj);termExpanded.add(obj.id);}
-  await saveTerms();closeModal();renderTerms();
-}
-
-document.getElementById("term-tabs").onclick=e=>{const t=e.target.closest("[data-tcat]");if(t){termCat=t.dataset.tcat;renderTerms();}};
-document.getElementById("term-search").oninput=e=>{termQ=e.target.value;renderTerms();};
-document.getElementById("termAddBtn").onclick=()=>{
-  document.getElementById("saveBtn").onclick=saveTermModal;
-  openTermModal();
-};
-document.getElementById("term-list").onclick=e=>{
-  const ed=e.target.closest("[data-tedit]");if(ed){openTermModal(ed.dataset.tedit);return;}
-  const dl=e.target.closest("[data-tdel]");if(dl){
-    const t=terms.find(x=>x.id===dl.dataset.tdel);
-    if(confirm(`"${t?t.terim:"Bu terim"}" silinsin mi?`)){terms=terms.filter(x=>x.id!==dl.dataset.tdel);termExpanded.delete(dl.dataset.tdel);saveTerms();renderTerms();}
-    return;
-  }
-  const h=e.target.closest(".thead-btn");if(h){const id=h.closest(".tcard").dataset.tid;if(termExpanded.has(id))termExpanded.delete(id);else termExpanded.add(id);renderTerms();}
-};
-
-/* ===== switchView güncelle ===== */
-const _origSwitch=switchView;
-window.switchView=function(v){
-  document.querySelectorAll(".seg").forEach(s=>s.classList.toggle("on",s.dataset.view===v));
-  document.getElementById("view-cards").hidden=(v!=="cards");
-  document.getElementById("view-tree").hidden=(v!=="tree");
-  document.getElementById("view-terimler").hidden=(v!=="terimler");
-  document.getElementById("addBtn").style.visibility=(v==="cards")?"visible":"hidden";
-  if(v==="tree")treeReset();
-  if(v==="terimler")renderTerms();
-};
-document.querySelectorAll(".seg").forEach(s=>s.onclick=()=>window.switchView(s.dataset.view));
-
-loadTerms();
-</script>
-</body>
-</html>
+  root_antib:{h:"Antibiyotik · kök soru",q:"Atipik/hücre içi etken veya beta-laktam alerjisi var mı?",a:[
+    {t:"Evet — atipik/klamid
